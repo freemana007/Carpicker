@@ -63,14 +63,21 @@ export function NiBreakdown({ ni, threshold, carName }: { ni: NiLandedCost; thre
           {(ni.vrt.rate * 100).toFixed(2).replace(/\.?0+$/, "")}% for its <Term term="CO₂ band" /> ={" "}
           {formatEur(ni.vrt.co2Part)}
           {ni.vrt.evRelief > 0 && <>, minus {formatEur(ni.vrt.evRelief)} electric car relief</>}, plus a{" "}
-          <Term term="NOx levy" /> of {formatEur(ni.vrt.noxPart)} (minimum VRT {formatEur(CONFIG.vrt.minimumEur)}).
-          Revenue decides the real value. Check it on their{" "}
-          <a className="underline" href={LINKS.revenue.url} target="_blank" rel="noreferrer">
+          <Term term="NOx levy" /> of {formatEur(ni.vrt.noxPart)}. Rates from Revenue, checked{" "}
+          {CONFIG.sources.vrt.checked}. Revenue decides the real value. Check it on their{" "}
+          <a className="underline" href={LINKS.vrtCalculator.url} target="_blank" rel="noreferrer">
             VRT calculator
           </a>{" "}
           before you buy.
         </p>
       </details>
+      {ni.vrt.noxIfNoEvidence > 0 && (
+        <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-900">
+          <strong>Bring proof of NOx emissions.</strong> UK logbooks (V5C) issued after April 2019 don't show NOx. Without
+          a <Term term="Certificate of Conformity" /> or other proof, Revenue charges a flat{" "}
+          {formatEur(ni.vrt.noxIfNoEvidence)} instead of the {formatEur(ni.vrt.noxPart)} NOx levy.
+        </p>
+      )}
       {ni.isNew && (
         <p className="text-xs text-slate-500">
           New car (under 6 months or under 6,000 km): the NI dealer should not charge UK VAT, and you pay 23% Irish VAT

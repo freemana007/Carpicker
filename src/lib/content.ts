@@ -3,7 +3,32 @@
 // after every Budget.
 
 export const LINKS = {
-  revenue: { label: "Revenue (VRT and VRT calculator)", url: "https://www.revenue.ie" },
+  revenue: { label: "Revenue: VRT", url: "https://www.revenue.ie/en/vrt/index.aspx" },
+  vrtCalculator: { label: "Revenue's VRT calculator", url: "https://www.ros.ie/evrt-enquiry/vrtenquiry.html" },
+  revenueNi: {
+    label: "Revenue: registering a car bought in Northern Ireland",
+    url: "https://www.revenue.ie/en/vrt/registration-of-imported-used-vehicles/registering-vehicles-from-ni.aspx",
+  },
+  revenueRegistration: {
+    label: "Revenue: VRT and registration",
+    url: "https://www.revenue.ie/en/vrt/vehicle-registration-tax/vrt-and-registration.aspx",
+  },
+  revenueNctsVisit: {
+    label: "Revenue: what to bring to the NCTS centre",
+    url: "https://www.revenue.ie/en/vrt/vehicle-registration-tax/procedure-at-ncts-centre.aspx",
+  },
+  revenueNox: {
+    label: "Revenue: NOx charge",
+    url: "https://www.revenue.ie/en/vrt/calculating-vrt/calculating-nox-charge.aspx",
+  },
+  revenueVatNew: {
+    label: "Revenue: VAT on new cars from NI",
+    url: "https://www.revenue.ie/en/vrt/registration-of-imported-used-vehicles/vat-implications-importing-vehicles-gb-ni.aspx",
+  },
+  revenuePlates: {
+    label: "Revenue: number plate standards",
+    url: "https://www.revenue.ie/en/vrt/vehicle-registration-tax/registration-plates-and-format-standards.aspx",
+  },
   ncts: { label: "NCTS (VRT appointments and NCT)", url: "https://www.ncts.ie" },
   motorTax: { label: "motortax.ie", url: "https://www.motortax.ie" },
   seai: { label: "SEAI (electric car grants)", url: "https://www.seai.ie" },
@@ -35,6 +60,9 @@ export const GLOSSARY: { term: string; meaning: string }[] = [
   { term: "Trim", meaning: "The version of a model. Higher trims have more equipment and cost more." },
   { term: "Insurance group", meaning: "A rating from 1 to 50 that hints at how expensive a car is to insure. Lower is cheaper. Irish insurers use their own ratings, so always get a quote." },
   { term: "Euro NCAP", meaning: "The independent European crash-test programme. Cars get 0–5 stars; 5 is best. Tests got tougher over the years, so compare cars tested around the same year." },
+  { term: "Certificate of Conformity", meaning: "A document from the car's manufacturer confirming it meets EU standards, with figures such as CO₂ and NOx emissions. Often called a CoC. You may need it to prove a car's NOx figure when registering an import." },
+  { term: "NI Import Declaration", meaning: "Customs paperwork showing a car was properly brought into Northern Ireland under the Windsor Framework. Revenue asks for it (or other proof) before registering a car bought in NI." },
+  { term: "Windsor Framework", meaning: "The UK–EU agreement on trade with Northern Ireland after Brexit. Cars properly imported into NI under it can come into the Republic without customs duty or import VAT." },
   { term: "V5C", meaning: "The UK registration document (logbook) for a car, including cars registered in Northern Ireland." },
   { term: "Clocked", meaning: "A car whose mileage reading has been illegally wound back to make it look less used. A history check helps catch it." },
   { term: "History check", meaning: "A paid report (e.g. Cartell or Motorcheck in Ireland) showing outstanding finance, crash damage, write-offs and mileage records." },
@@ -52,25 +80,29 @@ export interface ChecklistStep {
 }
 
 export const NI_STEPS: ChecklistStep[] = [
-  { id: "cost", stage: "Before you buy", title: "Check the real total cost", detail: "Use our breakdown, then confirm the exact VRT for that car on Revenue's online VRT calculator.", link: LINKS.revenue },
+  { id: "cost", stage: "Before you buy", title: "Check the real total cost", detail: "Use our breakdown, then confirm the exact VRT for that car on Revenue's VRT calculator.", link: LINKS.vrtCalculator },
+  { id: "proof", stage: "Before you buy", title: "Make sure you can prove the car was legally imported into NI", detail: "Revenue will only register the car if you can show it was properly brought into Northern Ireland. Ask the seller for the NI Import Declaration. If there isn't one, Revenue may accept the original V5C showing the last keeper lived in NI, plus the car's NI service history and NI MOT test history. Without this proof you can't register the car, and customs duty and import VAT may also apply.", link: LINKS.revenueNi },
+  { id: "papers", stage: "Before you buy", title: "Check the seller has the logbook (V5C)", detail: "You must have the V5C. Without it, registration will be refused. Also ask for the purchase invoice and the service history." },
+  { id: "coc", stage: "Before you buy", title: "Get proof of the car's NOx emissions", detail: "UK logbooks issued after April 2019 don't show NOx. Get a Certificate of Conformity (CoC) from the seller or manufacturer. Without NOx proof, Revenue charges a flat €4,850 for a diesel or €600 for other cars, instead of the normal NOx levy.", link: LINKS.revenueNox },
   { id: "insure", stage: "Before you buy", title: "Get an Irish insurance quote", detail: "Tell the insurer it's a UK-registered import. Arrange cover for driving it home." },
-  { id: "history", stage: "Before you buy", title: "Run history checks", detail: "Get a UK check (outstanding finance, write-off, stolen) and an Irish check. Compare the mileage with the service records. UK cars show miles, not km." },
-  { id: "origin", stage: "Before you buy", title: "Ask where the car has been", detail: "Ask for proof the car was in Northern Ireland or the EU before 2021, or that it was bought new in Northern Ireland. A car brought in from Great Britain after 1 January 2021 may owe customs duty and VAT. Check with Revenue if unsure.", link: LINKS.revenue },
-  { id: "papers", stage: "Before you buy", title: "Check the paperwork exists", detail: "The V5C logbook in the seller's name, a purchase invoice or receipt, and the service history." },
+  { id: "history", stage: "Before you buy", title: "Run history checks", detail: "Get a UK check (outstanding finance, write-off, stolen) and an Irish check. Compare the mileage with the service and MOT records. UK cars show miles, not km." },
   { id: "inspect", stage: "Before you buy", title: "Inspect and test drive", detail: "Bring someone who knows cars, or pay for an independent inspection." },
   { id: "invoice", stage: "When you buy", title: "Get a dated invoice or receipt", detail: "It must show the price, the car's VIN (chassis number), and the seller's and buyer's names and addresses." },
-  { id: "v5c", stage: "When you buy", title: "Get the V5C logbook", detail: "Complete the permanent export section and send it to the DVLA as the form directs. Keep the rest for your VRT appointment.", link: LINKS.dvla },
+  { id: "v5c", stage: "When you buy", title: "Send only the 'permanent export' section of the V5C to the DVLA", detail: "Keep the rest of the V5C: you must bring it to your NCTS appointment, where they keep it, so make a copy first.", link: LINKS.revenueRegistration },
   { id: "pay", stage: "When you buy", title: "Pay safely", detail: "Use a traceable method such as a bank transfer. Never carry a large amount of cash." },
-  { id: "book", stage: "After you bring it into the Republic", title: "Book a VRT appointment within 7 days", detail: "Book with NCTS within 7 days of the car arriving in the State.", link: LINKS.ncts },
-  { id: "inspection", stage: "After you bring it into the Republic", title: "Bring the car and documents", detail: "Bring the V5C, the invoice, photo ID, your PPS number and proof of address." },
-  { id: "vrt", stage: "After you bring it into the Republic", title: "Pay the VRT within 30 days", detail: "Pay within 30 days of the car arriving. You'll get an Irish registration number.", link: LINKS.revenue },
-  { id: "plates", stage: "After you bring it into the Republic", title: "Get Irish number plates", detail: "Have plates made with your new registration number and fit them." },
+  { id: "entry", stage: "When you buy", title: "Keep proof of the day you bring it home", detail: "Revenue needs evidence of the date the car entered the State, such as a dated receipt from that day. If your invoice is over 30 days old, you may need proof the car was kept outside the State." },
+  { id: "book", stage: "After you bring it into the Republic", title: "Book an NCTS appointment within 7 days", detail: "Book within 7 days of the car arriving in the State. Revenue pays for one appointment; a second one is at your own cost.", link: LINKS.revenueRegistration },
+  { id: "inspection", stage: "After you bring it into the Republic", title: "Bring the car and your documents", detail: "Bring the V5C, the invoice, the CoC (or upload the e-CoC on myAccount beforehand), proof of the date the car entered the State, official proof of your PPS number, and proof of name and address (a paper utility bill or bank statement, or two online statements from different providers, one a bank statement).", link: LINKS.revenueNctsVisit },
+  { id: "vrt", stage: "After you bring it into the Republic", title: "Register and pay the VRT within 30 days", detail: "The car must be registered within 30 days of arriving. If you're late, you pay extra VRT. You get an Irish registration number.", link: LINKS.revenueRegistration },
+  { id: "plates", stage: "After you bring it into the Republic", title: "Get Irish number plates", detail: "Buy plates from any supplier, as long as they meet the legal standards (there's a fine of up to €5,000 if they don't). Electric cars can have the optional green-stripe plates.", link: LINKS.revenuePlates },
   { id: "tax", stage: "After you bring it into the Republic", title: "Tax the car", detail: "Pay motor tax online once the Irish registration certificate arrives by post.", link: LINKS.motorTax },
   { id: "nct", stage: "After you bring it into the Republic", title: "Book an NCT if needed", detail: "If the car is 4 years old or more, book an NCT.", link: LINKS.ncts },
   { id: "update", stage: "After you bring it into the Republic", title: "Update your insurance", detail: "Give your insurer the new Irish registration number." },
 ];
 
 export const NI_WARNINGS: string[] = [
+  "No proof the car was legally imported into Northern Ireland means no Irish registration. Check the paperwork before you pay.",
+  "Electric cars get up to €5,000 VRT relief only if registered before 31 December 2026. After that, VRT on an imported EV could be much higher.",
   "SEAI grants for new electric cars only apply to cars bought new from an SEAI-registered dealer in the Republic. Not to cars from Northern Ireland.",
   "Northern Ireland dealers usually can't offer PCP or hire purchase to people living in the Republic. Cash or a credit union/bank loan works best.",
   "Warranties and consumer rights can be harder to use across the border. Prefer well-known dealers.",

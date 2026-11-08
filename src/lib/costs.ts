@@ -39,11 +39,16 @@ export function niPriceGbp(car: Car, age: number): number {
 
 // ---------- VRT ----------
 
-export function vrtRate(co2: number): number {
-  return COSTS.vrt.bands.find((b) => co2 <= b.maxCo2)!.rate;
+function vrtBand(co2: number) {
+  return COSTS.vrt.bands.find((b) => co2 <= b.maxCo2)!;
 }
 
-export function noxLevy(nox: number, isDiesel: boolean): number {
+export function vrtRate(co2: number): number {
+  return vrtBand(co2).rate;
+}
+
+/** NOx levy in tiers (Revenue). No cap: the flat amounts only apply without NOx evidence. */
+export function noxLevy(nox: number): number {
   let levy = 0;
   let prev = 0;
   for (const tier of COSTS.vrt.noxLevy.tiers) {
@@ -52,8 +57,28 @@ export function noxLevy(nox: number, isDiesel: boolean): number {
     prev = tier.upToMg;
     if (nox <= tier.upToMg) break;
   }
-  const cap = isDiesel ? COSTS.vrt.noxLevy.capDieselEur : COSTS.vrt.noxLevy.capOtherEur;
-  return round(Math.min(levy, cap));
+  return round(levy);
+}
+
+/** Flat NOx charge Revenue applies when there's no satisfactory evidence of NOx. */
+export function noxNoEvidenceCharge(car: Car): number {
+  if (car.powertrain === "ev") return 0;
+  return car.powertrain === "diesel"
+    ? COSTS.vrt.noxLevy.noEvidenceDieselEur
+    : COSTS.vrt.noxLevy.noEvidenceOtherEur;
+}
+
+/** VRT relief for electric cars: full up to €40k OMSP, reduced to zero at €50k, ends after 2026. */
+export function evRelief(car: Car, omsp: number, co2Part: number): number {
+  const r = COSTS.vrt.evRelief;
+  if (car.powertrain !== "ev") return 0;
+  if (CURRENT_YEAR > Number(r.endsAfter.slice(0, 4))) return 0;
+  if (omsp >= r.noReliefFromOmspEur) return 0;
+  let max = r.maxReliefEur;
+  if (omsp > r.fullReliefMaxOmspEur) {
+    max *= (r.noReliefFromOmspEur - omsp) / (r.noReliefFromOmspEur - r.fullReliefMaxOmspEur);
+  }
+  return Math.min(co2Part, max);
 }
 
 export interface VrtEstimate {
@@ -63,29 +88,42 @@ export interface VrtEstimate {
   noxPart: number;
   evRelief: number;
   total: number;
+  /** Charge instead of the NOx levy if you can't prove the car's NOx figure. */
+  noxIfNoEvidence: number;
 }
 
 /** Estimate VRT. OMSP (Revenue's "open market selling price") is estimated from the Republic price. */
 export function estimateVrt(car: Car, omsp: number): VrtEstimate {
-  const rate = vrtRate(car.co2);
-  const co2Part = omsp * rate;
-  const noxPart = noxLevy(car.nox, car.powertrain === "diesel");
-  let evRelief = 0;
-  if (car.powertrain === "ev" && omsp <= COSTS.vrt.evRelief.maxOmspEur) {
-    evRelief = Math.min(co2Part, COSTS.vrt.evRelief.maxReliefEur);
-  }
-  const total = Math.max(COSTS.vrt.minimumEur, co2Part - evRelief + noxPart);
-  return { omsp, rate, co2Part: round(co2Part), noxPart, evRelief: round(evRelief), total: round(total, 10) };
+  const band = vrtBand(car.co2);
+  const co2Part = Math.max(omsp * band.rate, band.minEur);
+  const noxPart = car.powertrain === "ev" ? 0 : noxLevy(car.nox);
+  const relief = evRelief(car, omsp, co2Part);
+  const total = Math.max(0, co2Part - relief + noxPart);
+  return {
+    omsp,
+    rate: band.rate,
+    co2Part: round(co2Part),
+    noxPart,
+    evRelief: round(relief),
+    total: round(total, 10),
+    noxIfNoEvidence: noxNoEvidenceCharge(car),
+  };
 }
 
 // ---------- Motor tax ----------
+
+/** Revenue's NEDC -> WLTP formula, reversed, to estimate an older car's NEDC figure. */
+export function wltpToNedc(car: Car): number {
+  const f = car.powertrain === "diesel" ? COSTS.vrt.nedcToWltp.diesel : COSTS.vrt.nedcToWltp.other;
+  return Math.max(0, (car.co2 - f.add) / f.multiply);
+}
 
 export function motorTax(car: Car, age: number): number {
   const firstRegYear = CURRENT_YEAR - age;
   if (firstRegYear >= COSTS.motorTax.wltpFromYear) {
     return COSTS.motorTax.wltp.find((b) => car.co2 <= b.maxCo2)!.eur;
   }
-  const nedc = car.co2 * COSTS.motorTax.nedcFromWltpFactor;
+  const nedc = car.powertrain === "ev" ? 0 : Math.round(wltpToNedc(car));
   return COSTS.motorTax.nedc.find((b) => nedc <= b.maxCo2)!.eur;
 }
 

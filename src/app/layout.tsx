@@ -40,9 +40,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               rules, so the same answers always give the same cars.
             </p>
             <p>
-              Prices, taxes and ratings are estimates. Tax rates last checked: {formatDate(COSTS.checkedAt)}
-              {!COSTS.verified && " (draft: not yet verified against official sources)"}. Always check VRT with Revenue
-              and get your own insurance quote before you buy.
+              VRT, NOx levy and motor tax rates checked against revenue.ie and motortax.ie on{" "}
+              {formatDate(COSTS.sources.vrt.checked)}. Car prices, specs and ratings are still estimates. Always check
+              VRT with Revenue's calculator and get your own insurance quote before you buy.
             </p>
           </div>
         </footer>

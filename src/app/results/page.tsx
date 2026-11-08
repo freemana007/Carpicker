@@ -95,8 +95,8 @@ export default function ResultsPage() {
 
       {!CONFIG.verified && (
         <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
-          <strong>Early version:</strong> prices, tax rates and ratings are estimates still being checked against
-          official sources. Use them as a guide, and always confirm before you buy.
+          <strong>Early version:</strong> tax rates are checked against Revenue and motortax.ie, but car prices, specs
+          and ratings are still estimates. Use them as a guide, and always confirm before you buy.
         </p>
       )}
 

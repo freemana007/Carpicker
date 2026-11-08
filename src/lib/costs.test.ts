@@ -19,49 +19,66 @@ const corolla = CAR_BY_ID["toyota-corolla-hybrid"];
 const leaf = CAR_BY_ID["nissan-leaf"];
 const tiguan = CAR_BY_ID["vw-tiguan-tdi"];
 
-describe("VRT", () => {
+describe("VRT (rates checked on revenue.ie)", () => {
   it("picks the rate for the CO2 band", () => {
     expect(vrtRate(0)).toBe(0.07);
     expect(vrtRate(50)).toBe(0.07);
     expect(vrtRate(51)).toBe(0.09);
     expect(vrtRate(102)).toBe(0.1275);
-    expect(vrtRate(250)).toBe(0.37);
+    expect(vrtRate(148)).toBe(0.25);
+    expect(vrtRate(191)).toBe(0.41);
   });
 
-  it("calculates the NOx levy in tiers and caps it", () => {
-    expect(noxLevy(0, false)).toBe(0);
-    expect(noxLevy(20, false)).toBe(100);
-    expect(noxLevy(40, false)).toBe(200);
-    expect(noxLevy(50, false)).toBe(200 + 150);
-    expect(noxLevy(100, false)).toBe(CONFIG.vrt.noxLevy.capOtherEur);
-    expect(noxLevy(100, true)).toBe(200 + 600 + 500);
+  it("calculates the NOx levy in tiers, with no cap", () => {
+    expect(noxLevy(0)).toBe(0);
+    expect(noxLevy(8)).toBe(40); // Revenue example: 8 mg/km = €40
+    expect(noxLevy(90)).toBe(1050); // Revenue example: 90 mg/km = €1,050
+    expect(noxLevy(300)).toBe(200 + 600 + 220 * 25);
   });
 
-  it("applies the minimum VRT", () => {
-    const vrt = estimateVrt(leaf, 1000);
-    expect(vrt.total).toBe(CONFIG.vrt.minimumEur);
+  it("matches Revenue's worked example (2016 petrol saloon)", () => {
+    // 148 g/km, NOx 8 mg/km, OMSP €27,871 -> €6,967 + €40 = €7,007
+    const car = { ...corolla, powertrain: "petrol" as const, co2: 148, nox: 8 };
+    const vrt = estimateVrt(car, 27871);
+    expect(vrt.co2Part).toBe(6968); // 27,871 x 25% = 6,967.75
+    expect(vrt.noxPart).toBe(40);
+    expect(Math.abs(vrt.total - 7007)).toBeLessThanOrEqual(5);
   });
 
-  it("gives electric cars VRT relief", () => {
-    const vrt = estimateVrt(leaf, 20000);
-    expect(vrt.evRelief).toBe(1400);
-    expect(vrt.total).toBe(CONFIG.vrt.minimumEur);
+  it("applies the band minimum for very cheap cars", () => {
+    const vrt = estimateVrt(corolla, 1000); // 12.75% band: minimum €255
+    expect(vrt.co2Part).toBe(255);
   });
 
-  it("is OMSP x rate + NOx for a hybrid", () => {
-    const vrt = estimateVrt(corolla, 20000);
-    expect(vrt.total).toBe(Math.round((20000 * 0.1275 + 25) / 10) * 10);
+  it("gives electric cars full relief up to €40,000 OMSP (so €0 VRT)", () => {
+    expect(estimateVrt(leaf, 30000).total).toBe(0); // Revenue example 2
+    expect(estimateVrt(leaf, 40000).total).toBe(0); // Revenue example 1
+  });
+
+  it("reduces EV relief between €40,000 and €50,000, and none from €50,000", () => {
+    const at45 = estimateVrt(leaf, 45000);
+    expect(at45.evRelief).toBe(2500);
+    expect(at45.total).toBe(Math.round((45000 * 0.07 - 2500) / 10) * 10);
+    expect(estimateVrt(leaf, 50000).evRelief).toBe(0);
+  });
+
+  it("knows the flat NOx charge when there's no NOx evidence", () => {
+    expect(estimateVrt(tiguan, 20000).noxIfNoEvidence).toBe(4850);
+    expect(estimateVrt(corolla, 20000).noxIfNoEvidence).toBe(600);
+    expect(estimateVrt(leaf, 20000).noxIfNoEvidence).toBe(0);
   });
 });
 
-describe("motor tax", () => {
+describe("motor tax (rates checked on motortax.ie)", () => {
   it("uses WLTP bands for cars registered from 2021", () => {
     expect(motorTax(corolla, 0)).toBe(180); // 102 g/km: 101–110 band
-    expect(motorTax(leaf, 3)).toBe(120);
+    expect(motorTax(leaf, 3)).toBe(120); // 0 g/km
+    expect(motorTax(CAR_BY_ID["land-rover-defender"], 0)).toBe(2400); // 245 g/km
   });
-  it("uses NEDC bands (estimated) for older cars", () => {
-    // 2018 car: 102 x 0.85 = 86.7 g/km NEDC -> €180 band
-    expect(motorTax(corolla, CONFIG.currentYear - 2018)).toBe(180);
+  it("uses NEDC bands for 2008–2020 cars, converting with Revenue's formula", () => {
+    // 2018 Corolla: (102 - 34.554) / 0.9227 = 73 g/km NEDC -> 2–80 band €170
+    expect(motorTax(corolla, CONFIG.currentYear - 2018)).toBe(170);
+    expect(motorTax(leaf, CONFIG.currentYear - 2019)).toBe(120);
   });
 });
 

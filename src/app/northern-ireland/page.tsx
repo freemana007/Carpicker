@@ -66,7 +66,7 @@ export default function NorthernIrelandPage() {
       <section className="space-y-2 text-sm text-slate-600">
         <h2 className="text-base font-semibold text-slate-800">Official sources</h2>
         <ul className="list-disc space-y-1 pl-5">
-          {[LINKS.revenue, LINKS.ncts, LINKS.motorTax, LINKS.dvla, LINKS.seai].map((l) => (
+          {[LINKS.revenueNi, LINKS.revenueRegistration, LINKS.revenueNctsVisit, LINKS.vrtCalculator, LINKS.revenueNox, LINKS.revenueVatNew, LINKS.motorTax, LINKS.ncts, LINKS.seai].map((l) => (
             <li key={l.url}>
               <a className="underline" href={l.url} target="_blank" rel="noreferrer">
                 {l.label}
@@ -75,8 +75,8 @@ export default function NorthernIrelandPage() {
           ))}
         </ul>
         <p>
-          Rules and rates change, usually after the Budget each October. This guide is an early version still being
-          checked. Always confirm with Revenue before you buy.
+          The steps and VRT rates on this page were checked against Revenue's website in November 2026. Rules and
+          rates change, usually after the Budget each October, so always confirm with Revenue before you buy.
         </p>
       </section>
     </div>

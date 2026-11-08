@@ -19,7 +19,8 @@ It covers cars bought in the **Republic of Ireland** and also cars bought in **N
 
 **Phase 1 (MVP) is built.** See `README.md` for how to run it.
 - Built: the full quiz (sections A–G, skip rules, quick mode), the rule-based engine, results cards, the Northern Ireland calculator, checklist and guide page, the "What the experts say" panel, the glossary, the beginner checklist, saving in the browser and share links. 52 unit tests and a browser smoke test.
-- Not done yet: the car data (52 records) and all tax rates are **draft estimates**. They must be checked using `DATA.md` before launch. Phase 0 user testing with 3–5 people in Ireland has not happened yet.
+- Tax rates and the Northern Ireland steps were checked against revenue.ie and motortax.ie on 8 November 2026 (see `DATA.md`).
+- Not done yet: the car data (52 records), the NCT fee, SEAI grants and other cost assumptions are still **estimates**. They must be checked using `DATA.md` before launch. Phase 0 user testing with 3–5 people in Ireland has not happened yet.
 
 ---
 
@@ -181,7 +182,7 @@ For every Northern Ireland car shown, the app shows a **"Total cost to get this 
 | **Currency fees** | ~0.5–3% of price depending on payment method | Explain cheaper ways to pay in sterling. |
 | **Travel to collect it** | Distance from the user's county (C8) to a central NI point × cost per km + a fixed amount for time/train fare | Rough estimate. Border counties pay less. |
 | **History checks** | Fixed fee: a UK check (outstanding finance, write-off, stolen) + an Irish check | Strongly recommended for every import. |
-| **VRT** | Estimated: Revenue's **Open Market Selling Price (OMSP)** × the VRT rate for the car's **CO₂ band** (currently 7%–37%), plus the **NOx levy** | We estimate OMSP from the car's typical used price in the Republic. Always shown as an estimate with a link to **Revenue's official VRT calculator** for the exact figure. EV relief applied where it exists. |
+| **VRT** | Estimated: Revenue's **Open Market Selling Price (OMSP)** × the VRT rate for the car's **CO₂ band** (7%–41%, with a minimum per band), plus the **NOx levy** | We estimate OMSP from the car's typical used price in the Republic. Always shown as an estimate with a link to **Revenue's official VRT calculator** for the exact figure. EV relief applied where it exists. |
 | **VAT** | Only for **new** cars (under 6 months old **or** under 6,000 km): 23% VAT is paid in the Republic | Usually €0 for used cars from Northern Ireland. |
 | **Possible extra customs/VAT** | Flag only, not calculated | ⚠️ If the car was brought into Northern Ireland **from Great Britain after 1 January 2021**, customs duty and VAT may be due. We show a warning and tell the user to ask the seller and check with Revenue. |
 | **Irish number plates** | Fixed estimate | Fitted after registration. |
@@ -218,31 +219,31 @@ You could save about                   €1,995 ✅
 
 ### 5.2 Steps to buy a car in Northern Ireland and register it in the Republic
 
-Shown as a tick-off checklist on each Northern Ireland car (progress saved on the device only):
+Shown as a tick-off checklist on each Northern Ireland car (progress saved on the device only). Checked against revenue.ie on 8 November 2026. The full wording is in `src/lib/content.ts` (`NI_STEPS`).
 
 **Before you buy**
-1. **Check the real total cost.** Use the breakdown above and confirm the VRT with Revenue's online VRT calculator.
-2. **Get an Irish insurance quote.** Tell the insurer the car is a UK-registered import. Arrange cover for driving it home.
-3. **Run history checks.** A UK check (outstanding finance, write-off, stolen) and an Irish check. Compare mileage with service records. UK cars show **miles**, not km.
-4. **Ask where the car has been.** Ask for proof the car was in Northern Ireland or the EU before 2021, or that it was bought new in Northern Ireland. Cars brought in from Great Britain after 1 January 2021 may owe customs duty and VAT.
-5. **Check the paperwork exists:** the UK registration document (V5C logbook) in the seller's name, a purchase invoice or receipt, and service history.
-6. **Inspect and test drive.** Bring someone who knows cars, or pay for an independent inspection.
+1. **Check the real total cost** with our breakdown and Revenue's VRT calculator.
+2. **Make sure you can prove the car was legally imported into NI.** You need the NI Import Declaration, or else the original V5C showing an NI-resident last keeper plus NI service history and NI MOT history. Without this, the car can't be registered.
+3. **Check the seller has the V5C logbook.** Registration is refused without it.
+4. **Get proof of NOx emissions** (a Certificate of Conformity). V5Cs issued after April 2019 don't show NOx. Without proof, Revenue charges a flat €4,850 (diesel) or €600 (other cars).
+5. **Get an Irish insurance quote.**
+6. **Run UK and Irish history checks.**
+7. **Inspect and test drive.**
 
 **When you buy**
-7. **Get a dated invoice or receipt** showing the price, the car's VIN, and the seller's and buyer's names and addresses.
-8. **Get the V5C logbook.** Complete the permanent export section and send it to the DVLA as the form directs.
-9. **Pay safely.** Use a traceable method such as a bank transfer, never a large amount of cash.
+8. **Get a dated invoice** with the VIN and both names and addresses.
+9. **Send only the "permanent export" section of the V5C to the DVLA.** Keep the rest for NCTS.
+10. **Pay safely** by traceable transfer.
+11. **Keep proof of the day the car entered the State.**
 
 **After you bring it into the Republic**
-10. **Book a VRT appointment with NCTS within 7 days** of the car arriving in the State.
-11. **Bring the car and your documents** to the appointment: V5C, invoice, photo ID, PPS number and proof of address.
-12. **Pay the VRT within 30 days** of the car arriving. You get an Irish registration number.
-13. **Get Irish number plates** made and fitted.
-14. **Tax the car.** Pay motor tax online once you have the Irish registration certificate (it comes by post).
-15. **Book an NCT** if the car is 4 years old or more.
-16. **Update your insurance** with the new Irish registration number.
-
-Each step links to the official page (Revenue, NCTS, motortax.ie, DVLA). The step text is written by our team, checked against those pages, and reviewed after every Budget.
+12. **Book an NCTS appointment within 7 days.**
+13. **Bring the car and documents:** V5C, invoice, CoC, proof of entry date, PPSN proof, proof of name and address.
+14. **Register and pay VRT within 30 days.** Late means extra VRT.
+15. **Get Irish number plates** that meet the legal standard.
+16. **Tax the car** online.
+17. **Book an NCT** if the car is 4+ years old.
+18. **Update your insurance.**
 
 ### 5.3 Other Northern Ireland warnings
 

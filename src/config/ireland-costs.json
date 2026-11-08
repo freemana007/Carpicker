@@ -1,115 +1,304 @@
 {
-  "_status": "DRAFT. Every value below must be checked against the official source before launch, and again after every Budget (usually October). Values were entered from general knowledge, not copied from the sources.",
+  "_status": "PARTLY CHECKED. VRT, NOx levy, EV VRT relief, VAT on new cars and motor tax were checked against revenue.ie and motortax.ie on 2026-11-08 (see 'sources'). Other values (NCT fee, fuel/electricity prices, exchange rate, loan APR, NI price factor, depreciation, servicing) are still estimates. Re-check after every Budget (usually October).",
   "checkedAt": "2026-11-08",
   "verified": false,
   "currentYear": 2026,
-
   "exchange": {
     "eurPerGbp": 1.15,
     "_note": "Update at least monthly.",
-    "feePct": { "card": 0.02, "bankTransfer": 0.01, "currencyService": 0.005 },
+    "feePct": {
+      "card": 0.02,
+      "bankTransfer": 0.01,
+      "currencyService": 0.005
+    },
     "defaultFeePct": 0.01
   },
-
   "travel": {
     "costPerKm": 0.2,
     "fixedEur": 40,
     "_note": "Rough cost of getting to Northern Ireland and driving the car home: return distance x cost per km + a fixed amount for time, train or bus fare."
   },
-
   "importFees": {
     "historyChecksEur": 50,
     "_historyNote": "A UK history check plus an Irish history check.",
     "platesEur": 50,
     "nctFeeEur": 55,
-    "nctAgeYears": 4
+    "nctAgeYears": 4,
+    "_nctNote": "NCT fee not yet checked (ncts.ie)."
   },
-
   "vrt": {
-    "source": "Revenue: revenue.ie (VRT section and online VRT calculator)",
-    "_note": "Category A (passenger car) VRT rates by WLTP CO2 g/km. VRT = OMSP x rate + NOx levy, subject to the minimum.",
+    "source": "Revenue: Calculating VRT > Applying the tax (rates since 1 January 2022)",
+    "_note": "Category A (passenger car). CO2 part = OMSP x rate, or the band minimum if greater. Then add the NOx levy.",
     "bands": [
-      { "maxCo2": 50, "rate": 0.07 },
-      { "maxCo2": 80, "rate": 0.09 },
-      { "maxCo2": 85, "rate": 0.0975 },
-      { "maxCo2": 90, "rate": 0.105 },
-      { "maxCo2": 95, "rate": 0.1125 },
-      { "maxCo2": 100, "rate": 0.12 },
-      { "maxCo2": 105, "rate": 0.1275 },
-      { "maxCo2": 110, "rate": 0.135 },
-      { "maxCo2": 115, "rate": 0.1525 },
-      { "maxCo2": 120, "rate": 0.16 },
-      { "maxCo2": 125, "rate": 0.1675 },
-      { "maxCo2": 130, "rate": 0.175 },
-      { "maxCo2": 135, "rate": 0.1925 },
-      { "maxCo2": 140, "rate": 0.2 },
-      { "maxCo2": 145, "rate": 0.215 },
-      { "maxCo2": 150, "rate": 0.25 },
-      { "maxCo2": 155, "rate": 0.275 },
-      { "maxCo2": 170, "rate": 0.3 },
-      { "maxCo2": 190, "rate": 0.35 },
-      { "maxCo2": 9999, "rate": 0.37 }
+      {
+        "maxCo2": 50,
+        "rate": 0.07,
+        "minEur": 140
+      },
+      {
+        "maxCo2": 80,
+        "rate": 0.09,
+        "minEur": 180
+      },
+      {
+        "maxCo2": 85,
+        "rate": 0.0975,
+        "minEur": 195
+      },
+      {
+        "maxCo2": 90,
+        "rate": 0.105,
+        "minEur": 210
+      },
+      {
+        "maxCo2": 95,
+        "rate": 0.1125,
+        "minEur": 225
+      },
+      {
+        "maxCo2": 100,
+        "rate": 0.12,
+        "minEur": 240
+      },
+      {
+        "maxCo2": 105,
+        "rate": 0.1275,
+        "minEur": 255
+      },
+      {
+        "maxCo2": 110,
+        "rate": 0.135,
+        "minEur": 270
+      },
+      {
+        "maxCo2": 115,
+        "rate": 0.1525,
+        "minEur": 305
+      },
+      {
+        "maxCo2": 120,
+        "rate": 0.16,
+        "minEur": 320
+      },
+      {
+        "maxCo2": 125,
+        "rate": 0.1675,
+        "minEur": 335
+      },
+      {
+        "maxCo2": 130,
+        "rate": 0.175,
+        "minEur": 350
+      },
+      {
+        "maxCo2": 135,
+        "rate": 0.1925,
+        "minEur": 385
+      },
+      {
+        "maxCo2": 140,
+        "rate": 0.2,
+        "minEur": 400
+      },
+      {
+        "maxCo2": 145,
+        "rate": 0.215,
+        "minEur": 430
+      },
+      {
+        "maxCo2": 150,
+        "rate": 0.25,
+        "minEur": 500
+      },
+      {
+        "maxCo2": 155,
+        "rate": 0.275,
+        "minEur": 550
+      },
+      {
+        "maxCo2": 170,
+        "rate": 0.3,
+        "minEur": 600
+      },
+      {
+        "maxCo2": 190,
+        "rate": 0.35,
+        "minEur": 700
+      },
+      {
+        "maxCo2": 9999,
+        "rate": 0.41,
+        "minEur": 820
+      }
     ],
-    "minimumEur": 200,
     "noxLevy": {
       "tiers": [
-        { "upToMg": 40, "eurPerMg": 5 },
-        { "upToMg": 80, "eurPerMg": 15 },
-        { "upToMg": 99999, "eurPerMg": 25 }
+        {
+          "upToMg": 40,
+          "eurPerMg": 5
+        },
+        {
+          "upToMg": 80,
+          "eurPerMg": 15
+        },
+        {
+          "upToMg": 99999,
+          "eurPerMg": 25
+        }
       ],
-      "capDieselEur": 4850,
-      "capOtherEur": 600
+      "noEvidenceDieselEur": 4850,
+      "noEvidenceOtherEur": 600,
+      "_note": "No cap. The flat amounts apply only when there is no satisfactory evidence of NOx (e.g. UK V5Cs issued after April 2019 don't show NOx; a Certificate of Conformity is needed)."
     },
     "evRelief": {
       "maxReliefEur": 5000,
-      "maxOmspEur": 50000,
-      "_note": "Relief for electric cars. Check whether it still applies and its exact terms for used imports."
+      "fullReliefMaxOmspEur": 40000,
+      "noReliefFromOmspEur": 50000,
+      "endsAfter": "2026-12-31",
+      "_note": "Relief applies to electric-only cars registered before 31 December 2026. Between €40,000 and €50,000 OMSP the relief is reduced; Revenue doesn't publish the exact taper on that page, so we reduce it in a straight line to zero at €50,000. EVs can pay €0 VRT."
+    },
+    "nedcToWltp": {
+      "diesel": {
+        "multiply": 1.1405,
+        "add": 12.858
+      },
+      "other": {
+        "multiply": 0.9227,
+        "add": 34.554
+      },
+      "_note": "Revenue's formula for used cars whose registration document only shows an NEDC CO2 figure."
     }
   },
-
   "vat": {
     "irishRate": 0.23,
     "ukRate": 0.2,
-    "newMeansOfTransport": { "maxMonths": 6, "maxKm": 6000 },
-    "_note": "A car under 6 months old OR with under 6,000 km counts as new: Irish VAT is paid on registration in the Republic. The NI dealer should then not charge UK VAT."
+    "newMeansOfTransport": {
+      "maxMonths": 6,
+      "maxKm": 6000
+    },
+    "_note": "Checked: a car 6 months old or less, OR with 6,000 km or less, counts as new. VAT is normally paid on registration in the Republic."
   },
-
   "motorTax": {
-    "source": "motortax.ie / gov.ie",
-    "_note": "Yearly rates. Cars first registered from 2021 use WLTP bands; 2008 to 2020 cars use NEDC bands. Our car data has WLTP figures, so NEDC is estimated as WLTP x nedcFromWltpFactor.",
+    "source": "motortax.ie > Motor Tax Rates > Private car CO2 (WLTP) and (NEDC)",
+    "_note": "Yearly rates. Cars first registered from 1 Jan 2021 use WLTP bands; 1 Jul 2008 to 31 Dec 2020 use NEDC bands. Our car data has WLTP figures, so for older cars we turn them back into NEDC with Revenue's formula (reversed).",
     "wltpFromYear": 2021,
     "wltp": [
-      { "maxCo2": 0, "eur": 120 },
-      { "maxCo2": 50, "eur": 140 },
-      { "maxCo2": 80, "eur": 155 },
-      { "maxCo2": 100, "eur": 165 },
-      { "maxCo2": 110, "eur": 180 },
-      { "maxCo2": 120, "eur": 190 },
-      { "maxCo2": 130, "eur": 200 },
-      { "maxCo2": 140, "eur": 210 },
-      { "maxCo2": 155, "eur": 280 },
-      { "maxCo2": 170, "eur": 400 },
-      { "maxCo2": 190, "eur": 590 },
-      { "maxCo2": 225, "eur": 1000 },
-      { "maxCo2": 9999, "eur": 2400 }
+      {
+        "maxCo2": 0,
+        "eur": 120
+      },
+      {
+        "maxCo2": 50,
+        "eur": 140
+      },
+      {
+        "maxCo2": 80,
+        "eur": 150
+      },
+      {
+        "maxCo2": 90,
+        "eur": 160
+      },
+      {
+        "maxCo2": 100,
+        "eur": 170
+      },
+      {
+        "maxCo2": 110,
+        "eur": 180
+      },
+      {
+        "maxCo2": 120,
+        "eur": 190
+      },
+      {
+        "maxCo2": 130,
+        "eur": 200
+      },
+      {
+        "maxCo2": 140,
+        "eur": 210
+      },
+      {
+        "maxCo2": 150,
+        "eur": 270
+      },
+      {
+        "maxCo2": 160,
+        "eur": 280
+      },
+      {
+        "maxCo2": 170,
+        "eur": 420
+      },
+      {
+        "maxCo2": 190,
+        "eur": 600
+      },
+      {
+        "maxCo2": 200,
+        "eur": 790
+      },
+      {
+        "maxCo2": 225,
+        "eur": 1250
+      },
+      {
+        "maxCo2": 9999,
+        "eur": 2400
+      }
     ],
     "nedc": [
-      { "maxCo2": 0, "eur": 120 },
-      { "maxCo2": 80, "eur": 170 },
-      { "maxCo2": 100, "eur": 180 },
-      { "maxCo2": 110, "eur": 190 },
-      { "maxCo2": 120, "eur": 200 },
-      { "maxCo2": 130, "eur": 270 },
-      { "maxCo2": 140, "eur": 280 },
-      { "maxCo2": 155, "eur": 390 },
-      { "maxCo2": 170, "eur": 570 },
-      { "maxCo2": 190, "eur": 750 },
-      { "maxCo2": 225, "eur": 1200 },
-      { "maxCo2": 9999, "eur": 2400 }
-    ],
-    "nedcFromWltpFactor": 0.85
+      {
+        "maxCo2": 1,
+        "eur": 120
+      },
+      {
+        "maxCo2": 80,
+        "eur": 170
+      },
+      {
+        "maxCo2": 100,
+        "eur": 180
+      },
+      {
+        "maxCo2": 110,
+        "eur": 190
+      },
+      {
+        "maxCo2": 120,
+        "eur": 200
+      },
+      {
+        "maxCo2": 130,
+        "eur": 270
+      },
+      {
+        "maxCo2": 140,
+        "eur": 280
+      },
+      {
+        "maxCo2": 155,
+        "eur": 400
+      },
+      {
+        "maxCo2": 170,
+        "eur": 600
+      },
+      {
+        "maxCo2": 190,
+        "eur": 790
+      },
+      {
+        "maxCo2": 225,
+        "eur": 1250
+      },
+      {
+        "maxCo2": 9999,
+        "eur": 2400
+      }
+    ]
   },
-
   "energy": {
     "petrolEurPerL": 1.78,
     "dieselEurPerL": 1.7,
@@ -120,27 +309,83 @@
     "phevElectricShareNoHome": 0.1,
     "evPublicShareHome": 0.15
   },
-
-  "annualKm": { "lt30": 8000, "30-80": 16000, "80-150": 28000, "150+": 40000, "default": 15000 },
-
-  "servicingEurPerYear": { "small": 350, "medium": 450, "large": 600, "premium": 900, "ev": 250 },
-
+  "annualKm": {
+    "lt30": 8000,
+    "30-80": 16000,
+    "80-150": 28000,
+    "150+": 40000,
+    "default": 15000
+  },
+  "servicingEurPerYear": {
+    "small": 350,
+    "medium": 450,
+    "large": 600,
+    "premium": 900,
+    "ev": 250
+  },
   "loan": {
     "apr": 0.075,
     "months": 60,
     "_note": "Typical credit union / bank car loan. Used to turn a monthly budget into a total price, and the other way round."
   },
-
-  "budgetRule": { "shareOfTakeHome": 0.12 },
-  "takeHomeMidpoints": { "lt2000": 1700, "2000-3000": 2500, "3000-4000": 3500, "4000-5500": 4700, "5500+": 6500 },
-
+  "budgetRule": {
+    "shareOfTakeHome": 0.12
+  },
+  "takeHomeMidpoints": {
+    "lt2000": 1700,
+    "2000-3000": 2500,
+    "3000-4000": 3500,
+    "4000-5500": 4700,
+    "5500+": 6500
+  },
   "depreciation": {
     "_note": "Share of the new price a car is typically worth at age 0..12 years. Rough guide used for price estimates only.",
-    "high": [1, 0.82, 0.72, 0.64, 0.57, 0.51, 0.46, 0.41, 0.37, 0.33, 0.3, 0.27, 0.24],
-    "mid": [1, 0.78, 0.66, 0.57, 0.5, 0.44, 0.39, 0.34, 0.3, 0.27, 0.24, 0.21, 0.19],
-    "low": [1, 0.72, 0.6, 0.5, 0.42, 0.36, 0.31, 0.27, 0.23, 0.2, 0.18, 0.16, 0.14]
+    "high": [
+      1,
+      0.82,
+      0.72,
+      0.64,
+      0.57,
+      0.51,
+      0.46,
+      0.41,
+      0.37,
+      0.33,
+      0.3,
+      0.27,
+      0.24
+    ],
+    "mid": [
+      1,
+      0.78,
+      0.66,
+      0.57,
+      0.5,
+      0.44,
+      0.39,
+      0.34,
+      0.3,
+      0.27,
+      0.24,
+      0.21,
+      0.19
+    ],
+    "low": [
+      1,
+      0.72,
+      0.6,
+      0.5,
+      0.42,
+      0.36,
+      0.31,
+      0.27,
+      0.23,
+      0.2,
+      0.18,
+      0.16,
+      0.14
+    ]
   },
-
   "northernIreland": {
     "_note": "Typical NI price as a share of the Republic price for the same car, before VRT (Republic prices include VRT, NI prices do not). Rough estimate: replace with checked price data.",
     "usedPriceFactor": 0.8,
@@ -149,7 +394,49 @@
     "bigSavingThresholdEur": 1500,
     "maxAgeYears": 10
   },
-
   "budgetStretch": 0.1,
-  "maxCarAgeYears": 12
+  "maxCarAgeYears": 12,
+  "sources": {
+    "vrt": {
+      "checked": "2026-11-08",
+      "url": "https://www.revenue.ie/en/vrt/calculating-vrt/applying-tax.aspx"
+    },
+    "noxLevy": {
+      "checked": "2026-11-08",
+      "url": "https://www.revenue.ie/en/vrt/calculating-vrt/calculating-nox-charge.aspx"
+    },
+    "evRelief": {
+      "checked": "2026-11-08",
+      "url": "https://www.revenue.ie/en/vrt/calculating-vrt/electric-vehicles.aspx"
+    },
+    "vatNewCars": {
+      "checked": "2026-11-08",
+      "url": "https://www.revenue.ie/en/vrt/registration-of-imported-used-vehicles/vat-implications-importing-vehicles-gb-ni.aspx"
+    },
+    "niImport": {
+      "checked": "2026-11-08",
+      "url": "https://www.revenue.ie/en/vrt/registration-of-imported-used-vehicles/registering-vehicles-from-ni.aspx"
+    },
+    "registrationSteps": {
+      "checked": "2026-11-08",
+      "url": "https://www.revenue.ie/en/vrt/vehicle-registration-tax/vrt-and-registration.aspx"
+    },
+    "motorTax": {
+      "checked": "2026-11-08",
+      "url": "https://www.motortax.ie (Motor Tax Rates: Private car CO2 WLTP and NEDC)"
+    },
+    "nctFee": {
+      "checked": null,
+      "note": "ncts.ie could not be read automatically; check by hand."
+    },
+    "seai": {
+      "checked": null,
+      "note": "seai.ie could not be read automatically; check by hand."
+    }
+  },
+  "registration": {
+    "bookNctsWithinDays": 7,
+    "registerWithinDays": 30,
+    "_note": "Checked on revenue.ie. Late registration means extra VRT."
+  }
 }

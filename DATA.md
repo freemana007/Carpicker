@@ -1,8 +1,21 @@
 # Checking and updating the data
 
-The first version uses **draft data** entered from general knowledge. Nothing has been checked against the official sources yet. Before launch, someone needs to go through the list below. After that, repeat the "every month" and "after every Budget" checks.
+## What's been checked so far
 
-When a section is checked, update `checkedAt` in `src/config/ireland-costs.json`. When everything is checked, set `"verified": true` to remove the "early version" warning in the app.
+**Checked on 8 November 2026** against the official websites (links are in `sources` in `src/config/ireland-costs.json`):
+
+| Item | Source | Result |
+|---|---|---|
+| VRT rate bands | revenue.ie: Applying the tax | Corrected: top band is **41%** (was 37%). Each band has its own minimum (e.g. 7% or €140); there is no flat €200 minimum. |
+| NOx levy | revenue.ie: NOx charge | Tiers confirmed (€5 / €15 / €25 per mg). Corrected: **no cap**. €600 / €4,850 are flat charges when you **can't prove** the NOx figure. |
+| NEDC → WLTP conversion | revenue.ie | Added Revenue's formula (also used, reversed, for motor tax on 2008–2020 cars). |
+| EV VRT relief | revenue.ie: Electric vehicles | Up to €5,000; full relief up to €40,000 OMSP, reduced up to €50,000; **ends 31 Dec 2026**. The exact reduction between €40k and €50k isn't stated, so it's a straight-line estimate. |
+| VAT on new cars from NI | revenue.ie | Confirmed: 6 months old or less, **or** 6,000 km or less, counts as new. |
+| Cars from NI: proof of import | revenue.ie: Registering vehicles from NI | **New requirement added:** NI Import Declaration, or the original V5C (last keeper NI resident) + NI service history + NI MOT history. No proof = can't register. |
+| 7-day NCTS booking / 30-day registration, documents to bring, V5C export section, CoC for NOx, plates | revenue.ie | Confirmed and added to the steps. |
+| Motor tax bands (WLTP and NEDC) | motortax.ie: Motor Tax Rates | Corrected: several bands were wrong (e.g. WLTP 161–170 g/km is €420, 171–190 is €600). |
+
+**Not yet checked** (the sites block automated access, so check by hand): NCT fee (ncts.ie), SEAI grants (seai.ie). Everything else in the config (exchange rate, fuel prices, loan APR, NI price factor, depreciation, servicing) and **all car data** are still estimates.
 
 ## Tax rates and fees: `src/config/ireland-costs.json`
 
