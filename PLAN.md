@@ -15,6 +15,14 @@ It covers cars bought in the **Republic of Ireland** and also cars bought in **N
 
 ---
 
+## Status
+
+**Phase 1 (MVP) is built.** See `README.md` for how to run it.
+- Built: the full quiz (sections A–G, skip rules, quick mode), the rule-based engine, results cards, the Northern Ireland calculator, checklist and guide page, the "What the experts say" panel, the glossary, the beginner checklist, saving in the browser and share links. 52 unit tests and a browser smoke test.
+- Not done yet: the car data (52 records) and all tax rates are **draft estimates**. They must be checked using `DATA.md` before launch. Phase 0 user testing with 3–5 people in Ireland has not happened yet.
+
+---
+
 ## 1. Product principles
 
 1. **No car jargon in the questions.** Ask about the person's life, not about specs. Don't ask "4x4 or front-wheel drive?". Ask "Do you drive on icy back roads or farm lanes?"
