@@ -6,8 +6,9 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CostBar, ExpertsPanel, InsidePanel, SafetyPanel } from "@/components/car";
 import { NiAnswer, NiTimeline } from "@/components/ni";
-import { CompareToggle, carColour } from "@/components/results/cards";
-import { CarArt } from "@/components/ui/CarArt";
+import { CompareToggle } from "@/components/results/cards";
+import { CarPhoto } from "@/components/ui/CarPhoto";
+import { WhereToBuy } from "@/components/car";
 import { MatchBar, PlateBadge } from "@/components/ui/bits";
 import { CAR_BY_ID } from "@/data/cars";
 import { formatEur, modelYear } from "@/lib/costs";
@@ -59,6 +60,7 @@ export default function CarPage() {
     { id: "reviews", label: "Reviews" },
     { id: "safety", label: "Safety" },
     { id: "inside", label: "Inside" },
+    { id: "buy", label: "Where to buy" },
   ];
   const inCompare = compareIds.includes(s.car.id);
 
@@ -91,7 +93,7 @@ export default function CarPage() {
               style={{ perspective: 800 }}
               className="w-full max-w-md"
             >
-              <CarArt body={s.car.body} color={carColour(s.car.id)} className="w-full text-ink" title={`${name} illustration`} />
+              <CarPhoto car={s.car} credit priority className="aspect-[4/3] w-full" />
             </motion.div>
           </div>
           <div className="space-y-4 p-6 md:p-8">
@@ -186,6 +188,9 @@ export default function CarPage() {
       </Section>
       <Section id="inside" title="Inside the car">
         <InsidePanel s={s} />
+      </Section>
+      <Section id="buy" title="See one or find one for sale">
+        <WhereToBuy s={s} includeNi={answers.ni === "yes" || answers.ni === "big" || fromNi} />
       </Section>
     </div>
   );

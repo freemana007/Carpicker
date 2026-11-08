@@ -83,7 +83,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </p>
               <p>
                 Tax rates checked with Revenue and motortax.ie ({formatDate(COSTS.sources.vrt.checked!)}). Car prices, specs
-                and ratings are estimates. Always check VRT with Revenue&apos;s calculator and get your own insurance quote.
+                and ratings are estimates. Always check VRT with Revenue&apos;s calculator and get your own insurance quote.{" "}
+                <Link href="/credits/" className="underline underline-offset-2 hover:text-ink">
+                  Photo credits
+                </Link>
               </p>
             </div>
           </footer>

@@ -3,6 +3,7 @@
 import { Briefcase, ExternalLink, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Term } from "@/components/Term";
 import { StarRating } from "@/components/ui/bits";
+import { brandSite, listingLinks } from "@/data/carLinks";
 import { LINKS, REVIEW_SOURCES, euroNcapSearchUrl, reviewSearchUrl } from "@/lib/content";
 import { formatEur } from "@/lib/costs";
 import type { Scored } from "@/lib/engine";
@@ -208,6 +209,50 @@ export function InsidePanel({ s }: { s: Scored }) {
         {POWERTRAIN_LABEL[car.powertrain]}, {car.powerHp} hp, {car.gearbox.map((g) => (g === "auto" ? "automatic" : "manual")).join(" or ")}
         {car.awd !== "no" && `, ${car.awd === "standard" ? "four-wheel drive" : "four-wheel drive available"}`}
         {car.towKg > 0 && `, tows up to ${car.towKg.toLocaleString("en-IE")} kg`}.
+      </p>
+    </div>
+  );
+}
+
+/** Links to the real websites: the brand's official Irish site and car-for-sale searches. */
+export function WhereToBuy({ s, includeNi }: { s: Scored; includeNi: boolean }) {
+  const official = brandSite(s.car);
+  const listings = listingLinks(s.car, includeNi);
+  const regions = Array.from(new Set(listings.map((l) => l.region)));
+  return (
+    <div className="space-y-6">
+      {official && (
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-surface-2/60 p-4">
+          <div>
+            <p className="font-semibold">{s.car.make} Ireland: official website</p>
+            <p className="text-sm text-muted">New prices, versions, brochures and test drives at your nearest dealer.</p>
+          </div>
+          <a href={official} target="_blank" rel="noreferrer" className="btn-secondary">
+            Visit {s.car.make} <ExternalLink className="h-4 w-4" aria-label="(opens in a new tab)" />
+          </a>
+        </div>
+      )}
+      {regions.map((r) => (
+        <div key={r}>
+          <h3 className="label mb-2">
+            {s.car.make} {s.car.model} for sale {r === "Republic" ? "in the Republic" : "in Northern Ireland"}
+          </h3>
+          <ul className="flex flex-wrap gap-2">
+            {listings
+              .filter((l) => l.region === r)
+              .map((l) => (
+                <li key={l.name}>
+                  <a href={l.url} target="_blank" rel="noreferrer" className="chip min-h-11 px-4 hover:bg-line">
+                    {l.name} <ExternalLink className="h-3.5 w-3.5" aria-label="(opens in a new tab)" />
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </div>
+      ))}
+      <p className="text-xs text-muted">
+        These are independent websites; we don&apos;t get paid for links. Always check the exact car: history check, NCT,
+        service record and an independent inspection.
       </p>
     </div>
   );

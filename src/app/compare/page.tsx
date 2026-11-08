@@ -4,8 +4,7 @@ import { ArrowLeft, Crown, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { POWERTRAIN_LABEL } from "@/components/car";
-import { carColour } from "@/components/results/cards";
-import { CarArt } from "@/components/ui/CarArt";
+import { CarPhoto } from "@/components/ui/CarPhoto";
 import { PlateBadge } from "@/components/ui/bits";
 import { formatEur, modelYear } from "@/lib/costs";
 import { recommend, scoreOne, type Scored } from "@/lib/engine";
@@ -126,8 +125,8 @@ export default function ComparePage() {
                 </th>
                 {cars.map((s) => (
                   <th key={s.car.id} scope="col" className="p-4 text-left align-bottom font-normal">
-                    <div className="flex h-20 items-center justify-center rounded-2xl bg-surface-2/70 p-2">
-                      <CarArt body={s.car.body} color={carColour(s.car.id)} className="h-full text-ink" />
+                    <div className="flex h-28 items-center justify-center overflow-hidden rounded-2xl bg-surface-2/70">
+                      <CarPhoto car={s.car} className="h-full rounded-none" />
                     </div>
                     <div className="mt-2">
                       <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />

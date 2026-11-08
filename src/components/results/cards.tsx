@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, ArrowRight, Check, MapPin, PiggyBank, Plus, Shuffle, Sparkles, Trophy, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { CAR_COLOURS, CarArt } from "@/components/ui/CarArt";
+import { CarPhoto } from "@/components/ui/CarPhoto";
+export { carColour } from "@/components/ui/CarArt";
 import { MatchBar, PlateBadge } from "@/components/ui/bits";
 import { formatEur, modelYear } from "@/lib/costs";
 import { tagline, type Role, type Scored } from "@/lib/engine";
@@ -17,12 +18,6 @@ export const ROLE_META: Record<Role, { label: string; icon: LucideIcon; tone: st
   wildcard: { label: "Have you considered…?", icon: Shuffle, tone: "text-muted" },
   ni: { label: "Northern Ireland deal", icon: MapPin, tone: "text-good" },
 };
-
-export function carColour(id: string): string {
-  let h = 0;
-  for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return CAR_COLOURS[h % CAR_COLOURS.length];
-}
 
 function priceLine(s: Scored) {
   const fromNi = s.option.source === "ni";
@@ -67,8 +62,8 @@ export function HeroCard({
   return (
     <motion.article layout="position" className="card overflow-hidden shadow-3">
       <div>
-        <div className="relative flex h-56 items-center justify-center bg-gradient-to-br from-brand-soft via-surface-2 to-surface px-8 pb-4 pt-12 md:h-64">
-          <CarArt body={s.car.body} color={carColour(s.car.id)} className="h-full max-w-md text-ink" />
+        <div className="relative flex h-64 items-center justify-center bg-gradient-to-br from-brand-soft via-surface-2 to-surface px-6 pb-3 pt-14 md:h-80">
+          <CarPhoto car={s.car} credit priority className="h-full max-w-2xl" />
           <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-surface/90 px-3 py-1.5 text-sm font-semibold shadow-1">
             <Role.icon className={`h-4 w-4 ${Role.tone}`} aria-hidden="true" /> {Role.label}
           </span>
@@ -146,8 +141,8 @@ export function CompactCard({
           <meta.icon className={`h-4 w-4 ${meta.tone}`} aria-hidden="true" /> {meta.label}
         </p>
       )}
-      <div className="my-3 flex h-24 items-center justify-center rounded-2xl bg-surface-2/70 p-3">
-        <CarArt body={s.car.body} color={carColour(s.car.id)} className="h-full text-ink" />
+      <div className="my-3 flex h-36 items-center justify-center overflow-hidden rounded-2xl bg-surface-2/70">
+        <CarPhoto car={s.car} className="h-full rounded-none" />
       </div>
       <div className="flex items-center gap-2">
         <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />

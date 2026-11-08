@@ -10,7 +10,9 @@
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "smoke": "node scripts/smoke-test.cjs"
+    "smoke": "node scripts/smoke-test.cjs",
+    "fetch-photos": "python3 scripts/fetch-car-photos.py",
+    "check-links": "vite-node --config vitest.config.ts scripts/check-links.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "5.1.1",

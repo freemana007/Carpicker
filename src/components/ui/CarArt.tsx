@@ -18,6 +18,13 @@ const SHAPES: Record<BodyType, { body: string; glass: string; pillar: number; wh
 /** Colours that work in light and dark themes. */
 export const CAR_COLOURS = ["#0f766e", "#2563eb", "#d97706", "#7c3aed", "#db2777", "#475569", "#059669", "#dc2626", "#0891b2"];
 
+/** A stable colour per car, so the same car always looks the same. */
+export function carColour(id: string): string {
+  let h = 0;
+  for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return CAR_COLOURS[h % CAR_COLOURS.length];
+}
+
 export function CarArt({
   body,
   color = "#0f766e",
