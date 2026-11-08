@@ -11,6 +11,7 @@
 3. **Dreams count, but so does reality.** Let people say what excites them, then balance it against budget and practical needs. Show "dream" picks next to "smart" picks.
 4. **Short and friendly.** About 3–5 minutes, one question per screen, with a progress bar. Users can skip questions or say "I don't know".
 5. **The full cost, not just the price.** Show the estimated monthly cost (payment + fuel or charging + insurance band + upkeep), not only the sticker price.
+6. **Trust experts, and show where it came from.** Back every pick with reviews from well-known, trusted sources. Always name the source and link to the full review, so users don't have to take our word for it.
 
 ---
 
@@ -99,6 +100,7 @@ Questions are grouped into 6 short sections. Each has picture-style answer cards
 | Capability | AWD/4WD, clearance, towing | B7, B3 |
 | Style & fun | Style tags, performance, D2 swipe results | D1–D3, F1 |
 | Comfort & tech | Ride quality, feature list | D3, D4, F1 |
+| Expert & owner opinion | Trusted review scores (see §5) | C3, C5, F1 |
 
 `score = Σ (factor_score × user_weight)`, then normalized.
 
@@ -108,7 +110,7 @@ Questions are grouped into 6 short sections. Each has picture-style answer cards
 - ✨ **Dream-ish pick** (highest style/fun score within budget + 10%)
 - 🔁 *(optional)* **Wildcard**: a body type they didn't pick that suits them anyway (e.g. "Have you considered a wagon?")
 
-**Step 4: Explain.** Build a plain-English "Why this car" from the top 3 contributing factors, plus one honest "Heads-up" (a downside such as "smaller trunk than others on your list").
+**Step 4: Explain.** Build a plain-English "Why this car" from the top 3 contributing factors, plus one honest "Heads-up" (a downside such as "smaller trunk than others on your list"). Back these with what trusted reviewers say where possible (§5).
 
 *Later:* an LLM layer (Claude API) could read free-text answers (D5, D6), write friendlier explanations, and answer follow-up questions in chat. Hard filtering and scoring stay rule-based so results are predictable.
 
@@ -125,7 +127,53 @@ Questions are grouped into 6 short sections. Each has picture-style answer cards
 
 ---
 
-## 5. Data
+## 5. Reviews from trusted websites
+
+Beginners can't judge a car themselves, so they need to hear from people who can. Each recommended car gets a **"What the experts say"** panel.
+
+### Which sources count as "trusted"
+
+| Type | Sources (US) | Sources (UK/EU, if we launch there) | What they add |
+|---|---|---|---|
+| **Expert road tests** | Car and Driver, MotorTrend, Edmunds, Kelley Blue Book (KBB) | What Car?, Autocar, Auto Express, Top Gear | How it drives, comfort, interior, value |
+| **Independent testing & reliability** | Consumer Reports, J.D. Power | Which?, What Car? Reliability Survey | Reliability, owner satisfaction (CR takes no ads) |
+| **Official safety** | NHTSA (crash tests and recalls), IIHS (Top Safety Pick) | Euro NCAP, DVSA recalls | Crash-test stars, recalls |
+| **Real owner reviews** | Edmunds owner reviews, Cars.com, KBB consumer reviews | Parkers / What Car? owner reviews | Real-life problems and praise after months of ownership |
+
+Rules for a source to be "trusted": an established publication or official body, clear testing methods, and named authors. No anonymous blogs, and no dealer or manufacturer marketing presented as reviews.
+
+### What the user sees on each car card
+
+- **Expert score summary:** each source's rating in its original form (e.g. "Car and Driver 9/10 · Edmunds 7.9/10 · IIHS Top Safety Pick+"), with logo and link.
+- **"What reviewers agree on":** 2–3 plain-English pros and 1–2 cons that appear across several reviews (e.g. "Most reviewers praise the roomy back seat; several say it's loud on the highway"). Each point cites the sources behind it.
+- **Short quotes:** one or two brief quotes with attribution and a "Read full review" link (fair-use length only, or as the licence allows).
+- **Owners say:** the average owner rating, the number of reviews, and the most common praise and complaint.
+- **Safety & recalls:** crash-test ratings and any open recalls for that model year, from official sources.
+- **Glossary in context:** reviewer jargon ("torque steer", "body roll") gets tap-to-explain, like the rest of the app.
+- **Review date & model year shown:** reviews older than the current generation are labelled or hidden.
+
+### How reviews feed the recommendations
+
+- Add an **"Expert & owner opinion"** factor to the scoring in §3. It is a normalized average of review scores, weighted toward reliability and safety sources for users who chose "I want it to just work" (C3) or ranked safety highly (F1).
+- The **"Heads-up"** in each explanation can come from a common reviewer complaint, so the downside is backed by real reviews.
+- Cars with very few reviews are flagged "limited reviews" rather than scored as average.
+
+### How we get the reviews (legally)
+
+We **do not scrape** review sites. Copying their text breaks their terms and copyright, and it hurts trust.
+1. **Official/free data first:** NHTSA and IIHS ratings and recalls (public data, NHTSA has a free API), and fueleconomy.gov.
+2. **Licensed data:** partner APIs or data licences (e.g. Edmunds, J.D. Power, KBB), or content and affiliate partnerships with publications.
+3. **Link-out fallback:** without a licence, show only the source name, its headline rating where allowed, and a link to the review. Our own team writes the "what reviewers agree on" summary and cites the sources.
+4. **AI summaries (Phase 2):** Claude summarizes only licensed or permitted review text into pros and cons. Every point keeps its citation, and summaries are spot-checked by a person.
+5. **Freshness:** refresh reviews monthly. Store the source, URL, date, model year and rating for each one.
+
+### Data model addition
+
+`Review { vehicleId, modelYears, source, sourceType (expert | owner | safety), rating, ratingScale, url, author, publishedAt, pros[], cons[], quote?, licence }`
+
+---
+
+## 6. Data
 
 | Need | Options |
 |---|---|
@@ -133,6 +181,7 @@ Questions are grouped into 6 short sections. Each has picture-style answer cards
 | Safety ratings | NHTSA (free API), IIHS |
 | Fuel economy | fueleconomy.gov (free data/API) |
 | Reliability | Curated scores at first (licensing needed for third-party data) |
+| Expert & owner reviews | See §5: official data, licensed partner APIs, or link-outs. No scraping |
 | Used listings & local prices | Phase 3: listing-partner APIs |
 | Images | Manufacturer press kits / licensed stock. Generic body-style illustrations for the D2 swipe quiz |
 
@@ -140,7 +189,7 @@ Each vehicle record has: make, model, year range, body type, seats, cargo, drive
 
 ---
 
-## 6. Tech stack (proposed)
+## 7. Tech stack (proposed)
 
 - **Frontend:** Next.js (React) + TypeScript + Tailwind CSS. Mobile-first and responsive; can become a PWA (installable app).
 - **State:** Quiz answers kept in client state and localStorage, so results can be resumed without an account.
@@ -152,18 +201,19 @@ Each vehicle record has: make, model, year range, body type, seats, cargo, drive
 
 ---
 
-## 7. Roadmap
+## 8. Roadmap
 
 **Phase 0: Foundations (week 1)**
 - Finalize the question list and copy. Run a quick test with 3–5 non-car people.
 - Define the vehicle data schema; curate the first 100+ vehicles.
-- Create test personas (see §8).
+- Create test personas (see §9).
 
 **Phase 1: MVP (weeks 2–5)**
 - Quiz flow (sections A–F, adaptive skips, Quick mode, progress bar).
 - Rule-based filter + scoring engine with unit tests.
 - Results page: 3–5 match cards with "why" and "heads-up".
 - Glossary tooltips and beginner next-steps checklist.
+- "What the experts say" panel: official safety ratings and recalls (NHTSA/IIHS), links to trusted reviews, and team-written pros and cons with sources.
 
 **Phase 2: Better decisions (weeks 6–9)**
 - Compare view and live tweak sliders.
@@ -171,6 +221,7 @@ Each vehicle record has: make, model, year range, body type, seats, cargo, drive
 - Zip-code based fuel/electricity costs and EV incentives.
 - Save/share shortlist; optional account.
 - Claude-powered explanations and free-text "dream car" interpretation.
+- Licensed review data: expert scores, owner ratings, AI-summarized "what reviewers agree on" with citations. Review scores added to ranking.
 
 **Phase 3: From pick to purchase**
 - Local new/used listings for the shortlisted models.
@@ -179,7 +230,7 @@ Each vehicle record has: make, model, year range, body type, seats, cargo, drive
 
 ---
 
-## 8. Test personas (for testing the logic)
+## 9. Test personas (for testing the logic)
 
 | Persona | Key answers | Sensible result |
 |---|---|---|
@@ -192,18 +243,20 @@ Each vehicle record has: make, model, year range, body type, seats, cargo, drive
 
 ---
 
-## 9. Success metrics
+## 10. Success metrics
 
 - Quiz completion rate ≥ 70%.
 - ≥ 60% of users rate their top 3 as "this makes sense for me".
 - Glossary/explainer use (shows the learning value).
 - Save/share rate; click-through to "next steps".
+- "Read full review" click-through rate, and how many users say the reviews helped them trust the picks.
 
 ---
 
-## 10. Open questions
+## 11. Open questions
 
 1. Launch market: US only, or US + UK/EU? This affects units, data sources, and models sold.
 2. Is the business model affiliate leads, a free tool, or premium advice? This affects data licensing.
 3. Do we need accounts in the MVP, or is a share link enough?
 4. How much should the app lean on AI chat vs. a structured quiz?
+5. Which review partners should we approach first (e.g. Edmunds, Consumer Reports, J.D. Power), and do we have budget for review data licences?
