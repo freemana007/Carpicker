@@ -2,12 +2,21 @@
 // on the main car-for-sale sites in the Republic and Northern Ireland.
 //
 // URL patterns are checked by `npm run check-links` (needs network access to
-// these sites). Until a link is confirmed it's still shown, because every one
-// points at the real site, at worst its home page.
+// these sites).
+//
+// Last check, 8 November 2026:
+// - Brand sites: BMW, Dacia, Ford, Hyundai, Kia, Land Rover, Mazda, Mercedes-Benz,
+//   Nissan, Renault, Skoda, Suzuki, Toyota and Volkswagen load. Citroën, Fiat,
+//   Honda, Peugeot, Tesla and Volvo block automated checks (HTTP 403), MINI was
+//   too slow to answer, and MG moved to www.mg.ie: check those by hand.
+// - Carzone: all 48 model searches open the right model's page (title checked).
+// - AutoTrader UK: all 48 searches load (results are built in the browser, so
+//   the model can't be confirmed by script).
+// - DoneDeal, CarsIreland.ie and UsedCarsNI block automated checks: check by hand.
 
 import type { Car } from "@/lib/types";
 
-export const LINKS_CHECKED: string | null = null;
+export const LINKS_CHECKED = "2026-11-08";
 
 /** Official Irish websites (Irish distributors). */
 export const BRAND_SITES: Record<string, string> = {
@@ -20,7 +29,7 @@ export const BRAND_SITES: Record<string, string> = {
   Hyundai: "https://www.hyundai.ie",
   Kia: "https://www.kia.com/ie/",
   "Land Rover": "https://www.landrover.ie",
-  MG: "https://www.mgmotor.ie",
+  MG: "https://www.mg.ie",
   MINI: "https://www.mini.ie",
   Mazda: "https://www.mazda.ie",
   "Mercedes-Benz": "https://www.mercedes-benz.ie",

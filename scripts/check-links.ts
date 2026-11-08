@@ -2,6 +2,7 @@
 // Usage: npm run check-links   (needs network access to those sites)
 // 403/429 usually means the site blocks automated checks: open those links in a
 // browser to confirm them by hand.
+import { execFile } from "node:child_process";
 import { CARS } from "../src/data/cars";
 import { BRAND_SITES, listingLinks } from "../src/data/carLinks";
 
@@ -11,18 +12,18 @@ interface Link {
   url: string;
 }
 
-async function check(url: string) {
-  try {
-    const r = await fetch(url, {
-      redirect: "follow",
-      headers: { "User-Agent": "CarPickerIreland link checker" },
-      signal: AbortSignal.timeout(15000),
-    });
-    return { status: r.status, final: r.url };
-  } catch (e) {
-    const err = e as { cause?: { code?: string }; message: string };
-    return { status: 0, final: err.cause?.code ?? err.message };
-  }
+// Uses curl so the system proxy settings (HTTPS_PROXY) are respected.
+function check(url: string): Promise<{ status: number; final: string }> {
+  return new Promise((resolve) => {
+    execFile(
+      "curl",
+      ["-s", "-o", "/dev/null", "-L", "--max-time", "20", "-A", "CarPickerIreland link checker", "-w", "%{http_code} %{url_effective}", url],
+      (_err, stdout) => {
+        const [code, final] = String(stdout).trim().split(" ");
+        resolve({ status: Number(code) || 0, final: final ?? "" });
+      },
+    );
+  });
 }
 
 async function main() {

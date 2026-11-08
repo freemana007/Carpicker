@@ -18,6 +18,7 @@ import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -33,11 +34,26 @@ FREE = re.compile(r"^(cc[- ]by|cc0|public domain|pd)", re.I)
 WIDTH = 960
 
 
+def fetch(url: str, timeout: int = 30) -> bytes:
+    """GET with polite retries: Wikimedia rate-limits bursts with HTTP 429."""
+    delay = 5.0
+    for attempt in range(6):
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 5:
+                raise
+            wait = float(e.headers.get("Retry-After") or delay)
+            time.sleep(wait)
+            delay = min(delay * 2, 60)
+    raise RuntimeError("unreachable")
+
+
 def get_json(url: str, params: dict) -> dict:
     q = url + "?" + urllib.parse.urlencode({**params, "format": "json", "formatversion": "2"})
-    req = urllib.request.Request(q, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+    return json.loads(fetch(q))
 
 
 def strip_html(s: str) -> str:
@@ -76,9 +92,7 @@ def file_info(file_title: str) -> dict | None:
 
 
 def download_webp(url: str, dest: Path) -> None:
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        img = Image.open(io.BytesIO(r.read())).convert("RGB")
+    img = Image.open(io.BytesIO(fetch(url, timeout=60))).convert("RGB")
     if img.width > WIDTH:
         img = img.resize((WIDTH, round(img.height * WIDTH / img.width)), Image.LANCZOS)
     img.save(dest, "WEBP", quality=80, method=6)
@@ -120,7 +134,7 @@ def main() -> int:
                 "title": file_title,
             }
             print(f"✓ {car_id}: {file_title} ({info['license']}, {info['author'][:40]})")
-            time.sleep(0.3)  # be polite to Wikimedia
+            time.sleep(1.5)  # be polite to Wikimedia
         except Exception as e:  # noqa: BLE001
             problems.append(f"{car_id}: {e}")
 
