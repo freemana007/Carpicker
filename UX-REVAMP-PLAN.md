@@ -4,7 +4,7 @@
 
 The plan borrows from ten designers (Don Norman, Julie Zhuo, Steve Schoger, Ioana Teleanu, Tobias van Schneider, Pablo Stanley, Elizabeth Alli, Luke Wroblewski, Gleb Kuznetsov and Jared Spool). Each idea is tied to a specific change in the app.
 
-> **Note on sources:** the andacademy.com article couldn't be opened from the build environment. Each designer's ideas below come from their widely published work (books, talks, products), not from that article. I don't know Elizabeth Alli's work well enough to cite specific ideas. Her row uses the research-and-mentoring theme she is usually listed for; please correct it if you know her focus better.
+> **Sources:** the designer profiles were checked against the andacademy.com article *"Best UI UX Designers to Follow"* (read 8 November 2026). The article's main point for each designer is listed below, alongside their wider published work (books, talks, products).
 
 ---
 
@@ -33,16 +33,16 @@ Found by walking through the app and reviewing screenshots of the results, quiz 
 
 | Designer | Idea we're using | Change in CarPicker |
 |---|---|---|
-| **Don Norman** (*The Design of Everyday Things*, *Emotional Design*) | Clear signifiers, immediate feedback, natural mapping, constraints that prevent errors, a correct conceptual model; three levels of emotional design (visceral, behavioural, reflective) | Every answer gives instant visible feedback ("38 cars still fit"). The app explains its model up front: *"You tell us about your life → we filter → we score → you get a shortlist."* Impossible combinations are prevented, not flagged later (e.g. greying out "Manual" when the licence is automatic-only). Visual polish handles the visceral level, smooth flow the behavioural level, and an "I'm confident about this" moment at the end the reflective level |
-| **Julie Zhuo** (*The Making of a Manager*, product design leadership at Facebook) | Start from the problem and the outcome, define what "great" looks like, design critique, sweat the copy | Each screen gets a one-line "job" (e.g. Results: *"Help me pick one car to go and see"*). Success metrics are set before designing (§8). Weekly critique against those jobs |
+| **Don Norman** (coined "user experience"; *The Design of Everyday Things*, *Emotional Design*) | Usability first ("can a normal person use this without a manual?"); use psychology: clear signifiers, immediate feedback, constraints that prevent errors, a correct mental model; emotional design (visceral, behavioural, reflective) | Every answer gives instant visible feedback ("38 cars still fit"). The app explains its model up front: *"You tell us about your life → we filter → we score → you get a shortlist."* Impossible combinations are prevented, not flagged later (e.g. greying out "Manual" when the licence is automatic-only). Visual polish handles the visceral level, smooth flow the behavioural level, and an "I'm confident about this" moment at the end the reflective level |
+| **Julie Zhuo** (*The Making of a Manager*; intern to VP of design at Facebook) | Product thinking (understand *why* a button is needed before designing it); communicate design clearly to the team; define what "great" looks like | Each screen gets a one-line "job" (e.g. Results: *"Help me pick one car to go and see"*). Success metrics are set before designing (§8). Weekly critique against those jobs |
 | **Steve Schoger** (*Refactoring UI*) | Hierarchy through weight and colour, not size; emphasise by de-emphasising; a spacing and type scale; fewer borders, more spacing and shadows; a 9-shade palette; don't put grey text on coloured backgrounds; labels are a last resort | New design system (§5). Results stats become "€19,400 · typical price" (value bold, label quiet) instead of label-above-value boxes. Borders are replaced with spacing and subtle shadows. One accent colour |
-| **Ioana Teleanu** (UX/AI educator, content design, cognitive load, inclusive design) | Reduce cognitive load, design for mental models, clear content design, accessibility from the start, ethical and transparent design | Quiz split into short chapters with one idea each. Plain-language content guide (§6). WCAG 2.2 AA built in (§7). Clear "why we're showing this" on every result |
-| **Tobias van Schneider** (Semplice, mymind: calm, private, no clutter) | Design with personality; calm, focused interfaces; privacy as a feature; craft in the details | A calm, ad-free look with generous whitespace. Privacy is a selling point on screen: *"No account. Your answers never leave this device."* Small crafted touches such as an Irish-plate-style year badge (e.g. `221`) on each car |
-| **Pablo Stanley** (Humaaans, Open Peeps, Blush, friendly illustration and humour) | Friendly, inclusive illustration; humour that lowers anxiety; mix-and-match illustration systems | Illustrated people for each quiz chapter (families, dog owners, commuters, older drivers, wheelchair users) and for empty states ("No cars fit… yet"). Light humour in microcopy, never at the user's expense |
-| **Elizabeth Alli** (see note above) | Research-led design, usability validation, mentoring designers through the process | Test with real users before and after (§3, §9). Every major change is checked against a usability finding |
-| **Luke Wroblewski** (*Mobile First*, *Web Form Design*) | Mobile first; forms: fewer questions, top-aligned labels, one column, smart defaults, inline validation; designing for thumbs; "obvious always wins" | Mobile layouts designed first. Sticky bottom action bar in the thumb zone. Cut the full quiz from 31 to ~20 questions (§4.2). Smart defaults (e.g. pre-fill priorities from earlier answers). Big tap targets (≥ 48 px) |
-| **Gleb Kuznetsov** (Milkinside; motion, 3D, futuristic polish) | Expressive motion, depth and polish that make a product feel alive | Subtle motion: cards that re-sort smoothly when you change the budget, a satisfying "shortlist reveal", a soft 3D-style hero car. Kept restrained and always respecting "reduce motion" (Norman and Spool keep this in check) |
-| **Jared Spool** (UIE / Center Centre; "the $300 million button", usability testing, design as the rendering of intent) | Remove barriers (no forced registration); measure experience, not opinion; know your users' current vs target knowledge; frequent usability testing | Keep "no account" as a core promise. Close the knowledge gap with in-context explanations rather than a separate glossary page. Run 5-user tests every phase (§9) |
+| **Ioana Teleanu** ("UX Goodies"; ex-UiPath; making UX easy to understand, AI in the design process) | Explain UX simply so everyone gets it; use AI tools to speed up design work, keeping people at the centre | Quiz split into short chapters with one idea each, plus a plain-language content guide (§6). **In the design process only** (the app stays AI-free): use AI tools to generate wireframe variations, draft microcopy options and run quick accessibility checks, with every output reviewed by a person |
+| **Tobias van Schneider** (ex-lead designer at Spotify, Semplice; bold, dark, moody style; strong brand "vibe") | Give the product a strong, recognisable personality; find your own voice instead of looking like every other app | A distinctive brand rather than a generic template (§5): a confident deep-teal palette, a **bold dark theme** that feels premium (not just an inverted light theme), and recognisable signature details such as an Irish-plate-style year badge (e.g. `221`) on every car |
+| **Pablo Stanley** (Humaaans, Open Peeps, Blush; open-source design, humour, accessibility) | Tell the story with illustration; add personality and humour; care about accessibility so everyone can use it; share work generously | Illustrated people for each quiz chapter (families, dog owners, commuters, older drivers, wheelchair users) and for empty states ("No cars fit… yet"). Light humour in microcopy, never at the user's expense. Accessibility as a launch requirement, not an extra (§7). Publish our car illustrations under an open licence too |
+| **Elizabeth Alli** (founder of DesignerUp; "Mindful Product Design") | Design products that are good for people's wellbeing, not addictive; design responsibly and ethically | Buying a car is stressful and expensive, so the app should **lower anxiety**. No urgency, countdowns or "only 2 left". A clear finish line: "You're done. Here's your shortlist and your next 3 steps". "Save and come back later" at any point. A calm results page that encourages taking time, test drives and a second opinion ("Share with someone you trust"). See §6a |
+| **Luke Wroblewski** (*Mobile First*, *Web Form Design*; Google) | Mobile first; data on how people actually hold and tap phones; forms: fewer questions, one column, smart defaults; "obvious always wins" | Mobile layouts designed first. Sticky bottom action bar in the thumb zone. Cut the full quiz from 31 to ~20 questions (§4.2). Smart defaults (e.g. pre-fill priorities from earlier answers). Big tap targets (≥ 48 px) |
+| **Gleb Kuznetsov** (Milkinside; interfaces for cars, voice and AI; 3D motion) | Motion that makes an interface feel alive; next-generation, automotive-grade polish | Fitting for a car app: subtle motion such as cards that re-sort smoothly when you change the budget, a satisfying "shortlist reveal", and a soft 3D-style hero car that rotates slightly on the car page. Kept restrained, always respecting "reduce motion" (Norman, Spool and Alli keep this in check) |
+| **Jared Spool** (UIE / Center Centre; "the $300 million button"; usability research; proving design's business value) | Don't guess, test: watch real people use it; remove barriers (no forced registration); show the value of design with evidence | Keep "no account" as a core promise. Close the knowledge gap with in-context explanations rather than a separate glossary page. Run 5-user tests every phase (§9) |
 
 ---
 
@@ -151,7 +151,7 @@ Add a printable / save-as-PDF checklist to bring to the seller and to NCTS.
 ### 4.9 Home page
 
 - A clear promise: **"Find a car that fits your life, in about 3 minutes. No car knowledge needed."**
-- Three trust badges: *Free · No account · Your answers stay on your phone* (van Schneider, Spool).
+- Three trust badges: *Free · No account · Your answers stay on your phone* (Spool, Alli).
 - An illustrated hero with diverse people and cars (Stanley), not stock photos.
 - One main button (Start). Quick mode is a secondary text link.
 
@@ -165,7 +165,7 @@ Built as Tailwind design tokens plus a small component library (Button, Card, Ch
 
 | Token | Plan |
 |---|---|
-| **Colour** | One brand colour (deep teal-green, a nod to Ireland without shamrock clichés) in 9 shades; a warm accent (amber) only for "heads-up"; semantic colours for success/warning/danger; neutrals with a slight warm tint (Schoger). Dark mode palette from the start |
+| **Colour** | One brand colour (deep teal-green, a nod to Ireland without shamrock clichés) in 9 shades; a warm accent (amber) only for "heads-up"; semantic colours for success/warning/danger; neutrals with a slight warm tint (Schoger). **Dark theme designed as its own bold, moody look** (van Schneider), not an afterthought |
 | **Type** | One readable sans-serif (e.g. Inter or Atkinson Hyperlegible for accessibility). Type scale 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 48. Body 16–18 px. Hierarchy through weight and colour (Schoger) |
 | **Spacing** | 4 px base scale (4, 8, 12, 16, 24, 32, 48, 64, 96). Start with too much whitespace, then reduce (Schoger) |
 | **Depth** | 3 shadow levels instead of borders; cards lift slightly on hover/focus |
@@ -173,7 +173,7 @@ Built as Tailwind design tokens plus a small component library (Button, Card, Ch
 | **Icons** | Replace emoji with one consistent line-icon set (e.g. Lucide, MIT licence), always with text labels or `aria-label` |
 | **Illustration** | People: an open-licence library such as Open Peeps by Pablo Stanley (CC0; check the licence for anything else used) for chapter intros and empty states. Cars: commission or draw a consistent set of body-style illustrations in a 3/4 view with a light 3D feel (Kuznetsov), same angle and lighting, coloured from the brand palette |
 | **Motion** | 150–250 ms ease-out for UI feedback; 400–600 ms for the shortlist reveal and re-sorting. Everything honours `prefers-reduced-motion` |
-| **Personality** | Calm and reassuring, with small delights: the Irish plate badge, a friendly illustrated "no results" state, a celebratory but subtle moment when the NI checklist is complete (van Schneider, Stanley) |
+| **Personality** | A confident, recognisable brand (van Schneider) that stays calm and reassuring where money is involved (Alli), with small delights: the Irish plate badge, a friendly illustrated "no results" state, a celebratory but subtle moment when the NI checklist is complete (Stanley) |
 
 ---
 
@@ -189,11 +189,20 @@ Built as Tailwind design tokens plus a small component library (Button, Card, Ch
 - **Honesty labels:** estimates are always marked "about" or "estimate". Official, checked figures show a small "Checked with Revenue, Nov 2026" tag (builds trust).
 - **Write a 1-page content style guide** and check every screen against it.
 
+### 6a. Mindful design: lowering stress (Elizabeth Alli)
+
+- **No pressure tactics:** no timers, "deal ends soon", stock counts, or "people are looking at this car".
+- **A clear end:** after the shortlist, the app says you're done and lists 3 next steps. No endless feed of more cars.
+- **Pause and resume:** answers save automatically. A visible "Save and come back later" makes it clear there's no rush.
+- **Encourage a second opinion:** "Share with someone you trust" sits next to every shortlist, and the car page suggests a test drive and an independent inspection before deciding.
+- **Reassuring tone around money:** costs are framed with what they include and what to check, never with alarming red warnings unless something really is a problem (e.g. no proof of NI import).
+- **No notifications or re-engagement emails:** there are no accounts, so there's nothing to nag with.
+
 ---
 
 ## 7. Accessibility and inclusion
 
-*Teleanu, Norman, Wroblewski.*
+*Stanley, Norman, Wroblewski, Teleanu.*
 
 - Target **WCAG 2.2 AA**: contrast ≥ 4.5:1, visible focus states, full keyboard use, correct headings and landmarks, form labels, `aria-live` for the "cars fit" counter.
 - **Tap targets ≥ 48 × 48 px**. Body text ≥ 16 px, and the layout works at 200% zoom.
@@ -229,7 +238,7 @@ No accounts and no tracking cookies. If live metrics are wanted, use a cookie-fr
 | Phase | Weeks | What | Output |
 |---|---|---|---|
 | **A. Research & audit** | 1 | Usability test the current app (§3); accessibility audit | Findings report, baseline metrics |
-| **B. Design system & wireframes** | 2–3 | Tokens, components, icon set, illustration direction; low-fi wireframes of all new screens (mobile first); content style guide | Design system in code (Tailwind tokens + components), clickable wireframe prototype |
+| **B. Design system & wireframes** | 2–3 | Tokens, components, icon set, illustration direction, light and dark themes; low-fi wireframes of all new screens (mobile first); content style guide. Use AI design tools to explore layout and copy variations quickly (Teleanu), with the team choosing and refining | Design system in code (Tailwind tokens + components), clickable wireframe prototype |
 | **C. Test wireframes** | 3 | 5-user test of the prototype (esp. results hero + car page + NI waterfall) | Changes list |
 | **D. Build: quiz** | 4–5 | Chapters, ~20 questions, live "cars fit" counter, sticky bar, constraints, smart defaults, bottom-sheet explanations | New quiz in production |
 | **E. Build: results, car page, compare** | 5–7 | Hero + compact cards, filters with animated re-sort, "Why isn't my car here?", car page with cost bar + NI waterfall + timeline, compare view, About-you panel | New results experience |
