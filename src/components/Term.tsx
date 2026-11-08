@@ -1,35 +1,27 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
+import { Sheet } from "@/components/ui/Sheet";
 import { GLOSSARY } from "@/lib/content";
 
-/** A word with a tap-to-explain definition from the glossary. */
+/** A word with a tap-to-explain definition (bottom sheet on phones). */
 export function Term({ term, children }: { term: string; children?: React.ReactNode }) {
   const [open, setOpen] = useState(false);
-  const id = useId();
   const entry = GLOSSARY.find((g) => g.term.toLowerCase() === term.toLowerCase());
   if (!entry) return <>{children ?? term}</>;
   return (
-    <span className="relative inline">
+    <>
       <button
         type="button"
-        className="cursor-help border-b border-dotted border-slate-500 text-inherit"
-        aria-expanded={open}
-        aria-controls={id}
-        onClick={() => setOpen((o) => !o)}
-        onBlur={() => setOpen(false)}
+        className="cursor-help text-inherit underline decoration-dotted decoration-muted underline-offset-4 hover:decoration-brand"
+        onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
       >
         {children ?? term}
       </button>
-      {open && (
-        <span
-          id={id}
-          role="tooltip"
-          className="absolute left-0 top-full z-20 mt-1 block w-64 rounded-lg bg-slate-900 p-3 text-left text-sm font-normal leading-snug text-white shadow-lg"
-        >
-          <strong>{entry.term}:</strong> {entry.meaning}
-        </span>
-      )}
-    </span>
+      <Sheet open={open} onClose={() => setOpen(false)} title={entry.term}>
+        <p>{entry.meaning}</p>
+      </Sheet>
+    </>
   );
 }

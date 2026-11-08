@@ -735,3 +735,189 @@ export function recommend(a: Answers, cars: Car[] = CARS): Results {
     ranked,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Live feedback for the quiz and "Why isn't my car here?"
+// ---------------------------------------------------------------------------
+
+/** How many different models still fit the answers so far (within budget, not stretch). */
+export function countFits(a: Answers, cars: Car[] = CARS): number {
+  const budget = budgetTotal(a);
+  const models = new Set<string>();
+  for (const car of cars) {
+    if (excludeReason(car, a)) continue;
+    const option = chooseOption(car, a, budget);
+    if (option && !option.stretch) models.add(modelKey(car));
+  }
+  return models.size;
+}
+
+export const TOTAL_MODELS = new Set(CARS.map(modelKey)).size;
+
+export interface FixSuggestion {
+  label: string;
+  patch: Partial<Answers>;
+  count: number;
+}
+
+/** When nothing fits, find the smallest single change that brings cars back. */
+export function suggestFix(a: Answers, cars: Car[] = CARS): FixSuggestion | null {
+  const tries: { label: string; patch: Partial<Answers> }[] = [];
+  if (a.budget && !a.budgetUnknown) {
+    const monthly = paysMonthly(a);
+    const step = monthly ? 25 : 500;
+    const label = (nb: number) => `Raise your budget to ${formatEur(nb)}${monthly ? " a month" : ""}`;
+    for (const f of [1.2, 1.5, 2]) {
+      const nb = Math.ceil((a.budget * f) / step) * step;
+      tries.push({ label: label(nb), patch: { budget: nb } });
+    }
+    // Otherwise: the smallest budget that brings back at least one car.
+    const prices = cars
+      .filter((c) => !excludeReason(c, a))
+      .flatMap((c) => candidateAges(c, a).map((age) => iePrice(c, age)));
+    if (prices.length) {
+      const need = Math.min(...prices);
+      const nb = Math.ceil((monthly ? totalToMonthly(need) + 1 : need) / step) * step;
+      tries.push({ label: label(nb), patch: { budget: nb } });
+    }
+  }
+  if (a.condition === "new") tries.push({ label: "Include used cars", patch: { condition: "either" } });
+  if (a.ni === "no" || !a.ni) tries.push({ label: "Include cars from Northern Ireland", patch: { ni: "yes" } });
+  if (a.engines && a.engines.length > 0) tries.push({ label: "Be open to any engine type", patch: { engines: [] } });
+  for (const m of a.mustHaves ?? []) {
+    tries.push({ label: `Drop the must-have "${MUST_HAVE_WORDS[m]}"`, patch: { mustHaves: (a.mustHaves ?? []).filter((x) => x !== m) } });
+  }
+  for (const d of a.dealBreakers ?? []) {
+    tries.push({ label: `Allow "${DEAL_BREAKER_WORDS[d]}"`, patch: { dealBreakers: (a.dealBreakers ?? []).filter((x) => x !== d) } });
+  }
+  for (const t of tries) {
+    const count = countFits({ ...a, ...t.patch }, cars);
+    if (count > 0) return { ...t, count };
+  }
+  return null;
+}
+
+const MUST_HAVE_WORDS: Record<string, string> = {
+  auto: "automatic gearbox", seven: "7 seats", tall: "room for a tall driver",
+  easyEntry: "easy to get in and out", towing: "towing", manual: "manual gearbox",
+};
+const DEAL_BREAKER_WORDS: Record<string, string> = {
+  big: "too big to park", tax: "high motor tax", thirsty: "uses a lot of fuel",
+  insurance: "expensive insurance", boring: "looks boring", visibility: "hard to see out of",
+};
+
+export interface MissingExplanation {
+  car: Car;
+  status: "excluded" | "budget" | "stretch" | "ranked";
+  message: string;
+  rank?: number;
+}
+
+/** Plain answer to "Why isn't this car in my shortlist?" */
+export function explainMissing(carId: string, a: Answers, cars: Car[] = CARS): MissingExplanation | null {
+  const variants = cars.filter((c) => c.id === carId || modelKey(c) === carId);
+  const car = variants[0];
+  if (!car) return null;
+  const name = modelKey(car);
+  const reasons = variants.map((v) => excludeReason(v, a));
+  if (reasons.every(Boolean)) {
+    return { car, status: "excluded", message: `The ${name} is left out: ${reasons[0]}.` };
+  }
+  const budget = budgetTotal(a);
+  const usable = variants.filter((v, i) => !reasons[i]);
+  const options = usable.map((v) => chooseOption(v, a, budget));
+  if (options.every((o) => o === null)) {
+    const cheapest = Math.min(...usable.map((v) => iePrice(v, Math.max(...candidateAges(v, a), 0))));
+    return {
+      car,
+      status: "budget",
+      message: `The ${name} is over your budget: even an older one costs about ${formatEur(cheapest)}${
+        budget !== undefined ? `, about ${formatEur(cheapest - budget)} more than you said` : ""
+      }.`,
+    };
+  }
+  if (options.every((o) => o === null || o.stretch)) {
+    const o = options.find(Boolean)!;
+    return {
+      car,
+      status: "stretch",
+      message: `The ${name} is just over your budget (about ${formatEur(o.price)}). It's in "Just over your budget".`,
+    };
+  }
+  const r = recommend(a, cars);
+  const rank = r.ranked.findIndex((s) => modelKey(s.car) === name) + 1;
+  const scored = r.ranked[rank - 1];
+  return {
+    car,
+    status: "ranked",
+    rank,
+    message: `The ${name} fits your answers: it's number ${rank} of ${r.ranked.length} with a ${scored.score}% match. Other cars scored a little higher on what you said matters most.`,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Short descriptions and single-car scoring (car page, compare)
+// ---------------------------------------------------------------------------
+
+const FACTOR_ADJ: Record<Factor, string> = {
+  affordability: "good-value",
+  running: "cheap-to-run",
+  insurance: "cheap-to-insure",
+  reliability: "reliable",
+  safety: "very safe",
+  space: "roomy",
+  capability: "go-anywhere",
+  style: "stylish",
+  comfort: "comfortable",
+  tech: "well-equipped",
+  expert: "highly rated",
+};
+
+const BODY_WORDS: Record<Car["body"], string> = {
+  city: "city car",
+  supermini: "small hatchback",
+  hatchback: "family hatchback",
+  saloon: "saloon",
+  estate: "estate",
+  crossover: "small SUV",
+  suv: "SUV",
+  mpv: "people carrier",
+  sports: "sports car",
+};
+
+const POWER_WORDS: Record<Car["powertrain"], string> = {
+  petrol: "petrol",
+  diesel: "diesel",
+  hybrid: "hybrid",
+  phev: "plug-in hybrid",
+  ev: "electric",
+};
+
+/** One plain sentence, e.g. "A reliable, cheap-to-run hybrid family hatchback." */
+export function tagline(s: Scored): string {
+  const top = FACTORS.filter((f) => s.factors[f] >= 70)
+    .sort((x, y) => s.factors[y] * s.weights[y] - s.factors[x] * s.weights[x])
+    .slice(0, 2)
+    .map((f) => FACTOR_ADJ[f]);
+  const adj = top.length ? `${top.join(", ")} ` : "";
+  const article = /^[aeiou]/i.test(adj || POWER_WORDS[s.car.powertrain]) ? "An" : "A";
+  return `${article} ${adj}${POWER_WORDS[s.car.powertrain]} ${BODY_WORDS[s.car.body]}.`;
+}
+
+/**
+ * Scores one car against the answers, even if it isn't in the shortlist
+ * (uses the closest option: in budget, a stretch, or a typical age).
+ */
+export function scoreOne(carId: string, a: Answers, cars: Car[] = CARS): { scored: Scored; excluded: string | null } | null {
+  const car = cars.find((c) => c.id === carId);
+  if (!car) return null;
+  const budget = budgetTotal(a);
+  const excluded = excludeReason(car, a);
+  let option = chooseOption(car, a, budget);
+  if (!option) {
+    const ages = candidateAges(car, a).length ? candidateAges(car, a) : [Math.max(minAge(car), 3)];
+    const age = ages[ages.length - 1];
+    option = { source: "ie", age, price: iePrice(car, age), stretch: true };
+  }
+  return { scored: scoreCar(car, option, a, budget), excluded };
+}

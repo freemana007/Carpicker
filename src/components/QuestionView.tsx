@@ -1,15 +1,19 @@
 "use client";
 
+import { ArrowDown, ArrowUp, Check, Info, X } from "lucide-react";
 import { useState } from "react";
-import { BodyIcon } from "@/components/BodyIcon";
+import { CAR_COLOURS, CarArt } from "@/components/ui/CarArt";
+import { Icon } from "@/components/ui/icons";
+import { Sheet } from "@/components/ui/Sheet";
 import { COUNTIES } from "@/config/counties";
-import { BRANDS } from "@/data/cars";
 import { CONFIG, formatEur, monthlyToTotal, paysMonthly, suggestedMonthly } from "@/lib/costs";
 import {
   BODY_LABELS,
-  DEFAULT_PRIORITIES,
   PRIORITY_LABELS,
+  disabledReason,
   parseValue,
+  smartPriorities,
+  type Option,
   type Question,
 } from "@/lib/questions";
 import type { Answers, BodyType, Priority } from "@/lib/types";
@@ -26,58 +30,109 @@ export function QuestionView({ q, answers, update, onPicked }: Props) {
   const [showExplainer, setShowExplainer] = useState(false);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand-700">{q.section}</p>
-        <h1 className="mt-1 text-2xl font-bold text-slate-900 md:text-3xl">{q.title}</h1>
-        {q.hint && <p className="mt-2 text-slate-600">💡 {q.hint}</p>}
+        <h1 className="text-2xl md:text-3xl">{q.title}</h1>
+        {q.hint && <p className="mt-2 text-muted">{q.hint}</p>}
         {q.explainer && (
           <button
             type="button"
-            className="mt-2 text-sm font-semibold text-brand-700 underline"
-            aria-expanded={showExplainer}
-            onClick={() => setShowExplainer((s) => !s)}
+            className="mt-3 inline-flex min-h-11 items-center gap-1.5 font-medium text-brand"
+            onClick={() => setShowExplainer(true)}
+            aria-haspopup="dialog"
           >
-            {showExplainer ? "Hide explanation" : `What do these mean?`}
+            <Info className="h-4 w-4" aria-hidden="true" /> What do these mean?
           </button>
         )}
-        {q.explainer && showExplainer && (
-          <div className="mt-3 rounded-xl bg-sky-50 p-4 text-slate-700">
-            <h2 className="font-semibold">{q.explainer.title}</h2>
-            <ul className="mt-2 list-disc space-y-1 pl-5">
-              {q.explainer.body.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
+      {q.explainer && (
+        <Sheet open={showExplainer} onClose={() => setShowExplainer(false)} title={q.explainer.title}>
+          <ul className="space-y-3">
+            {q.explainer.body.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </Sheet>
+      )}
       <Input q={q} answers={answers} update={update} onPicked={onPicked} />
     </div>
   );
 }
 
-function OptionButton({
+function OptionCard({
+  option,
   selected,
   onClick,
-  children,
+  multi,
+  disabledBecause,
+  index,
 }: {
+  option: Option;
   selected: boolean;
   onClick: () => void;
-  children: React.ReactNode;
+  multi?: boolean;
+  disabledBecause?: string | null;
+  index: number;
 }) {
   return (
     <button
       type="button"
-      aria-pressed={selected}
-      onClick={onClick}
-      className={`flex w-full items-center gap-3 rounded-xl border-2 px-4 py-3 text-left transition ${
-        selected ? "border-brand-600 bg-brand-50" : "border-slate-200 bg-white hover:border-slate-400"
+      role={multi ? "checkbox" : "radio"}
+      aria-checked={selected}
+      aria-disabled={!!disabledBecause}
+      data-option-index={index}
+      onClick={() => !disabledBecause && onClick()}
+      className={`group flex min-h-14 w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition duration-150 ease-out ${
+        disabledBecause
+          ? "cursor-not-allowed bg-surface-2/60 text-muted"
+          : selected
+            ? "bg-brand-soft shadow-2 ring-2 ring-brand"
+            : "bg-surface shadow-1 ring-1 ring-line hover:shadow-2 hover:ring-brand/40"
       }`}
     >
-      {children}
+      {option.icon && (
+        <span
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+            selected ? "bg-brand text-brand-on" : "bg-surface-2 text-brand"
+          }`}
+        >
+          <Icon name={option.icon} />
+        </span>
+      )}
+      <span className="flex-1">
+        <span className="font-semibold">{option.label}</span>
+        {option.description && <span className="block text-sm text-muted">{option.description}</span>}
+        {disabledBecause && <span className="block text-sm">{disabledBecause}</span>}
+      </span>
+      {multi ? (
+        <span
+          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ring-2 ${
+            selected ? "bg-brand text-brand-on ring-brand" : "ring-line"
+          }`}
+          aria-hidden="true"
+        >
+          {selected && <Check className="h-4 w-4" />}
+        </span>
+      ) : (
+        <span
+          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-2 ${
+            selected ? "bg-brand text-brand-on ring-brand" : "ring-line"
+          }`}
+          aria-hidden="true"
+        >
+          {selected && <Check className="h-4 w-4" />}
+        </span>
+      )}
     </button>
   );
+}
+
+function toggleIn(list: string[], v: string, exclusive: string[] = [], max?: number): string[] | null {
+  let next = list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
+  if (exclusive.includes(v) && next.includes(v)) next = [v];
+  else next = next.filter((x) => !exclusive.includes(x) || x === v);
+  if (max && next.length > max) return null;
+  return next;
 }
 
 function Input({ q, answers, update, onPicked }: Props) {
@@ -85,22 +140,18 @@ function Input({ q, answers, update, onPicked }: Props) {
     case "single": {
       const current = answers[q.field];
       return (
-        <div className="grid gap-3 sm:grid-cols-2">
-          {q.options!.map((o) => (
-            <OptionButton
+        <div role="radiogroup" aria-label={q.title} className="grid gap-3 sm:grid-cols-2">
+          {q.options!.map((o, i) => (
+            <OptionCard
               key={o.value}
+              index={i}
+              option={o}
               selected={String(current) === o.value}
               onClick={() => {
                 update({ [q.field]: parseValue(q.field, o.value) } as Partial<Answers>);
                 onPicked();
               }}
-            >
-              {o.emoji && <span className="text-2xl">{o.emoji}</span>}
-              <span>
-                <span className="font-semibold">{o.label}</span>
-                {o.description && <span className="block text-sm text-slate-500">{o.description}</span>}
-              </span>
-            </OptionButton>
+            />
           ))}
         </div>
       );
@@ -108,41 +159,76 @@ function Input({ q, answers, update, onPicked }: Props) {
 
     case "multi": {
       const current = (answers[q.field] as string[] | undefined) ?? [];
-      const toggle = (v: string) => {
-        let next = current.includes(v) ? current.filter((x) => x !== v) : [...current, v];
-        // "Keep it simple" / "Just make it safe" / "Shopping only" are exclusive with the others.
-        const exclusive = ["simple", "any", "shopping"];
-        if (exclusive.includes(v) && next.includes(v)) next = [v];
-        else next = next.filter((x) => !exclusive.includes(x) || x === v);
-        if (q.maxSelect && next.length > q.maxSelect) return;
-        update({ [q.field]: next } as Partial<Answers>);
-      };
       return (
         <div className="space-y-2">
           {q.maxSelect && (
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted" aria-live="polite">
               {current.length} of {q.maxSelect} picked
             </p>
           )}
-          <div className="grid gap-3 sm:grid-cols-2">
-            {q.options!.map((o) => (
-              <OptionButton key={o.value} selected={current.includes(o.value)} onClick={() => toggle(o.value)}>
-                <span
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 text-xs ${
-                    current.includes(o.value) ? "border-brand-600 bg-brand-600 text-white" : "border-slate-300"
-                  }`}
-                  aria-hidden="true"
-                >
-                  {current.includes(o.value) && "✓"}
-                </span>
-                {o.emoji && <span className="text-2xl">{o.emoji}</span>}
-                <span>
-                  <span className="font-semibold">{o.label}</span>
-                  {o.description && <span className="block text-sm text-slate-500">{o.description}</span>}
-                </span>
-              </OptionButton>
+          <div role="group" aria-label={q.title} className="grid gap-3 sm:grid-cols-2">
+            {q.options!.map((o, i) => (
+              <OptionCard
+                key={o.value}
+                index={i}
+                multi
+                option={o}
+                selected={current.includes(o.value)}
+                disabledBecause={disabledReason(q, o.value, answers)}
+                onClick={() => {
+                  const next = toggleIn(current, o.value, ["simple", "any", "shopping"], q.maxSelect);
+                  if (next) update({ [q.field]: next } as Partial<Answers>);
+                }}
+              />
             ))}
           </div>
+        </div>
+      );
+    }
+
+    case "needs": {
+      const must: string[] = answers.mustHaves ?? [];
+      const no: string[] = answers.dealBreakers ?? [];
+      return (
+        <div className="space-y-6">
+          <fieldset>
+            <legend className="mb-3 flex items-center gap-2 font-semibold">
+              <Check className="h-5 w-5 text-good" aria-hidden="true" /> Yes please, I need…
+            </legend>
+            <div className="flex flex-wrap gap-2">
+              {q.options!.map((o) => {
+                const on = must.includes(o.value);
+                const reason = disabledReason(q, o.value, answers);
+                return (
+                  <ChipToggle
+                    key={o.value}
+                    on={on}
+                    disabledBecause={reason}
+                    onClick={() => update({ mustHaves: toggleIn(must, o.value)! as Answers["mustHaves"] })}
+                  >
+                    {o.label}
+                  </ChipToggle>
+                );
+              })}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend className="mb-3 flex items-center gap-2 font-semibold">
+              <X className="h-5 w-5 text-bad" aria-hidden="true" /> No thanks, I don&apos;t want…
+            </legend>
+            <div className="flex flex-wrap gap-2">
+              {q.noOptions!.map((o) => (
+                <ChipToggle
+                  key={o.value}
+                  on={no.includes(o.value)}
+                  tone="bad"
+                  onClick={() => update({ dealBreakers: toggleIn(no, o.value)! as Answers["dealBreakers"] })}
+                >
+                  {o.label}
+                </ChipToggle>
+              ))}
+            </div>
+          </fieldset>
         </div>
       );
     }
@@ -155,7 +241,7 @@ function Input({ q, answers, update, onPicked }: Props) {
         <label className="block max-w-sm">
           <span className="sr-only">County</span>
           <select
-            className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-lg"
+            className="min-h-14 w-full rounded-2xl bg-surface px-4 text-lg shadow-1 ring-1 ring-line"
             value={answers.county ?? ""}
             onChange={(e) => update({ county: e.target.value || undefined })}
           >
@@ -172,26 +258,25 @@ function Input({ q, answers, update, onPicked }: Props) {
     case "bodies": {
       const current = answers.likedBodies ?? [];
       const bodies = Object.keys(BODY_LABELS) as BodyType[];
-      const colors = ["#10b981", "#0ea5e9", "#f59e0b", "#6366f1", "#14b8a6", "#ef4444", "#8b5cf6", "#f97316", "#ec4899"];
       return (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div role="group" aria-label={q.title} className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {bodies.map((b, i) => {
             const on = current.includes(b);
             return (
               <button
                 key={b}
                 type="button"
-                aria-pressed={on}
-                onClick={() =>
-                  update({ likedBodies: on ? current.filter((x) => x !== b) : [...current, b] })
-                }
-                className={`rounded-xl border-2 p-3 transition ${
-                  on ? "border-brand-600 bg-brand-50" : "border-slate-200 bg-white hover:border-slate-400"
+                role="checkbox"
+                aria-checked={on}
+                data-option-index={i}
+                onClick={() => update({ likedBodies: on ? current.filter((x) => x !== b) : [...current, b] })}
+                className={`rounded-2xl p-3 transition duration-150 ease-out ${
+                  on ? "bg-brand-soft shadow-2 ring-2 ring-brand" : "bg-surface shadow-1 ring-1 ring-line hover:shadow-2"
                 }`}
               >
-                <BodyIcon body={b} className="mx-auto h-14 w-full" color={colors[i]} />
-                <span className="mt-1 block text-sm font-medium">
-                  {on ? "❤️ " : ""}
+                <CarArt body={b} className="mx-auto h-16 w-full text-ink" color={CAR_COLOURS[i % CAR_COLOURS.length]} />
+                <span className="mt-1 flex items-center justify-center gap-1 text-sm font-medium">
+                  {on && <Check className="h-4 w-4 text-brand" aria-hidden="true" />}
                   {BODY_LABELS[b]}
                 </span>
               </button>
@@ -201,44 +286,45 @@ function Input({ q, answers, update, onPicked }: Props) {
       );
     }
 
-    case "brands": {
-      const love = answers.brandsLove ?? [];
-      const avoid = answers.brandsAvoid ?? [];
-      const cycle = (b: string) => {
-        if (love.includes(b)) update({ brandsLove: love.filter((x) => x !== b), brandsAvoid: [...avoid, b] });
-        else if (avoid.includes(b)) update({ brandsAvoid: avoid.filter((x) => x !== b) });
-        else update({ brandsLove: [...love, b] });
-      };
-      return (
-        <div className="flex flex-wrap gap-2">
-          {BRANDS.map((b) => {
-            const state = love.includes(b) ? "love" : avoid.includes(b) ? "avoid" : "none";
-            return (
-              <button
-                key={b}
-                type="button"
-                onClick={() => cycle(b)}
-                aria-label={`${b}: ${state === "love" ? "favourite" : state === "avoid" ? "avoid" : "no preference"}`}
-                className={`rounded-full border-2 px-4 py-2 text-sm font-medium transition ${
-                  state === "love"
-                    ? "border-brand-600 bg-brand-50 text-brand-900"
-                    : state === "avoid"
-                      ? "border-red-400 bg-red-50 text-red-800 line-through"
-                      : "border-slate-200 bg-white"
-                }`}
-              >
-                {state === "love" ? "💚 " : state === "avoid" ? "🚫 " : ""}
-                {b}
-              </button>
-            );
-          })}
-        </div>
-      );
-    }
-
     case "ranking":
       return <Ranking answers={answers} update={update} />;
+
+    default:
+      return null;
   }
+}
+
+function ChipToggle({
+  on,
+  onClick,
+  children,
+  tone = "good",
+  disabledBecause,
+}: {
+  on: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  tone?: "good" | "bad";
+  disabledBecause?: string | null;
+}) {
+  const onCls = tone === "good" ? "bg-good-soft text-good ring-2 ring-good" : "bg-bad-soft text-bad ring-2 ring-bad";
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={on}
+      aria-disabled={!!disabledBecause}
+      title={disabledBecause ?? undefined}
+      onClick={() => !disabledBecause && onClick()}
+      className={`inline-flex min-h-12 items-center gap-2 rounded-full px-4 font-medium transition ${
+        disabledBecause ? "cursor-not-allowed bg-surface-2/60 text-muted line-through" : on ? onCls : "bg-surface shadow-1 ring-1 ring-line hover:shadow-2"
+      }`}
+    >
+      {on && (tone === "good" ? <Check className="h-4 w-4" aria-hidden="true" /> : <X className="h-4 w-4" aria-hidden="true" />)}
+      {children}
+      {disabledBecause && <span className="sr-only">: not available. {disabledBecause}.</span>}
+    </button>
+  );
 }
 
 function BudgetInput({ answers, update }: { answers: Answers; update: (p: Partial<Answers>) => void }) {
@@ -250,14 +336,14 @@ function BudgetInput({ answers, update }: { answers: Answers; update: (p: Partia
   const suggestion = suggestedMonthly(answers);
 
   return (
-    <div className="card max-w-xl space-y-4 p-5">
+    <div className="card max-w-xl space-y-5 p-6">
       <div className={answers.budgetUnknown ? "opacity-40" : ""}>
-        <label htmlFor="budget" className="block font-semibold">
+        <label htmlFor="budget" className="label">
           {monthly ? "Most I'd pay per month" : "Most I'd spend in total"}
         </label>
-        <div className="mt-2 flex items-center gap-3">
-          <span className="text-3xl font-bold text-brand-700">{formatEur(value)}</span>
-          {monthly && <span className="text-slate-500">/ month</span>}
+        <div className="mt-1 flex items-baseline gap-2">
+          <span className="text-5xl font-bold tracking-tight tabular-nums">{formatEur(value)}</span>
+          {monthly && <span className="text-muted">a month</span>}
         </div>
         <input
           id="budget"
@@ -268,35 +354,31 @@ function BudgetInput({ answers, update }: { answers: Answers; update: (p: Partia
           value={value}
           disabled={answers.budgetUnknown}
           onChange={(e) => update({ budget: Number(e.target.value), budgetUnknown: false })}
-          className="mt-3 w-full accent-brand-600"
+          className="mt-4 h-3 w-full cursor-pointer accent-[rgb(var(--brand))]"
+          aria-valuetext={`${formatEur(value)}${monthly ? " a month" : ""}`}
         />
-        <div className="flex justify-between text-xs text-slate-500">
+        <div className="flex justify-between text-xs text-muted">
           <span>{formatEur(min)}</span>
           <span>{formatEur(max)}+</span>
         </div>
         {monthly && (
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-3 text-sm text-muted">
             Over {CONFIG.loan.months / 12} years at about {(CONFIG.loan.apr * 100).toFixed(1)}% APR, that buys a car
-            costing about <strong>{formatEur(monthlyToTotal(value))}</strong>.
+            costing about <strong className="text-ink">{formatEur(monthlyToTotal(value))}</strong>.
           </p>
         )}
-        {answers.budget === undefined && !answers.budgetUnknown && (
-          <button type="button" className="mt-2 text-sm text-brand-700 underline" onClick={() => update({ budget: value })}>
-            Use {formatEur(value)}
-          </button>
-        )}
       </div>
-      <label className="flex items-center gap-3">
+      <label className="flex min-h-12 cursor-pointer items-center gap-3">
         <input
           type="checkbox"
-          className="h-5 w-5 accent-brand-600"
+          className="h-5 w-5 accent-[rgb(var(--brand))]"
           checked={!!answers.budgetUnknown}
           onChange={(e) => update({ budgetUnknown: e.target.checked })}
         />
         <span>I have no idea, help me work it out</span>
       </label>
       {answers.budgetUnknown && suggestion && (
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-muted">
           Suggested: about {formatEur(suggestion)} a month, or a car around {formatEur(monthlyToTotal(suggestion))}.
         </p>
       )}
@@ -305,7 +387,7 @@ function BudgetInput({ answers, update }: { answers: Answers; update: (p: Partia
 }
 
 function Ranking({ answers, update }: { answers: Answers; update: (p: Partial<Answers>) => void }) {
-  const list: Priority[] = answers.priorities ?? DEFAULT_PRIORITIES;
+  const list: Priority[] = answers.priorities ?? smartPriorities(answers);
   const move = (i: number, dir: -1 | 1) => {
     const j = i + dir;
     if (j < 0 || j >= list.length) return;
@@ -314,36 +396,43 @@ function Ranking({ answers, update }: { answers: Answers; update: (p: Partial<An
     update({ priorities: next });
   };
   return (
-    <ol className="max-w-md space-y-2">
-      {list.map((p, i) => (
-        <li
-          key={p}
-          className={`flex items-center gap-3 rounded-xl border-2 bg-white px-4 py-2 ${
-            i < 4 ? "border-brand-500" : "border-slate-200"
-          }`}
-        >
-          <span className="w-6 text-center font-bold text-slate-500">{i + 1}</span>
-          <span className="flex-1 font-medium">{PRIORITY_LABELS[p]}</span>
-          <button
-            type="button"
-            className="btn-ghost px-2 py-1"
-            aria-label={`Move ${PRIORITY_LABELS[p]} up`}
-            disabled={i === 0}
-            onClick={() => move(i, -1)}
+    <div className="space-y-3">
+      {!answers.priorities && (
+        <p className="rounded-xl bg-info-soft px-4 py-3 text-sm text-ink">
+          We&apos;ve ordered these from your answers so far. Happy with it? Just tap <strong>See my cars</strong>.
+        </p>
+      )}
+      <ol className="max-w-md space-y-2">
+        {list.map((p, i) => (
+          <li
+            key={p}
+            className={`flex min-h-14 items-center gap-3 rounded-2xl px-4 ${
+              i < 4 ? "bg-surface shadow-2 ring-1 ring-brand/40" : "bg-surface-2/70"
+            }`}
           >
-            ▲
-          </button>
-          <button
-            type="button"
-            className="btn-ghost px-2 py-1"
-            aria-label={`Move ${PRIORITY_LABELS[p]} down`}
-            disabled={i === list.length - 1}
-            onClick={() => move(i, 1)}
-          >
-            ▼
-          </button>
-        </li>
-      ))}
-    </ol>
+            <span className={`w-6 text-center font-bold ${i < 4 ? "text-brand" : "text-muted"}`}>{i + 1}</span>
+            <span className="flex-1 font-medium">{PRIORITY_LABELS[p]}</span>
+            <button
+              type="button"
+              className="btn-ghost min-h-12 px-3"
+              aria-label={`Move ${PRIORITY_LABELS[p]} up`}
+              disabled={i === 0}
+              onClick={() => move(i, -1)}
+            >
+              <ArrowUp className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              className="btn-ghost min-h-12 px-3"
+              aria-label={`Move ${PRIORITY_LABELS[p]} down`}
+              disabled={i === list.length - 1}
+              onClick={() => move(i, 1)}
+            >
+              <ArrowDown className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }

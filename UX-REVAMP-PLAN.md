@@ -6,6 +6,23 @@ The plan borrows from ten designers (Don Norman, Julie Zhuo, Steve Schoger, Ioan
 
 > **Sources:** the designer profiles were checked against the andacademy.com article *"Best UI UX Designers to Follow"* (read 8 November 2026). The article's main point for each designer is listed below, alongside their wider published work (books, talks, products).
 
+## Status (November 2026)
+
+**Built:** phases B (design system), D (quiz), E (results, car page, compare) and F (polish) are in the app:
+- **Design system:** colour tokens with a light theme and a separate bold dark theme, Inter font, lucide icons instead of emoji, our own car illustrations, cards, chips, plate badge, star rating, match bar, bottom-sheet dialog.
+- **Quiz:** 5 chapters with intro cards; 24 questions in total (about 21 for a typical user, down from 31); progress by chapter; live "N of 51 cars still fit" counter with a one-tap fix when nothing fits; conflicting options disabled with a reason; smart default for the priority order; Back/Next bar at the bottom of the screen; number keys and Enter; "Save and finish later"; edit a single answer from results.
+- **Results:** shortlist reveal (skipped if you've turned on "reduce motion"), one large top pick with a one-line summary, smaller cards for the alternatives, filters that re-sort cards with motion, "What we know about you" panel, "Why isn't my car here?", compare tray, a clear finish line with 3 next steps and "Share with someone you trust".
+- **Car page:** yearly cost bar; Northern Ireland answer first ("You save about €X") with a waterfall chart; steps timeline with 7-day and 30-day deadline badges; reviews; safety; inside (boot shown as suitcases).
+- **Compare:** up to 3 cars, grouped rows, best value marked, "show only differences", first column stays visible when scrolling sideways.
+- **Northern Ireland guide:** 3-step story (Is it worth it? / What you'll need / What to do and when) and a printable checklist.
+- **Accessibility:** automated axe-core checks (WCAG 2.2 A/AA) pass with no serious or critical issues on every page in light and dark themes, at phone and desktop widths. Tap targets ≥ 44–48 px. Answers announced live.
+
+**Not done (needs people or decisions):**
+- Phases A, C and G (usability tests with real users in Ireland, before/after metrics).
+- A manual screen-reader pass.
+- Illustrated people for quiz chapters (needs an illustration source such as Open Peeps, or an illustrator). Chapters use icons for now.
+- Open questions in §11.
+
 ---
 
 ## 1. What's wrong today (audit of the current MVP)

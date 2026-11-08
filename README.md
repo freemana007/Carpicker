@@ -6,9 +6,9 @@ A free quiz that helps people in Ireland who know nothing about cars find one th
 - **No account.** Answers are kept in the browser and in the share link. Nothing is sent to a server.
 - **Fixed quiz, no AI.** Same answers always give the same cars. All text is written by the team.
 
-See [`PLAN.md`](PLAN.md) for the product plan and [`DATA.md`](DATA.md) for how to check and update the data.
+See [`PLAN.md`](PLAN.md) for the product plan, [`UX-REVAMP-PLAN.md`](UX-REVAMP-PLAN.md) for the design plan, and [`DATA.md`](DATA.md) for how to check and update the data.
 
-> ⚠️ **Early version.** The car data and the Irish tax rates are draft estimates. They must be checked against official sources before launch (see `DATA.md`). The app shows a warning while `verified` is `false` in `src/config/ireland-costs.json`.
+> ⚠️ **Early version.** Tax rates and the Northern Ireland rules were checked against revenue.ie and motortax.ie (November 2026). The car data is still a draft estimate and must be checked before launch (see `DATA.md`). The app shows a warning while `verified` is `false` in `src/config/ireland-costs.json`.
 
 ## Running it
 
@@ -18,7 +18,7 @@ npm run dev        # http://localhost:3000
 npm test           # unit tests: costs, VRT, engine, personas, quiz logic
 npm run lint       # type check
 npm run build      # static site in ./out
-npm run smoke      # browser test of the quiz flow (after build; needs Playwright + Chromium)
+npm run smoke      # browser test of the full flow + axe accessibility checks (after build; needs Playwright + Chromium)
 ```
 
 The build is a fully static site (`out/`). Host it anywhere that serves static files (Vercel, Netlify, GitHub Pages).
@@ -35,7 +35,11 @@ The build is a fully static site (`out/`). Host it anywhere that serves static f
 | `src/data/cars.ts` | The car data (draft) |
 | `src/lib/content.ts` | Glossary, Northern Ireland steps and warnings, review sources, beginner checklist |
 | `src/lib/personas.ts` | Test personas from the plan |
-| `src/app/` | Pages: home, quiz, results, Northern Ireland guide + calculator, glossary |
+| `src/app/` | Pages: home, quiz, results, car page (`/car/?id=`), compare (`/compare/?ids=`), Northern Ireland guide + calculator, glossary |
+| `src/app/globals.css`, `tailwind.config.ts` | Design tokens: light and dark themes as CSS variables, type scale, shadows |
+| `src/components/ui/` | Design-system pieces: car illustrations, icons, plate badge, match bar, star rating, bottom sheet |
+| `src/components/results/`, `car.tsx`, `ni.tsx` | Results cards and panels, car page sections, Northern Ireland answer, waterfall and timeline |
+| `src/lib/summary.ts` | "What we know about you" summary |
 
 ## How recommendations work
 

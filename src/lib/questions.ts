@@ -2,19 +2,21 @@
 
 import type { Answers, BodyType, Priority } from "./types";
 
-export type QuestionKind = "single" | "multi" | "budget" | "ranking" | "county" | "brands" | "bodies";
+export type QuestionKind = "single" | "multi" | "budget" | "ranking" | "county" | "brands" | "bodies" | "needs";
 
 export interface Option {
   value: string;
   label: string;
   description?: string;
-  emoji?: string;
+  /** Name of a lucide icon (see components/ui/icons.tsx). */
+  icon?: string;
 }
 
 export interface Question {
   id: string;
   /** Answer field this question fills. */
   field: keyof Answers;
+  /** Chapter title (see CHAPTERS). */
   section: string;
   kind: QuestionKind;
   title: string;
@@ -22,6 +24,8 @@ export interface Question {
   hint?: string;
   options?: Option[];
   maxSelect?: number;
+  /** For "needs": the deal-breaker options. */
+  noOptions?: Option[];
   /** Optional explainer, opened from a "What do these mean?" link. */
   explainer?: { title: string; body: string[] };
   /** Included in quick mode. */
@@ -30,15 +34,24 @@ export interface Question {
   showIf?: (a: Answers) => boolean;
 }
 
-export const SECTIONS = [
-  "Budget",
-  "About you as a driver",
-  "Your everyday life",
-  "Running costs",
-  "Dreams & personality",
-  "Must-haves",
-  "Priorities",
+export interface Chapter {
+  title: string;
+  /** One-line reason shown on the chapter's intro card. */
+  intro: string;
+  /** lucide icon name. */
+  icon: string;
+}
+
+export const CHAPTERS: Chapter[] = [
+  { title: "Money", intro: "Let's start with what you'd like to spend. No judgement, any budget works.", icon: "Wallet" },
+  { title: "You & your driving", intro: "A bit about you and the roads you drive, so the car suits your days.", icon: "Route" },
+  { title: "Your everyday life", intro: "Who and what comes along for the ride.", icon: "UsersRound" },
+  { title: "What you love", intro: "The fun part. Go with your gut.", icon: "Heart" },
+  { title: "What matters most", intro: "Nearly done. Tell us what's essential and what matters most.", icon: "ListOrdered" },
 ];
+
+/** Kept for older code: chapter titles in order. */
+export const SECTIONS = CHAPTERS.map((c) => c.title);
 
 export const PRIORITY_LABELS: Record<Priority, string> = {
   price: "Price",
@@ -75,20 +88,19 @@ export const BODY_LABELS: Record<BodyType, string> = {
 };
 
 export const QUESTIONS: Question[] = [
-  // ---------------- A: Budget ----------------
   {
     id: "A1",
     field: "payMethod",
-    section: "Budget",
+    section: "Money",
     kind: "single",
     quick: true,
     title: "How would you like to pay?",
     hint: "This decides whether we ask for a total price or a monthly amount.",
     options: [
-      { value: "cash", label: "Cash / savings", emoji: "💶" },
-      { value: "loan", label: "Credit union or bank loan", emoji: "🏦" },
-      { value: "finance", label: "Dealer finance (PCP or hire purchase)", emoji: "📝" },
-      { value: "unsure", label: "Not sure yet", emoji: "🤔" },
+      { value: "cash", label: "Cash / savings", icon: "Banknote" },
+      { value: "loan", label: "Credit union or bank loan", icon: "Landmark" },
+      { value: "finance", label: "Dealer finance (PCP or hire purchase)", icon: "FileSignature" },
+      { value: "unsure", label: "Not sure yet", icon: "HelpCircle" },
     ],
     explainer: {
       title: "Ways to pay for a car",
@@ -104,7 +116,7 @@ export const QUESTIONS: Question[] = [
   {
     id: "A2",
     field: "budget",
-    section: "Budget",
+    section: "Money",
     kind: "budget",
     quick: true,
     title: "What's the most you'd be comfortable spending?",
@@ -113,7 +125,7 @@ export const QUESTIONS: Question[] = [
   {
     id: "A3",
     field: "takeHome",
-    section: "Budget",
+    section: "Money",
     kind: "single",
     optional: true,
     title: "Roughly what's your take-home pay per month?",
@@ -130,14 +142,14 @@ export const QUESTIONS: Question[] = [
   {
     id: "A4",
     field: "condition",
-    section: "Budget",
+    section: "Money",
     kind: "single",
     title: "New, used, or either?",
     hint: "A 2–4-year-old car is often the best value: someone else has paid for the biggest drop in value.",
     options: [
-      { value: "new", label: "New", emoji: "✨" },
-      { value: "used", label: "Used", emoji: "🔁" },
-      { value: "either", label: "Either, show me the best value", emoji: "⚖️" },
+      { value: "new", label: "New", icon: "Sparkles" },
+      { value: "used", label: "Used", icon: "Repeat" },
+      { value: "either", label: "Either, show me the best value", icon: "Scale" },
     ],
     explainer: {
       title: "Reading Irish number plates",
@@ -151,15 +163,15 @@ export const QUESTIONS: Question[] = [
   {
     id: "A5",
     field: "ni",
-    section: "Budget",
+    section: "Money",
     kind: "single",
     quick: true,
     title: "Would you consider buying a car in Northern Ireland?",
     hint: "Cars there are often cheaper, but you pay VRT and need some paperwork. We'll do the maths for you.",
     options: [
-      { value: "yes", label: "Yes, show me", emoji: "👍" },
-      { value: "big", label: "Only if it saves a lot", emoji: "💰" },
-      { value: "no", label: "No, Republic only", emoji: "🇮🇪" },
+      { value: "yes", label: "Yes, show me", icon: "ThumbsUp" },
+      { value: "big", label: "Only if it saves a lot", icon: "PiggyBank" },
+      { value: "no", label: "No, Republic only", icon: "MapPin" },
     ],
     explainer: {
       title: "What buying in Northern Ireland involves",
@@ -172,36 +184,22 @@ export const QUESTIONS: Question[] = [
     },
   },
   {
-    id: "A6",
-    field: "tradeIn",
-    section: "Budget",
-    kind: "single",
-    optional: true,
-    title: "Do you have a car to trade in?",
-    options: [
-      { value: "true", label: "Yes" },
-      { value: "false", label: "No" },
-    ],
-  },
-
-  // ---------------- B: Driver ----------------
-  {
     id: "B1",
     field: "licence",
-    section: "About you as a driver",
+    section: "You & your driving",
     kind: "single",
     title: "What licence do you have?",
-    hint: "Insurance in Ireland costs much more for learner and new drivers, so we'll favour cars that are cheaper to insure.",
+    hint: "Insurance in Ireland costs much more for learner and new drivers (and anyone under 25), so we'll favour cars that are cheaper to insure.",
     options: [
-      { value: "learner", label: "Learner permit", emoji: "🔰" },
-      { value: "new", label: "Full licence, under 2 years", emoji: "🆕" },
-      { value: "full", label: "Full licence, 2+ years", emoji: "🪪" },
+      { value: "learner", label: "Learner permit", icon: "GraduationCap" },
+      { value: "new", label: "Full licence, under 2 years", icon: "BadgePlus" },
+      { value: "full", label: "Full licence, 2+ years", icon: "IdCard" },
     ],
   },
   {
     id: "B2",
     field: "autoOnly",
-    section: "About you as a driver",
+    section: "You & your driving",
     kind: "single",
     quick: true,
     title: "Is your licence for automatic cars only?",
@@ -214,22 +212,56 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: "B3",
-    field: "ageGroup",
-    section: "About you as a driver",
+    id: "C4",
+    field: "driving",
+    section: "You & your driving",
     kind: "single",
-    optional: true,
-    title: "What's your age group?",
-    hint: "Optional. Only used to warn you about insurance costs. It never changes which cars you see.",
+    quick: true,
+    title: "What does a normal week of driving look like?",
     options: [
-      { value: "u25", label: "Under 25" },
-      { value: "25-34", label: "25 – 34" },
-      { value: "35-64", label: "35 – 64" },
-      { value: "65+", label: "65 +" },
+      { value: "town", label: "Short town trips", icon: "Building2" },
+      { value: "mixed", label: "A mix", icon: "Shuffle" },
+      { value: "motorway", label: "Lots of motorway / long commute", icon: "Route" },
+      { value: "rural", label: "Rural roads and long distances", icon: "Wheat" },
     ],
   },
-
-  // ---------------- C: Everyday life ----------------
+  {
+    id: "C5",
+    field: "dailyKm",
+    section: "You & your driving",
+    kind: "single",
+    title: "Roughly how far do you drive in a day?",
+    hint: "This tells us your fuel costs and whether an electric car's range is enough.",
+    options: [
+      { value: "lt30", label: "Under 30 km" },
+      { value: "30-80", label: "30 – 80 km" },
+      { value: "80-150", label: "80 – 150 km" },
+      { value: "150+", label: "Over 150 km" },
+    ],
+  },
+  {
+    id: "C7",
+    field: "roads",
+    section: "You & your driving",
+    kind: "single",
+    title: "What are the roads like where you live?",
+    options: [
+      { value: "town", label: "Town or city", icon: "Building2" },
+      { value: "country", label: "Country roads", icon: "Trees" },
+      { value: "hills", label: "Hills and mountain roads", icon: "Mountain" },
+      { value: "farm", label: "Farm lanes, gravel, fields", icon: "Tractor" },
+    ],
+  },
+  {
+    id: "C8",
+    field: "county",
+    section: "You & your driving",
+    kind: "county",
+    title: "Which county do you live in?",
+    hint: "Used to estimate the cost of travelling to Northern Ireland to collect a car.",
+    optional: true,
+    showIf: (a) => a.ni === "yes" || a.ni === "big",
+  },
   {
     id: "C1",
     field: "passengers",
@@ -238,10 +270,10 @@ export const QUESTIONS: Question[] = [
     quick: true,
     title: "Who usually travels with you?",
     options: [
-      { value: "solo", label: "Just me", emoji: "🧍" },
-      { value: "plus1", label: "Me + 1", emoji: "🧑‍🤝‍🧑" },
-      { value: "family", label: "Small family (3–4)", emoji: "👨‍👩‍👧" },
-      { value: "big", label: "Big family or lifts for others (5–7)", emoji: "👨‍👩‍👧‍👦" },
+      { value: "solo", label: "Just me", icon: "User" },
+      { value: "plus1", label: "Me + 1", icon: "Users" },
+      { value: "family", label: "Small family (3–4)", icon: "Baby" },
+      { value: "big", label: "Big family or lifts for others (5–7)", icon: "Bus" },
     ],
   },
   {
@@ -267,39 +299,11 @@ export const QUESTIONS: Question[] = [
     title: "What do you carry most often?",
     hint: "Pick all that apply.",
     options: [
-      { value: "shopping", label: "Shopping only", emoji: "🛒" },
-      { value: "buggy", label: "Buggy or sports gear", emoji: "🏑" },
-      { value: "dogs", label: "Dogs", emoji: "🐕" },
-      { value: "diy", label: "DIY, furniture, tools", emoji: "🧰" },
-      { value: "towing", label: "Towing a trailer, horsebox or caravan", emoji: "🚚" },
-    ],
-  },
-  {
-    id: "C4",
-    field: "driving",
-    section: "Your everyday life",
-    kind: "single",
-    quick: true,
-    title: "What does a normal week of driving look like?",
-    options: [
-      { value: "town", label: "Short town trips", emoji: "🏙️" },
-      { value: "mixed", label: "A mix", emoji: "🔀" },
-      { value: "motorway", label: "Lots of motorway / long commute", emoji: "🛣️" },
-      { value: "rural", label: "Rural roads and long distances", emoji: "🌾" },
-    ],
-  },
-  {
-    id: "C5",
-    field: "dailyKm",
-    section: "Your everyday life",
-    kind: "single",
-    title: "Roughly how far do you drive in a day?",
-    hint: "This tells us your fuel costs and whether an electric car's range is enough.",
-    options: [
-      { value: "lt30", label: "Under 30 km" },
-      { value: "30-80", label: "30 – 80 km" },
-      { value: "80-150", label: "80 – 150 km" },
-      { value: "150+", label: "Over 150 km" },
+      { value: "shopping", label: "Shopping only", icon: "ShoppingCart" },
+      { value: "buggy", label: "Buggy or sports gear", icon: "Dumbbell" },
+      { value: "dogs", label: "Dogs", icon: "Dog" },
+      { value: "diy", label: "DIY, furniture, tools", icon: "Wrench" },
+      { value: "towing", label: "Towing a trailer, horsebox or caravan", icon: "Truck" },
     ],
   },
   {
@@ -310,62 +314,98 @@ export const QUESTIONS: Question[] = [
     title: "Where do you park at night?",
     hint: "Electric cars are much cheaper to run if you can charge at home.",
     options: [
-      { value: "driveway", label: "My own driveway", emoji: "🏠" },
-      { value: "street", label: "On the street", emoji: "🚏" },
-      { value: "apartment", label: "Apartment car park", emoji: "🏢" },
-      { value: "tight", label: "Tight city spaces", emoji: "📏" },
+      { value: "driveway", label: "My own driveway", icon: "House" },
+      { value: "street", label: "On the street", icon: "MapPin" },
+      { value: "apartment", label: "Apartment car park", icon: "Building" },
+      { value: "tight", label: "Tight city spaces", icon: "Ruler" },
     ],
   },
   {
-    id: "C7",
-    field: "roads",
-    section: "Your everyday life",
-    kind: "single",
-    title: "What are the roads like where you live?",
+    id: "E1",
+    field: "styles",
+    section: "What you love",
+    kind: "multi",
+    quick: true,
+    maxSelect: 3,
+    title: "Pick up to 3 words that describe your dream car.",
     options: [
-      { value: "town", label: "Town or city", emoji: "🏘️" },
-      { value: "country", label: "Country roads", emoji: "🌳" },
-      { value: "hills", label: "Hills and mountain roads", emoji: "⛰️" },
-      { value: "farm", label: "Farm lanes, gravel, fields", emoji: "🚜" },
+      { value: "sporty", label: "Sporty", icon: "Gauge" },
+      { value: "rugged", label: "Rugged / outdoorsy", icon: "Tent" },
+      { value: "luxurious", label: "Luxurious", icon: "Sofa" },
+      { value: "practical", label: "Practical", icon: "Package" },
+      { value: "eco", label: "Eco-friendly", icon: "Sprout" },
+      { value: "cute", label: "Cute / quirky", icon: "Heart" },
+      { value: "classic", label: "Classic", icon: "Crown" },
+      { value: "techy", label: "Techy / futuristic", icon: "Rocket" },
+      { value: "sleek", label: "Sleek / stylish", icon: "Glasses" },
     ],
   },
   {
-    id: "C8",
-    field: "county",
-    section: "Your everyday life",
-    kind: "county",
-    title: "Which county do you live in?",
-    hint: "Used to estimate the cost of travelling to Northern Ireland to collect a car.",
-    optional: true,
-    showIf: (a) => a.ni === "yes" || a.ni === "big",
+    id: "E2",
+    field: "likedBodies",
+    section: "What you love",
+    kind: "bodies",
+    title: "Tap the shapes that catch your eye.",
+    hint: "Go with your gut. Pick as many as you like.",
   },
-
-  // ---------------- D: Running costs ----------------
   {
-    id: "D1",
-    field: "fuelImportance",
-    section: "Running costs",
+    id: "E3",
+    field: "feel",
+    section: "What you love",
     kind: "single",
-    title: "How important is keeping fuel costs low?",
+    title: "How should driving feel?",
     options: [
-      { value: "very", label: "Very important" },
-      { value: "somewhat", label: "Somewhat" },
-      { value: "not", label: "Not really" },
+      { value: "comfy", label: "Calm & comfy", icon: "Cloud" },
+      { value: "zippy", label: "Zippy & fun", icon: "Zap" },
+      { value: "powerful", label: "Powerful", icon: "Flame" },
+      { value: "easy", label: "Easy, I just want to get there", icon: "Smile" },
+    ],
+  },
+  {
+    id: "E4",
+    field: "features",
+    section: "What you love",
+    kind: "multi",
+    title: "What do you want inside?",
+    options: [
+      { value: "carplay", label: "Apple CarPlay / Android Auto", icon: "Smartphone" },
+      { value: "touchscreen", label: "Big touchscreen", icon: "Monitor" },
+      { value: "heatedSeats", label: "Heated seats", icon: "Flame" },
+      { value: "sunroof", label: "Sunroof", icon: "Sun" },
+      { value: "stereo", label: "Good stereo", icon: "Music" },
+      { value: "simple", label: "Keep it simple", icon: "Circle" },
+    ],
+  },
+  {
+    id: "E6",
+    field: "dream",
+    section: "What you love",
+    kind: "single",
+    title: "If money were no object, which would you pick?",
+    hint: "We'll find the closest thing in your budget.",
+    options: [
+      { value: "sports", label: "Sports car", icon: "Flag" },
+      { value: "4x4", label: "Big 4x4", icon: "Truck" },
+      { value: "luxury", label: "Luxury saloon", icon: "Wine" },
+      { value: "ev", label: "Futuristic electric car", icon: "Zap" },
+      { value: "classic", label: "Classic car", icon: "Radio" },
+      { value: "camper", label: "Camper van", icon: "Tent" },
+      { value: "quirky", label: "Something quirky", icon: "PartyPopper" },
     ],
   },
   {
     id: "D2",
     field: "engines",
-    section: "Running costs",
+    section: "What matters most",
     kind: "multi",
     quick: true,
     title: "What kind of engine are you open to?",
     hint: "Pick all you're happy with. Skip this if you have no idea: we'll consider them all.",
     options: [
-      { value: "ev", label: "Electric", emoji: "🔌" },
-      { value: "hybrid", label: "Hybrid", emoji: "🍃" },
-      { value: "petrol", label: "Petrol", emoji: "⛽" },
-      { value: "diesel", label: "Diesel", emoji: "🛢️" },
+      { value: "ev", label: "Electric", icon: "PlugZap" },
+      { value: "hybrid", label: "Hybrid", icon: "Leaf" },
+      { value: "petrol", label: "Petrol", icon: "Fuel" },
+      { value: "diesel", label: "Diesel", icon: "Droplet" },
     ],
     explainer: {
       title: "Engine types in plain English",
@@ -381,133 +421,22 @@ export const QUESTIONS: Question[] = [
   {
     id: "D3",
     field: "maintenance",
-    section: "Running costs",
+    section: "What matters most",
     kind: "single",
     title: "How do you feel about repairs and maintenance?",
     options: [
-      { value: "justwork", label: "I want it to just work", emoji: "😌" },
-      { value: "ok", label: "I'm OK with some upkeep", emoji: "🔧" },
-      { value: "diy", label: "I can fix things myself", emoji: "🛠️" },
+      { value: "justwork", label: "I want it to just work", icon: "Smile" },
+      { value: "ok", label: "I'm OK with some upkeep", icon: "Wrench" },
+      { value: "diy", label: "I can fix things myself", icon: "Hammer" },
     ],
   },
-  {
-    id: "D4",
-    field: "keep",
-    section: "Running costs",
-    kind: "single",
-    title: "How long do you plan to keep it?",
-    options: [
-      { value: "short", label: "1 – 3 years" },
-      { value: "mid", label: "4 – 7 years" },
-      { value: "long", label: "Until it dies" },
-    ],
-  },
-  {
-    id: "D5",
-    field: "safety",
-    section: "Running costs",
-    kind: "multi",
-    title: "Which safety features matter to you?",
-    options: [
-      { value: "aeb", label: "Automatic emergency braking", description: "Brakes for you if you're about to crash." },
-      { value: "blindSpot", label: "Blind-spot warning", description: "Warns you about cars beside you." },
-      { value: "acc", label: "Adaptive cruise control", description: "Keeps a safe gap on the motorway." },
-      { value: "camera", label: "Reversing camera" },
-      { value: "any", label: "Just make it safe" },
-    ],
-  },
-
-  // ---------------- E: Dreams ----------------
-  {
-    id: "E1",
-    field: "styles",
-    section: "Dreams & personality",
-    kind: "multi",
-    quick: true,
-    maxSelect: 3,
-    title: "Pick up to 3 words that describe your dream car.",
-    options: [
-      { value: "sporty", label: "Sporty", emoji: "🏎️" },
-      { value: "rugged", label: "Rugged / outdoorsy", emoji: "🏕️" },
-      { value: "luxurious", label: "Luxurious", emoji: "🛋️" },
-      { value: "practical", label: "Practical", emoji: "📦" },
-      { value: "eco", label: "Eco-friendly", emoji: "🌱" },
-      { value: "cute", label: "Cute / quirky", emoji: "🐣" },
-      { value: "classic", label: "Classic", emoji: "🎩" },
-      { value: "techy", label: "Techy / futuristic", emoji: "🚀" },
-      { value: "sleek", label: "Sleek / stylish", emoji: "🕶️" },
-    ],
-  },
-  {
-    id: "E2",
-    field: "likedBodies",
-    section: "Dreams & personality",
-    kind: "bodies",
-    title: "Tap the shapes that catch your eye.",
-    hint: "Go with your gut. Pick as many as you like.",
-  },
-  {
-    id: "E3",
-    field: "feel",
-    section: "Dreams & personality",
-    kind: "single",
-    title: "How should driving feel?",
-    options: [
-      { value: "comfy", label: "Calm & comfy", emoji: "☁️" },
-      { value: "zippy", label: "Zippy & fun", emoji: "⚡" },
-      { value: "powerful", label: "Powerful", emoji: "💪" },
-      { value: "easy", label: "Easy, I just want to get there", emoji: "🙂" },
-    ],
-  },
-  {
-    id: "E4",
-    field: "features",
-    section: "Dreams & personality",
-    kind: "multi",
-    title: "What do you want inside?",
-    options: [
-      { value: "carplay", label: "Apple CarPlay / Android Auto", emoji: "📱" },
-      { value: "touchscreen", label: "Big touchscreen", emoji: "🖥️" },
-      { value: "heatedSeats", label: "Heated seats", emoji: "🔥" },
-      { value: "sunroof", label: "Sunroof", emoji: "☀️" },
-      { value: "stereo", label: "Good stereo", emoji: "🎵" },
-      { value: "simple", label: "Keep it simple", emoji: "🔘" },
-    ],
-  },
-  {
-    id: "E5",
-    field: "brandsLove",
-    section: "Dreams & personality",
-    kind: "brands",
-    optional: true,
-    title: "Any brands you love or want to avoid?",
-    hint: "Tap once to favour a brand 💚, twice to avoid it 🚫, three times to clear.",
-  },
-  {
-    id: "E6",
-    field: "dream",
-    section: "Dreams & personality",
-    kind: "single",
-    title: "If money were no object, which would you pick?",
-    hint: "We'll find the closest thing in your budget.",
-    options: [
-      { value: "sports", label: "Sports car", emoji: "🏁" },
-      { value: "4x4", label: "Big 4x4", emoji: "🛻" },
-      { value: "luxury", label: "Luxury saloon", emoji: "🥂" },
-      { value: "ev", label: "Futuristic electric car", emoji: "⚡" },
-      { value: "classic", label: "Classic car", emoji: "📻" },
-      { value: "camper", label: "Camper van", emoji: "🏕️" },
-      { value: "quirky", label: "Something quirky", emoji: "🎈" },
-    ],
-  },
-
-  // ---------------- F: Must-haves ----------------
   {
     id: "F1",
     field: "mustHaves",
-    section: "Must-haves",
-    kind: "multi",
-    title: "Anything you absolutely need?",
+    section: "What matters most",
+    kind: "needs",
+    title: "Anything you need, or anything that's a no?",
+    hint: "Tap what applies. Leave the rest. We'll never show a car that breaks a must-have.",
     options: [
       { value: "auto", label: "Automatic gearbox" },
       { value: "seven", label: "7 seats" },
@@ -516,14 +445,8 @@ export const QUESTIONS: Question[] = [
       { value: "towing", label: "Towing" },
       { value: "manual", label: "Manual gearbox" },
     ],
-  },
-  {
-    id: "F2",
-    field: "dealBreakers",
-    section: "Must-haves",
-    kind: "multi",
-    title: "Anything that's a deal-breaker?",
-    options: [
+    /** Deal-breakers ("No thanks") shown on the same screen. */
+    noOptions: [
       { value: "big", label: "Too big to park" },
       { value: "tax", label: "High motor tax" },
       { value: "thirsty", label: "Uses a lot of fuel" },
@@ -532,12 +455,10 @@ export const QUESTIONS: Question[] = [
       { value: "visibility", label: "Hard to see out of" },
     ],
   },
-
-  // ---------------- G: Priorities ----------------
   {
     id: "G1",
     field: "priorities",
-    section: "Priorities",
+    section: "What matters most",
     kind: "ranking",
     quick: true,
     title: "Put these in order: what matters most to you?",
@@ -563,7 +484,47 @@ export function parseValue(field: keyof Answers, value: string): unknown {
 export function isAnswered(q: Question, a: Answers): boolean {
   if (q.kind === "budget") return !!a.budgetUnknown || (a.budget ?? 0) > 0;
   if (q.kind === "brands") return (a.brandsLove?.length ?? 0) + (a.brandsAvoid?.length ?? 0) > 0;
+  if (q.kind === "needs") return (a.mustHaves?.length ?? 0) + (a.dealBreakers?.length ?? 0) > 0;
   const v = a[q.field];
   if (Array.isArray(v)) return v.length > 0;
   return v !== undefined && v !== null && v !== "";
+}
+
+/**
+ * Constraints, not errors (Norman): returns a reason if an option conflicts with
+ * an earlier answer, so the UI can disable it and say why.
+ */
+export function disabledReason(q: Question, value: string, a: Answers): string | null {
+  if (q.field === "mustHaves") {
+    if (value === "manual" && a.autoOnly === "yes") return "Your licence is automatic only";
+    if (value === "manual" && a.mustHaves?.includes("auto")) return "You picked automatic";
+    if (value === "auto" && a.mustHaves?.includes("manual")) return "You picked manual";
+  }
+  return null;
+}
+
+/**
+ * Smart default for the priority ranking, worked out from earlier answers,
+ * so most people only need to confirm it (Wroblewski: smart defaults).
+ */
+export function smartPriorities(a: Answers): Priority[] {
+  const score: Record<Priority, number> = {
+    price: 8, reliability: 7, safety: 6, running: 5, space: 4, comfort: 3, style: 2, tech: 1,
+  };
+  const bump = (p: Priority, n: number) => (score[p] += n);
+  if (a.passengers === "family" || a.passengers === "big" || (a.childSeats ?? 0) > 0) {
+    bump("safety", 2.5);
+    bump("space", 3);
+  }
+  if ((a.carry ?? []).some((c) => c !== "shopping")) bump("space", 2);
+  if (a.driving === "motorway" || a.driving === "rural" || a.dailyKm === "80-150" || a.dailyKm === "150+") {
+    bump("running", 3);
+    bump("comfort", 2);
+  }
+  if (a.maintenance === "justwork") bump("reliability", 1.5);
+  if (a.styles?.some((s) => ["sporty", "sleek", "cute", "classic"].includes(s)) || a.feel === "zippy") bump("style", 6);
+  if (a.styles?.includes("luxurious") || a.feel === "comfy") bump("comfort", 2.5);
+  if (a.styles?.includes("techy") || (a.features ?? []).some((f) => f !== "simple")) bump("tech", 3);
+  if (a.styles?.includes("eco")) bump("running", 1.5);
+  return (Object.keys(score) as Priority[]).sort((x, y) => score[y] - score[x]);
 }

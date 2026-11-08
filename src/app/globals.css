@@ -2,29 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------- Design tokens (RGB triplets) ---------- */
+/* Light: warm, calm, reassuring. */
 :root {
   color-scheme: light;
+  --bg: 247 246 243;
+  --surface: 255 255 255;
+  --surface-2: 241 239 233;
+  --ink: 28 25 23;
+  --muted: 87 83 78;
+  --line: 226 223 217;
+  --brand: 15 118 110;
+  --brand-strong: 17 94 89;
+  --brand-soft: 214 245 239;
+  --brand-on: 255 255 255;
+  --accent: 154 72 8;
+  --accent-soft: 254 243 199;
+  --good: 21 128 61;
+  --good-soft: 220 252 231;
+  --bad: 185 28 28;
+  --bad-soft: 254 226 226;
+  --info: 29 78 216;
+  --info-soft: 219 234 254;
+  --shadow-1: 0 1px 2px rgb(28 25 23 / 0.06), 0 1px 3px rgb(28 25 23 / 0.08);
+  --shadow-2: 0 4px 12px rgb(28 25 23 / 0.08), 0 2px 4px rgb(28 25 23 / 0.06);
+  --shadow-3: 0 16px 40px rgb(28 25 23 / 0.14), 0 4px 10px rgb(28 25 23 / 0.08);
 }
 
-body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+/* Dark: a bold, moody theme of its own (deep teal-black), not an inverted light theme. */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: 8 15 17;
+  --surface: 16 27 30;
+  --surface-2: 24 39 43;
+  --ink: 232 244 241;
+  --muted: 156 178 174;
+  --line: 37 56 60;
+  --brand: 45 212 191;
+  --brand-strong: 94 234 212;
+  --brand-soft: 13 59 56;
+  --brand-on: 4 47 46;
+  --accent: 251 191 36;
+  --accent-soft: 58 42 6;
+  --good: 74 222 128;
+  --good-soft: 14 46 26;
+  --bad: 248 113 113;
+  --bad-soft: 59 17 17;
+  --info: 147 197 253;
+  --info-soft: 23 37 84;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-2: 0 6px 16px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.03);
+  --shadow-3: 0 20px 48px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(255 255 255 / 0.05);
 }
 
-.btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-sans text-base text-ink antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid rgb(var(--brand));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
+  }
 }
-.btn-primary {
-  @apply btn bg-brand-600 text-white hover:bg-brand-700;
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 font-semibold transition duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-brand-on shadow-1 hover:bg-brand-strong hover:shadow-2;
+  }
+  .btn-secondary {
+    @apply btn bg-surface text-ink shadow-1 ring-1 ring-line hover:bg-surface-2;
+  }
+  .btn-ghost {
+    @apply btn px-4 text-muted hover:bg-surface-2 hover:text-ink;
+  }
+  .card {
+    @apply rounded-card bg-surface shadow-1;
+  }
+  .chip {
+    @apply inline-flex min-h-8 items-center gap-1.5 rounded-full bg-surface-2 px-3 text-sm text-ink;
+  }
+  .label {
+    @apply text-sm text-muted;
+  }
+  .link {
+    @apply font-medium text-brand underline decoration-brand/30 underline-offset-4 hover:decoration-brand;
+  }
 }
-.btn-secondary {
-  @apply btn border border-slate-300 bg-white text-slate-800 hover:bg-slate-100;
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-.btn-ghost {
-  @apply btn px-3 py-2 text-slate-600 hover:bg-slate-100;
-}
-.card {
-  @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
-}
-.chip {
-  @apply inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700;
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body { background: white; color: black; }
+  .card { box-shadow: none; border: 1px solid #ccc; }
 }

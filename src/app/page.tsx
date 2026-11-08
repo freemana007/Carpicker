@@ -1,66 +1,99 @@
+import { ArrowRight, Calculator, Filter, Gift, ListChecks, MapPin, MessageCircle, ShieldCheck, Smartphone, UserX } from "lucide-react";
 import Link from "next/link";
-import { BodyIcon } from "@/components/BodyIcon";
+import { ResumeLink } from "@/components/ResumeLink";
+import { CarArt } from "@/components/ui/CarArt";
 
-const STEPS = [
-  { emoji: "💬", title: "Answer simple questions", text: "About your life, budget and dreams. No car jargon." },
-  { emoji: "🎯", title: "Get 3–5 matches", text: "Each with plain-English reasons and one honest downside." },
-  { emoji: "💶", title: "See the real cost", text: "Motor tax, fuel and, for Northern Ireland cars, VRT and every extra." },
+const TRUST = [
+  { icon: Gift, text: "Free" },
+  { icon: UserX, text: "No account" },
+  { icon: Smartphone, text: "Your answers stay on your phone" },
+];
+
+const HOW = [
+  { icon: MessageCircle, title: "You tell us about your life", text: "Budget, family, roads, what you love. No car words needed." },
+  { icon: Filter, title: "We filter and score 50+ cars", text: "Using fixed, open rules. No AI, no ads, no paid placements." },
+  { icon: ListChecks, title: "You get a shortlist, with reasons", text: "Your best match, plus a few alternatives, each with one honest downside." },
 ];
 
 export default function Home() {
   return (
-    <div className="space-y-12">
-      <section className="grid items-center gap-8 md:grid-cols-2">
-        <div className="space-y-5">
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl">
+    <div className="space-y-20">
+      <section className="grid items-center gap-10 md:grid-cols-[1.1fr_1fr]">
+        <div className="space-y-6">
+          <p className="inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-sm font-medium">
+            <MapPin className="h-4 w-4 text-brand" aria-hidden="true" /> Made for drivers in Ireland
+          </p>
+          <h1 className="text-5xl leading-[1.05] md:text-6xl">
             Find a car that fits your life.
           </h1>
-          <p className="text-lg text-slate-600">
-            Don't know anything about cars? Perfect. Answer a few everyday questions and we'll suggest cars that suit
-            your budget, your roads and your dreams, here in Ireland or across the border in Northern Ireland.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/quiz/" className="btn-primary text-lg">
-              Start the quiz <span className="font-normal opacity-80">(about 4 min)</span>
+          <p className="text-xl text-ink/80">In about 3 minutes. No car knowledge needed.</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link href="/quiz/" className="btn-primary min-h-14 px-8 text-lg">
+              Start <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </Link>
-            <Link href="/quiz/?mode=quick" className="btn-secondary">
-              Quick mode (90 sec)
+            <Link href="/quiz/?mode=quick" className="link">
+              In a hurry? 90-second version
             </Link>
           </div>
-          <p className="text-sm text-slate-500">Free · No sign-up · Your answers stay on your device</p>
+          <ResumeLink />
+          <ul className="flex flex-wrap gap-2" aria-label="Our promises">
+            {TRUST.map((t) => (
+              <li key={t.text} className="chip">
+                <t.icon className="h-4 w-4 text-brand" aria-hidden="true" /> {t.text}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="grid grid-cols-3 gap-3" aria-hidden="true">
-          {(["supermini", "crossover", "estate", "sports", "suv", "city"] as const).map((b, i) => (
-            <div key={b} className="card flex items-center justify-center p-3">
-              <BodyIcon
-                body={b}
-                className="h-14 w-full"
-                color={["#10b981", "#0ea5e9", "#f59e0b", "#ef4444", "#6366f1", "#ec4899"][i]}
-              />
-            </div>
+        <div className="relative" aria-hidden="true">
+          <div className="absolute inset-6 rounded-[3rem] bg-gradient-to-br from-brand-soft to-surface-2" />
+          <div className="relative grid grid-cols-2 gap-4 p-8">
+            <CarArt body="crossover" color="#0f766e" className="col-span-2 w-full text-ink" />
+            <CarArt body="supermini" color="#d97706" className="w-full text-ink" />
+            <CarArt body="estate" color="#2563eb" className="w-full text-ink" />
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="how">
+        <h2 id="how" className="text-3xl">
+          How it works
+        </h2>
+        <ol className="mt-6 grid gap-4 md:grid-cols-3">
+          {HOW.map((h, i) => (
+            <li key={h.title} className="card p-6">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-soft text-brand">
+                <h.icon className="h-6 w-6" aria-hidden="true" />
+              </span>
+              <p className="mt-4 text-sm font-semibold text-muted">Step {i + 1}</p>
+              <h3 className="text-xl">{h.title}</h3>
+              <p className="mt-2 text-ink/80">{h.text}</p>
+            </li>
           ))}
+        </ol>
+      </section>
+
+      <section className="card grid items-center gap-6 p-8 md:grid-cols-[auto_1fr_auto]">
+        <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+          <Calculator className="h-7 w-7" aria-hidden="true" />
+        </span>
+        <div>
+          <h2 className="text-2xl">Thinking of buying in Northern Ireland?</h2>
+          <p className="mt-1 text-ink/80">
+            We add up VRT, travel and every extra, and only suggest it if you&apos;d still save. Plus the exact steps, checked
+            with Revenue.
+          </p>
         </div>
-      </section>
-
-      <section className="grid gap-4 md:grid-cols-3">
-        {STEPS.map((s) => (
-          <div key={s.title} className="card p-5">
-            <div className="text-3xl">{s.emoji}</div>
-            <h2 className="mt-2 font-semibold">{s.title}</h2>
-            <p className="text-slate-600">{s.text}</p>
-          </div>
-        ))}
-      </section>
-
-      <section className="card space-y-3 bg-brand-50 p-6">
-        <h2 className="text-xl font-bold">Thinking of buying in Northern Ireland?</h2>
-        <p className="text-slate-700">
-          Cars there are often cheaper, but you'll pay VRT and need some paperwork. We add up the total cost of getting
-          the car on the road in the Republic and only suggest it if you'd still save.
-        </p>
         <Link href="/northern-ireland/" className="btn-secondary">
-          See the steps and costs
+          Work it out
         </Link>
+      </section>
+
+      <section className="flex items-start gap-3 text-muted">
+        <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+        <p>
+          Buying a car is a big decision. Take your time: your answers are saved on this device, there&apos;s no countdown,
+          and nobody will email you.
+        </p>
       </section>
     </div>
   );
