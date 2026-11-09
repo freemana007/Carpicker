@@ -49,6 +49,8 @@ export const GLOSSARY: { term: string; meaning: string }[] = [
   { term: "CO₂ band", meaning: "A group of cars with similar CO₂ emissions (in grams per km). The band sets your motor tax and VRT rate." },
   { term: "WLTP", meaning: "The official lab test for fuel use and emissions since 2018–2021. Its CO₂ figures are higher (more realistic) than the older NEDC test." },
   { term: "PCP", meaning: "Personal Contract Plan. Dealer finance with low monthly payments and a big 'balloon payment' at the end if you want to keep the car." },
+  { term: "0% finance", meaning: "A deal where the car brand pays the interest, so you only pay back the price of the car. New cars only, usually with a big deposit. See our 0% finance page for current offers." },
+  { term: "APR", meaning: "Annual Percentage Rate: the yearly cost of borrowing, including fees. Lower is cheaper. 0% APR means no interest at all." },
   { term: "Hire purchase", meaning: "Dealer finance where you pay monthly and own the car once the last payment is made." },
   { term: "Hybrid", meaning: "A petrol engine plus a small electric motor and battery that charges itself. Saves fuel in town. No plugging in." },
   { term: "Plug-in hybrid (PHEV)", meaning: "A hybrid with a bigger battery you charge from a socket, giving 40–80 km of electric driving before the petrol engine takes over." },

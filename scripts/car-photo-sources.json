@@ -1,55 +1,164 @@
 {
   "_note": "Wikipedia article for each car; the script uses the article's main photo. To use a different photo, set \"file\" to a Wikimedia Commons file name (e.g. \"File:Example.jpg\").",
-  "hyundai-i10": { "article": "Hyundai i10" },
-  "kia-picanto": { "article": "Kia Picanto" },
-  "toyota-yaris-hybrid": { "article": "Toyota Yaris (XP210)" },
-  "vw-polo": { "article": "Volkswagen Polo Mk6" },
-  "skoda-fabia": { "article": "Škoda Fabia" },
-  "dacia-sandero": { "article": "Dacia Sandero" },
-  "renault-clio": { "article": "Renault Clio" },
-  "peugeot-208": { "article": "Peugeot 208" },
-  "suzuki-swift": { "article": "Suzuki Swift" },
-  "ford-fiesta": { "article": "Ford Fiesta (seventh generation)" },
-  "fiat-500-hybrid": { "article": "Fiat 500 (2007)" },
-  "mini-cooper": { "article": "Mini Hatch" },
-  "toyota-corolla-hybrid": { "article": "Toyota Corolla (E210)" },
-  "vw-golf-tsi": { "article": "Volkswagen Golf Mk8" },
-  "vw-golf-tdi": { "article": "Volkswagen Golf Mk8" },
-  "vw-golf-gti": { "article": "Volkswagen Golf GTI" },
-  "skoda-octavia-tsi": { "article": "Škoda Octavia" },
-  "ford-focus": { "article": "Ford Focus (fourth generation)" },
-  "honda-jazz": { "article": "Honda Fit" },
-  "mercedes-a-class": { "article": "Mercedes-Benz A-Class (W177)" },
-  "skoda-octavia-combi-tdi": { "article": "Škoda Octavia" },
-  "skoda-superb-tdi": { "article": "Škoda Superb" },
-  "bmw-320d": { "article": "BMW 3 Series (G20)" },
-  "tesla-model-3": { "article": "Tesla Model 3" },
-  "toyota-yaris-cross": { "article": "Toyota Yaris Cross" },
-  "ford-puma": { "article": "Ford Puma (crossover)" },
-  "toyota-chr": { "article": "Toyota C-HR" },
-  "nissan-qashqai": { "article": "Nissan Qashqai" },
-  "hyundai-tucson-hybrid": { "article": "Hyundai Tucson" },
-  "kia-sportage-hybrid": { "article": "Kia Sportage" },
-  "kia-niro-hybrid": { "article": "Kia Niro" },
-  "dacia-duster": { "article": "Dacia Duster" },
-  "vw-tiguan-tdi": { "article": "Volkswagen Tiguan" },
-  "toyota-rav4-hybrid": { "article": "Toyota RAV4 (XA50)" },
-  "ford-kuga-phev": { "article": "Ford Kuga" },
-  "volvo-xc60": { "article": "Volvo XC60" },
-  "land-rover-defender": { "article": "Land Rover Defender (L663)" },
-  "dacia-jogger": { "article": "Dacia Jogger" },
-  "vw-touran": { "article": "Volkswagen Touran" },
-  "citroen-berlingo": { "article": "Citroën Berlingo" },
-  "skoda-kodiaq-tdi": { "article": "Škoda Kodiaq" },
-  "kia-sorento-phev": { "article": "Kia Sorento" },
-  "mg4": { "article": "MG4 EV" },
-  "vw-id3": { "article": "Volkswagen ID.3" },
-  "nissan-leaf": { "article": "Nissan Leaf" },
-  "hyundai-kona-electric": { "article": "Hyundai Kona" },
-  "kia-niro-ev": { "article": "Kia Niro" },
-  "skoda-enyaq": { "article": "Škoda Enyaq" },
-  "vw-id4": { "article": "Volkswagen ID.4" },
-  "hyundai-ioniq5": { "article": "Hyundai Ioniq 5" },
-  "tesla-model-y": { "article": "Tesla Model Y" },
-  "mazda-mx5": { "article": "Mazda MX-5 (ND)" }
+  "hyundai-i10": {
+    "article": "Hyundai i10"
+  },
+  "kia-picanto": {
+    "article": "Kia Picanto"
+  },
+  "toyota-yaris-hybrid": {
+    "article": "Toyota Yaris (XP210)"
+  },
+  "vw-polo": {
+    "article": "Volkswagen Polo Mk6"
+  },
+  "skoda-fabia": {
+    "article": "Škoda Fabia"
+  },
+  "dacia-sandero": {
+    "article": "Dacia Sandero"
+  },
+  "renault-clio": {
+    "article": "Renault Clio"
+  },
+  "peugeot-208": {
+    "article": "Peugeot 208"
+  },
+  "suzuki-swift": {
+    "article": "Suzuki Swift"
+  },
+  "ford-fiesta": {
+    "article": "Ford Fiesta (seventh generation)"
+  },
+  "fiat-500-hybrid": {
+    "article": "Fiat 500 (2007)"
+  },
+  "mini-cooper": {
+    "article": "Mini Hatch",
+    "file": "File:2019 Mini Hardtop 2-door Cooper, front right, 06-16-2024.jpg"
+  },
+  "toyota-corolla-hybrid": {
+    "article": "Toyota Corolla (E210)"
+  },
+  "vw-golf-tsi": {
+    "article": "Volkswagen Golf Mk8"
+  },
+  "vw-golf-tdi": {
+    "article": "Volkswagen Golf Mk8"
+  },
+  "vw-golf-gti": {
+    "article": "Volkswagen Golf GTI",
+    "file": "File:2023 Volkswagen Golf GTI 40th Anniversary Edition in Pomelo Yellow Metallic, front right (Queen Street 2023).jpg"
+  },
+  "skoda-octavia-tsi": {
+    "article": "Škoda Octavia"
+  },
+  "ford-focus": {
+    "article": "Ford Focus (fourth generation)"
+  },
+  "honda-jazz": {
+    "article": "Honda Fit"
+  },
+  "mercedes-a-class": {
+    "article": "Mercedes-Benz A-Class (W177)"
+  },
+  "skoda-octavia-combi-tdi": {
+    "article": "Škoda Octavia",
+    "file": "File:2020 Skoda Octavia SE L First Edition TDi Estate 2.0 Front.jpg"
+  },
+  "skoda-superb-tdi": {
+    "article": "Škoda Superb",
+    "file": "File:2019 Skoda Superb Laurin & Klement Estate facelift 2.0 Front.jpg"
+  },
+  "bmw-320d": {
+    "article": "BMW 3 Series (G20)"
+  },
+  "tesla-model-3": {
+    "article": "Tesla Model 3"
+  },
+  "toyota-yaris-cross": {
+    "article": "Toyota Yaris Cross"
+  },
+  "ford-puma": {
+    "article": "Ford Puma (crossover)"
+  },
+  "toyota-chr": {
+    "article": "Toyota C-HR"
+  },
+  "nissan-qashqai": {
+    "article": "Nissan Qashqai"
+  },
+  "hyundai-tucson-hybrid": {
+    "article": "Hyundai Tucson"
+  },
+  "kia-sportage-hybrid": {
+    "article": "Kia Sportage"
+  },
+  "kia-niro-hybrid": {
+    "article": "Kia Niro"
+  },
+  "dacia-duster": {
+    "article": "Dacia Duster"
+  },
+  "vw-tiguan-tdi": {
+    "article": "Volkswagen Tiguan"
+  },
+  "toyota-rav4-hybrid": {
+    "article": "Toyota RAV4 (XA50)"
+  },
+  "ford-kuga-phev": {
+    "article": "Ford Kuga"
+  },
+  "volvo-xc60": {
+    "article": "Volvo XC60"
+  },
+  "land-rover-defender": {
+    "article": "Land Rover Defender (L663)"
+  },
+  "dacia-jogger": {
+    "article": "Dacia Jogger"
+  },
+  "vw-touran": {
+    "article": "Volkswagen Touran"
+  },
+  "citroen-berlingo": {
+    "article": "Citroën Berlingo"
+  },
+  "skoda-kodiaq-tdi": {
+    "article": "Škoda Kodiaq"
+  },
+  "kia-sorento-phev": {
+    "article": "Kia Sorento"
+  },
+  "mg4": {
+    "article": "MG4 EV"
+  },
+  "vw-id3": {
+    "article": "Volkswagen ID.3"
+  },
+  "nissan-leaf": {
+    "article": "Nissan Leaf",
+    "file": "File:Nissan Leaf ZE1 2018, front view.jpg"
+  },
+  "hyundai-kona-electric": {
+    "article": "Hyundai Kona"
+  },
+  "kia-niro-ev": {
+    "article": "Kia Niro"
+  },
+  "skoda-enyaq": {
+    "article": "Škoda Enyaq"
+  },
+  "vw-id4": {
+    "article": "Volkswagen ID.4"
+  },
+  "hyundai-ioniq5": {
+    "article": "Hyundai Ioniq 5"
+  },
+  "tesla-model-y": {
+    "article": "Tesla Model Y"
+  },
+  "mazda-mx5": {
+    "article": "Mazda MX-5 (ND)"
+  }
 }

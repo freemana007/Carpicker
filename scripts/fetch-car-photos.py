@@ -60,35 +60,61 @@ def strip_html(s: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", "", s or "")).strip()
 
 
-def lead_image(article: str) -> str | None:
-    d = get_json(
-        "https://en.wikipedia.org/w/api.php",
-        {"action": "query", "titles": article, "prop": "pageimages", "piprop": "name", "redirects": 1},
-    )
-    pages = d.get("query", {}).get("pages", [])
-    if not pages or "pageimage" not in pages[0]:
-        return None
-    return "File:" + pages[0]["pageimage"]
+def lead_images(articles: list[str]) -> dict[str, str]:
+    """Main photo of each Wikipedia article, looked up in batches of 50 (one request per batch)."""
+    out: dict[str, str] = {}
+    for i in range(0, len(articles), 50):
+        batch = articles[i : i + 50]
+        d = get_json(
+            "https://en.wikipedia.org/w/api.php",
+            {"action": "query", "titles": "|".join(batch), "prop": "pageimages", "piprop": "name", "redirects": 1, "pilimit": 50},
+        )
+        q = d.get("query", {})
+        # Map each requested title through normalisation and redirects to the final page title.
+        alias = {t: t for t in batch}
+        for n in q.get("normalized", []):
+            alias = {k: (n["to"] if v == n["from"] else v) for k, v in alias.items()}
+        for r in q.get("redirects", []):
+            alias = {k: (r["to"] if v == r["from"] else v) for k, v in alias.items()}
+        by_title = {p["title"]: p.get("pageimage") for p in q.get("pages", [])}
+        for t in batch:
+            img = by_title.get(alias[t])
+            if img:
+                out[t] = "File:" + img
+        time.sleep(1)
+    return out
 
 
-def file_info(file_title: str) -> dict | None:
-    d = get_json(
-        "https://commons.wikimedia.org/w/api.php",
-        {"action": "query", "titles": file_title, "prop": "imageinfo", "iiprop": "url|extmetadata", "iiurlwidth": WIDTH},
-    )
-    pages = d.get("query", {}).get("pages", [])
-    if not pages or "imageinfo" not in pages[0]:
-        return None
-    ii = pages[0]["imageinfo"][0]
-    meta = ii.get("extmetadata", {})
-    return {
-        "thumb": ii.get("thumburl") or ii["url"],
-        "source": ii["descriptionurl"],
-        "author": strip_html(meta.get("Artist", {}).get("value", "")) or "Unknown",
-        "license": strip_html(meta.get("LicenseShortName", {}).get("value", "")),
-        "licenseUrl": meta.get("LicenseUrl", {}).get("value"),
-        "title": file_title,
-    }
+def files_info(file_titles: list[str]) -> dict[str, dict]:
+    """Licence, author and a resized image URL for each Commons file, in batches of 50."""
+    out: dict[str, dict] = {}
+    for i in range(0, len(file_titles), 50):
+        batch = file_titles[i : i + 50]
+        d = get_json(
+            "https://commons.wikimedia.org/w/api.php",
+            {"action": "query", "titles": "|".join(batch), "prop": "imageinfo", "iiprop": "url|extmetadata", "iiurlwidth": WIDTH},
+        )
+        q = d.get("query", {})
+        alias = {t: t for t in batch}
+        for n in q.get("normalized", []):
+            alias = {k: (n["to"] if v == n["from"] else v) for k, v in alias.items()}
+        pages = {p["title"]: p for p in q.get("pages", [])}
+        for t in batch:
+            p = pages.get(alias[t])
+            if not p or "imageinfo" not in p:
+                continue
+            ii = p["imageinfo"][0]
+            meta = ii.get("extmetadata", {})
+            out[t] = {
+                "thumb": ii.get("thumburl") or ii["url"],
+                "source": ii["descriptionurl"],
+                "author": strip_html(meta.get("Artist", {}).get("value", "")) or "Unknown",
+                "license": strip_html(meta.get("LicenseShortName", {}).get("value", "")),
+                "licenseUrl": meta.get("LicenseUrl", {}).get("value"),
+                "title": p["title"],
+            }
+        time.sleep(1)
+    return out
 
 
 def download_webp(url: str, dest: Path) -> None:
@@ -106,15 +132,19 @@ def main() -> int:
     done: dict[str, str] = {}  # Commons file -> saved file name (reuse for variants of the same model)
     problems = []
 
-    for car_id, src in sources.items():
-        if only and car_id not in only:
-            continue
+    todo = {k: v for k, v in sources.items() if not only or k in only}
+    articles = sorted({v["article"] for v in todo.values() if not v.get("file")})
+    leads = lead_images(articles) if articles else {}
+    file_for = {k: (v.get("file") or leads.get(v.get("article", ""))) for k, v in todo.items()}
+    infos = files_info(sorted({f for f in file_for.values() if f}))
+
+    for car_id, src in todo.items():
         try:
-            file_title = src.get("file") or lead_image(src["article"])
+            file_title = file_for[car_id]
             if not file_title:
                 problems.append(f"{car_id}: no main photo on '{src.get('article')}'")
                 continue
-            info = file_info(file_title)
+            info = infos.get(file_title)
             if not info:
                 problems.append(f"{car_id}: couldn't read {file_title}")
                 continue
@@ -125,16 +155,16 @@ def main() -> int:
             if file_title not in done:
                 download_webp(info["thumb"], OUT_DIR / name)
                 done[file_title] = name
+                time.sleep(1)  # be polite to Wikimedia
             manifest[car_id] = {
                 "file": name,
                 "author": info["author"][:120],
                 "license": info["license"],
                 "licenseUrl": info["licenseUrl"],
                 "source": info["source"],
-                "title": file_title,
+                "title": info["title"],
             }
-            print(f"✓ {car_id}: {file_title} ({info['license']}, {info['author'][:40]})")
-            time.sleep(1.5)  # be polite to Wikimedia
+            print(f"✓ {car_id}: {info['title']} ({info['license']}, {info['author'][:40]})", flush=True)
         except Exception as e:  # noqa: BLE001
             problems.append(f"{car_id}: {e}")
 

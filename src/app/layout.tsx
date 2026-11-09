@@ -28,6 +28,7 @@ function formatDate(iso: string) {
 const NAV = [
   { href: "/quiz/", label: "Quiz" },
   { href: "/results/", label: "My cars" },
+  { href: "/finance-offers/", label: "0% finance" },
   { href: "/northern-ireland/", label: "Buying in NI" },
   { href: "/glossary/", label: "Car words" },
 ];

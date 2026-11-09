@@ -17,6 +17,21 @@
 
 **Not yet checked** (the sites block automated access, so check by hand): NCT fee (ncts.ie), SEAI grants (seai.ie). Everything else in the config (exchange rate, fuel prices, loan APR, NI price factor, depreciation, servicing) and **all car data** are still estimates.
 
+## 0% finance offers: `src/data/financeOffers.ts`
+
+Checked on 9 November 2026 from each brand's own Irish website: **Volkswagen** (0% HP on Golf, ID.4, ID.7, Passat, T-Cross, T-Roc, Tiguan, Tayron; 0% PCP on most; orders until 20 November 2026), **Skoda** (0% PCP over 36 months on Kamiq, Kodiaq, Octavia, Scala; registered by 28 February 2027) and **Nissan** (0% HP over 60 months on the new Micra). MG's page still advertised 0% but its terms say it ended on 18 September 2026, so it's left out.
+
+- **Check monthly**, and at the start of each registration period (January and July). Offers end on their `validUntil` date automatically, but new ones must be added by hand.
+- Only add an offer you can see on the brand's own Irish site, and record the models, rate, term, deposit, dates and source link.
+
+## Car photos: `src/data/carPhotos.json`, `public/cars/`
+
+All 52 cars have a freely licensed photo from Wikimedia Commons (CC BY / CC BY-SA), imported with `npm run fetch-photos` and checked by eye for the right model and generation. Credits show on each car page and on `/credits`. To change a photo, set `"file"` for that car in `scripts/car-photo-sources.json` and run `npm run fetch-photos <car-id>`.
+
+## Car website links: `src/data/carLinks.ts`
+
+Check with `npm run check-links` every few months. Results of the last check are in the comment at the top of that file.
+
 ## Tax rates and fees: `src/config/ireland-costs.json`
 
 | What | Where to check | How often |

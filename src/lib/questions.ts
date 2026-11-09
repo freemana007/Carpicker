@@ -109,6 +109,7 @@ export const QUESTIONS: Question[] = [
         "Credit union or bank loan: you borrow the money and own the car straight away. You pay it back monthly, usually over 3–5 years.",
         "Hire purchase (HP): dealer finance where you pay monthly and own the car after the last payment.",
         "PCP: lower monthly payments, but at the end there's a big 'balloon payment' if you want to keep the car. Otherwise you hand it back or trade it in. You don't own the car until you pay that.",
+        "Some brands offer 0% finance on new cars at the moment: see the 0% finance page from the menu.",
         "Northern Ireland dealers usually can't offer finance to people living in the Republic, so cash or a loan works best there.",
       ],
     },

@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CostBar, ExpertsPanel, InsidePanel, SafetyPanel } from "@/components/car";
 import { NiAnswer, NiTimeline } from "@/components/ni";
 import { CompareToggle } from "@/components/results/cards";
+import { FinanceBadge, FinanceOfferBox } from "@/components/finance";
 import { CarPhoto } from "@/components/ui/CarPhoto";
 import { WhereToBuy } from "@/components/car";
 import { MatchBar, PlateBadge } from "@/components/ui/bits";
@@ -100,6 +101,7 @@ export default function CarPage() {
             <div className="flex flex-wrap items-center gap-2">
               <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />
               {fromNi && <span className="chip text-xs">Bought in Northern Ireland</span>}
+              {!fromNi && <FinanceBadge car={s.car} />}
             </div>
             <h1 className="text-3xl md:text-4xl">
               {name} <span className="font-normal text-muted">{s.car.variant}</span>
@@ -168,7 +170,10 @@ export default function CarPage() {
       </nav>
 
       <Section id="costs" title="What it costs to run">
-        <CostBar s={s} />
+        <div className="space-y-6">
+          <CostBar s={s} />
+          <FinanceOfferBox car={s.car} />
+        </div>
       </Section>
       {ni && (
         <Section id="ni" title="Buying it in Northern Ireland">

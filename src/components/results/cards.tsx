@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, ArrowRight, Check, MapPin, PiggyBank, Plus, Shuffle, Sparkles, Trophy, type LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { FinanceBadge } from "@/components/finance";
 import { CarPhoto } from "@/components/ui/CarPhoto";
 export { carColour } from "@/components/ui/CarArt";
 import { MatchBar, PlateBadge } from "@/components/ui/bits";
@@ -73,6 +74,7 @@ export function HeroCard({
             <div className="flex flex-wrap items-center gap-2">
               <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />
               {s.option.source === "ni" && <span className="chip text-xs">Bought in Northern Ireland</span>}
+              {s.option.source !== "ni" && <FinanceBadge car={s.car} />}
             </div>
             <h2 className="mt-2 text-3xl">
               {name} <span className="font-normal text-muted">{s.car.variant}</span>
@@ -144,8 +146,9 @@ export function CompactCard({
       <div className="my-3 flex h-36 items-center justify-center overflow-hidden rounded-2xl bg-surface-2/70">
         <CarPhoto car={s.car} className="h-full rounded-none" />
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />
+        {s.option.source !== "ni" && <FinanceBadge car={s.car} />}
       </div>
       <h3 className="mt-2 text-lg">
         <Link href={carUrl(s.car.id, answers)} className="hover:text-brand">

@@ -1,1 +1,418 @@
-{}
+{
+  "bmw-320d": {
+    "file": "bmw-320d.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2019_BMW_318d_SE_Automatic_2.0_Front.jpg",
+    "title": "File:2019 BMW 318d SE Automatic 2.0 Front.jpg"
+  },
+  "citroen-berlingo": {
+    "file": "citroen-berlingo.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Citro%C3%ABn_Berlingo_XL_BlueHDi_130_EAT8_Shine_XTR_(III)_%E2%80%93_f_02012021.jpg",
+    "title": "File:Citroën Berlingo XL BlueHDi 130 EAT8 Shine XTR (III) – f 02012021.jpg"
+  },
+  "dacia-duster": {
+    "file": "dacia-duster.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Dacia_Duster_TCe_130_Extreme_(III)_%E2%80%93_f_13102024.jpg",
+    "title": "File:Dacia Duster TCe 130 Extreme (III) – f 13102024.jpg"
+  },
+  "dacia-jogger": {
+    "file": "dacia-jogger.webp",
+    "author": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2023_Dacia_Jogger_DSC_7288.jpg",
+    "title": "File:2023 Dacia Jogger DSC 7288.jpg"
+  },
+  "dacia-sandero": {
+    "file": "dacia-sandero.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2023_Dacia_Sandero_III_DSC_6012.jpg",
+    "title": "File:2023 Dacia Sandero III DSC 6012.jpg"
+  },
+  "fiat-500-hybrid": {
+    "file": "fiat-500-hybrid.webp",
+    "author": "Ad Meskens",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fiat_500_(2007)_02.JPG",
+    "title": "File:Fiat 500 (2007) 02.JPG"
+  },
+  "ford-fiesta": {
+    "file": "ford-fiesta.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2017_Ford_Fiesta_Zetec_1.1_Front.jpg",
+    "title": "File:2017 Ford Fiesta Zetec 1.1 Front.jpg"
+  },
+  "ford-focus": {
+    "file": "ford-focus.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Ford_Focus_Titanium_X_1.0.jpg",
+    "title": "File:2018 Ford Focus Titanium X 1.0.jpg"
+  },
+  "ford-kuga-phev": {
+    "file": "ford-kuga-phev.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Ford_Kuga_Titanium_First_Edition_EcoBlue_1.5.jpg",
+    "title": "File:2020 Ford Kuga Titanium First Edition EcoBlue 1.5.jpg"
+  },
+  "ford-puma": {
+    "file": "ford-puma.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Ford_Puma_Titanium_EcoBoost_Hybrid_1.0_Front.jpg",
+    "title": "File:2020 Ford Puma Titanium EcoBoost Hybrid 1.0 Front.jpg"
+  },
+  "honda-jazz": {
+    "file": "honda-jazz.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Honda_Jazz_Hybrid_Executive_(IV)_%E2%80%93_f_18102020.jpg",
+    "title": "File:Honda Jazz Hybrid Executive (IV) – f 18102020.jpg"
+  },
+  "hyundai-i10": {
+    "file": "hyundai-i10.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Hyundai_i10_1.0_Intro_(III)_%E2%80%93_f_03012021.jpg",
+    "title": "File:Hyundai i10 1.0 Intro (III) – f 03012021.jpg"
+  },
+  "hyundai-ioniq5": {
+    "file": "hyundai-ioniq5.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Hyundai_Ioniq_5_AWD_Techniq-Paket_%E2%80%93_f_31122024.jpg",
+    "title": "File:Hyundai Ioniq 5 AWD Techniq-Paket – f 31122024.jpg"
+  },
+  "hyundai-kona-electric": {
+    "file": "hyundai-kona-electric.webp",
+    "author": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Hyundai_Kona_N_Line_(SX2)_DSC_8250.jpg",
+    "title": "File:Hyundai Kona N Line (SX2) DSC 8250.jpg"
+  },
+  "hyundai-tucson-hybrid": {
+    "file": "hyundai-tucson-hybrid.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Hyundai_Tucson_1.6_T-GDI_PHEV_Prime_(IV)_%E2%80%93_f_05072025.jpg",
+    "title": "File:Hyundai Tucson 1.6 T-GDI PHEV Prime (IV) – f 05072025.jpg"
+  },
+  "kia-niro-ev": {
+    "file": "kia-niro-hybrid.webp",
+    "author": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Kia_Niro_(SG2)_PHEV_Leonberg_2022_1X7A0474.jpg",
+    "title": "File:Kia Niro (SG2) PHEV Leonberg 2022 1X7A0474.jpg"
+  },
+  "kia-niro-hybrid": {
+    "file": "kia-niro-hybrid.webp",
+    "author": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Kia_Niro_(SG2)_PHEV_Leonberg_2022_1X7A0474.jpg",
+    "title": "File:Kia Niro (SG2) PHEV Leonberg 2022 1X7A0474.jpg"
+  },
+  "kia-picanto": {
+    "file": "kia-picanto.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Kia_Picanto_3_Automatic_1.2_Front.jpg",
+    "title": "File:2018 Kia Picanto 3 Automatic 1.2 Front.jpg"
+  },
+  "kia-sorento-phev": {
+    "file": "kia-sorento-phev.webp",
+    "author": "Kevauto",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2024_Kia_Sorento_X-Line_SX_Prestige_(facelift),_front_12.20.24.jpg",
+    "title": "File:2024 Kia Sorento X-Line SX Prestige (facelift), front 12.20.24.jpg"
+  },
+  "kia-sportage-hybrid": {
+    "file": "kia-sportage-hybrid.webp",
+    "author": "LuvsMG481",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2025_Kia_Sportage_S_front_only.jpg",
+    "title": "File:2025 Kia Sportage S front only.jpg"
+  },
+  "land-rover-defender": {
+    "file": "land-rover-defender.webp",
+    "author": "Damian B Oh",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Land_Rover_Defender_110_D40_SE_L663_Pangea_Green_(1)_(cropped).jpg",
+    "title": "File:Land Rover Defender 110 D40 SE L663 Pangea Green (1) (cropped).jpg"
+  },
+  "mazda-mx5": {
+    "file": "mazda-mx5.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mazda_MX-5_(ND)_1X7A7471.jpg",
+    "title": "File:Mazda MX-5 (ND) 1X7A7471.jpg"
+  },
+  "mercedes-a-class": {
+    "file": "mercedes-a-class.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_A_180_Progressive_(W_177)_%E2%80%93_f_16032019.jpg",
+    "title": "File:Mercedes-Benz A 180 Progressive (W 177) – f 16032019.jpg"
+  },
+  "mg4": {
+    "file": "mg4.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:MG4_Electric_%E2%80%93_f_21042025.jpg",
+    "title": "File:MG4 Electric – f 21042025.jpg"
+  },
+  "mini-cooper": {
+    "file": "mini-cooper.webp",
+    "author": "MercurySable99",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2019_Mini_Hardtop_2-door_Cooper,_front_right,_06-16-2024.jpg",
+    "title": "File:2019 Mini Hardtop 2-door Cooper, front right, 06-16-2024.jpg"
+  },
+  "nissan-leaf": {
+    "file": "nissan-leaf.webp",
+    "author": "Reinhard Müller",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Nissan_Leaf_ZE1_2018,_front_view.jpg",
+    "title": "File:Nissan Leaf ZE1 2018, front view.jpg"
+  },
+  "nissan-qashqai": {
+    "file": "nissan-qashqai.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2024_Nissan_Qashqai_e-Power_IMG_2187.jpg",
+    "title": "File:2024 Nissan Qashqai e-Power IMG 2187.jpg"
+  },
+  "peugeot-208": {
+    "file": "peugeot-208.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Peugeot_208_PureTech_130_EAT8_Allure_GT-Line_(II)_%E2%80%93_f_17102021.jpg",
+    "title": "File:Peugeot 208 PureTech 130 EAT8 Allure GT-Line (II) – f 17102021.jpg"
+  },
+  "renault-clio": {
+    "file": "renault-clio.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Renault_Clio_(V,_Facelift)_%E2%80%93_f_02092025.jpg",
+    "title": "File:Renault Clio (V, Facelift) – f 02092025.jpg"
+  },
+  "skoda-enyaq": {
+    "file": "skoda-enyaq.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:%C5%A0koda_Enyaq_IMG_1190.jpg",
+    "title": "File:Škoda Enyaq IMG 1190.jpg"
+  },
+  "skoda-fabia": {
+    "file": "skoda-fabia.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:%C5%A0koda_Fabia_IV_1X7A7110_(cropped).jpg",
+    "title": "File:Škoda Fabia IV 1X7A7110 (cropped).jpg"
+  },
+  "skoda-kodiaq-tdi": {
+    "file": "skoda-kodiaq-tdi.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:%C5%A0koda_Kodiaq_II_IMG_9825.jpg",
+    "title": "File:Škoda Kodiaq II IMG 9825.jpg"
+  },
+  "skoda-octavia-combi-tdi": {
+    "file": "skoda-octavia-combi-tdi.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Skoda_Octavia_SE_L_First_Edition_TDi_Estate_2.0_Front.jpg",
+    "title": "File:2020 Skoda Octavia SE L First Edition TDi Estate 2.0 Front.jpg"
+  },
+  "skoda-octavia-tsi": {
+    "file": "skoda-octavia-tsi.webp",
+    "author": "Mike-fiesta",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Skoda_Octavia_IV_liftback_(cropped).jpg",
+    "title": "File:Skoda Octavia IV liftback (cropped).jpg"
+  },
+  "skoda-superb-tdi": {
+    "file": "skoda-superb-tdi.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2019_Skoda_Superb_Laurin_%26_Klement_Estate_facelift_2.0_Front.jpg",
+    "title": "File:2019 Skoda Superb Laurin & Klement Estate facelift 2.0 Front.jpg"
+  },
+  "suzuki-swift": {
+    "file": "suzuki-swift.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Suzuki_Swift_(2024)_hybrid_DSC_6076.jpg",
+    "title": "File:Suzuki Swift (2024) hybrid DSC 6076.jpg"
+  },
+  "tesla-model-3": {
+    "file": "tesla-model-3.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_(2023)_Autofr%C3%BChling_Ulm_IMG_9282.jpg",
+    "title": "File:Tesla Model 3 (2023) Autofrühling Ulm IMG 9282.jpg"
+  },
+  "tesla-model-y": {
+    "file": "tesla-model-y.webp",
+    "author": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Tesla_Model_Y_Premium_(Facelift)_%E2%80%93_f_05052026.jpg",
+    "title": "File:Tesla Model Y Premium (Facelift) – f 05052026.jpg"
+  },
+  "toyota-chr": {
+    "file": "toyota-chr.webp",
+    "author": "Alexander Migl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Toyota_C-HR_Hybrid_(AX20)_DSC_7239.jpg",
+    "title": "File:Toyota C-HR Hybrid (AX20) DSC 7239.jpg"
+  },
+  "toyota-corolla-hybrid": {
+    "file": "toyota-corolla-hybrid.webp",
+    "author": "EurovisionNim",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Toyota_Corolla_(MZEA12R)_Ascent_Sport_hatchback_(2018-11-02)_01.jpg",
+    "title": "File:2018 Toyota Corolla (MZEA12R) Ascent Sport hatchback (2018-11-02) 01.jpg"
+  },
+  "toyota-rav4-hybrid": {
+    "file": "toyota-rav4-hybrid.webp",
+    "author": "Mr.choppers",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2024_Toyota_RAV4_Prime_XSE_Premium_in_Silver_Sky_with_Midnight_Black_roof,_front_left.jpg",
+    "title": "File:2024 Toyota RAV4 Prime XSE Premium in Silver Sky with Midnight Black roof, front left.jpg"
+  },
+  "toyota-yaris-cross": {
+    "file": "toyota-yaris-cross.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Toyota_Yaris_Cross_Hybrid_(XP210)_1X7A1846.jpg",
+    "title": "File:Toyota Yaris Cross Hybrid (XP210) 1X7A1846.jpg"
+  },
+  "toyota-yaris-hybrid": {
+    "file": "toyota-yaris-hybrid.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Toyota_Yaris_Design_HEV_CVT_1.5_Front.jpg",
+    "title": "File:2020 Toyota Yaris Design HEV CVT 1.5 Front.jpg"
+  },
+  "volvo-xc60": {
+    "file": "volvo-xc60.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Volvo_XC60_R-Design_D5_P-Pulse_2.0_Front.jpg",
+    "title": "File:2018 Volvo XC60 R-Design D5 P-Pulse 2.0 Front.jpg"
+  },
+  "vw-golf-gti": {
+    "file": "vw-golf-gti.webp",
+    "author": "Elise240SX",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2023_Volkswagen_Golf_GTI_40th_Anniversary_Edition_in_Pomelo_Yellow_Metallic,_front_right_(Queen_Street_2023).jpg",
+    "title": "File:2023 Volkswagen Golf GTI 40th Anniversary Edition in Pomelo Yellow Metallic, front right (Queen Street 2023).jpg"
+  },
+  "vw-golf-tdi": {
+    "file": "vw-golf-tsi.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Volkswagen_Golf_Style_1.5_Front.jpg",
+    "title": "File:2020 Volkswagen Golf Style 1.5 Front.jpg"
+  },
+  "vw-golf-tsi": {
+    "file": "vw-golf-tsi.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Volkswagen_Golf_Style_1.5_Front.jpg",
+    "title": "File:2020 Volkswagen Golf Style 1.5 Front.jpg"
+  },
+  "vw-id3": {
+    "file": "vw-id3.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2020_Volkswagen_ID.3_1st_Front.jpg",
+    "title": "File:2020 Volkswagen ID.3 1st Front.jpg"
+  },
+  "vw-id4": {
+    "file": "vw-id4.webp",
+    "author": "LuvsMG481",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2025_Volkswagen_ID4_Pro_Redspot_front.jpg",
+    "title": "File:2025 Volkswagen ID4 Pro Redspot front.jpg"
+  },
+  "vw-polo": {
+    "file": "vw-polo.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Volkswagen_Polo_SE_1.0_Front.jpg",
+    "title": "File:2018 Volkswagen Polo SE 1.0 Front.jpg"
+  },
+  "vw-tiguan-tdi": {
+    "file": "vw-tiguan-tdi.webp",
+    "author": "Alexander-93",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Volkswagen_Tiguan_III_IMG_8823_(cropped).jpg",
+    "title": "File:Volkswagen Tiguan III IMG 8823 (cropped).jpg"
+  },
+  "vw-touran": {
+    "file": "vw-touran.webp",
+    "author": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:2018_Volkswagen_Touran_1.6.jpg",
+    "title": "File:2018 Volkswagen Touran 1.6.jpg"
+  }
+}
