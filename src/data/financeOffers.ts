@@ -34,7 +34,10 @@ export const FINANCE_OFFERS: FinanceOffer[] = [
   {
     brand: "Volkswagen",
     models: ["Golf", "ID.4", "ID.7", "ID.7 Tourer", "Passat", "T-Cross", "T-Roc", "Tiguan", "Tayron"],
-    appliesTo: ["vw-golf-tsi", "vw-golf-tdi", "vw-tiguan-tdi", "vw-id4"],
+    appliesTo: [
+      "vw-golf-tsi", "vw-golf-tdi", "vw-tiguan-tdi", "vw-id4",
+      "volkswagen-t-cross", "volkswagen-t-roc", "volkswagen-passat", "volkswagen-tayron", "volkswagen-id-7", "volkswagen-id-7-tourer",
+    ],
     type: "HP and PCP",
     detail:
       "0% HP on all of these. 0% PCP too on the Golf, ID.4, ID.7, ID.7 Tourer, T-Roc, Tiguan and Tayron (the Passat and T-Cross PCP rates are higher).",
@@ -46,7 +49,7 @@ export const FINANCE_OFFERS: FinanceOffer[] = [
   {
     brand: "Skoda",
     models: ["Kamiq", "Kodiaq", "Octavia", "Scala"],
-    appliesTo: ["skoda-octavia-tsi", "skoda-octavia-combi-tdi", "skoda-kodiaq-tdi"],
+    appliesTo: ["skoda-octavia-tsi", "skoda-octavia-combi-tdi", "skoda-kodiaq-tdi", "skoda-kamiq", "skoda-scala"],
     type: "PCP",
     detail: "0% APR PCP over 36 months. Other Skoda models have low-rate offers instead (Elroq and Enyaq Coupé 1.9%, Epiq 2.9%, Peaq 4.9%).",
     termMonths: 36,
@@ -59,7 +62,7 @@ export const FINANCE_OFFERS: FinanceOffer[] = [
   {
     brand: "Nissan",
     models: ["Micra (new electric)"],
-    appliesTo: [],
+    appliesTo: ["nissan-micra"],
     type: "HP",
     detail: "0% HP over 60 months on the all-new electric Micra. Other Nissans are on 4.9% finance offers.",
     termMonths: 60,

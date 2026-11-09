@@ -145,6 +145,7 @@ describe("personas (PLAN.md §10)", () => {
     const best = r.picks[0];
     expect(["city", "supermini"]).not.toContain(best.car.body);
     for (const p of r.picks) expect(["diesel", "hybrid", "phev"]).toContain(p.car.powertrain);
+    for (const p of r.picks) expect(p.car.body).not.toBe("city");
   });
 
   it("EV commuter in Kildare: only electric cars", () => {

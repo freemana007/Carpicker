@@ -132,7 +132,7 @@ def main() -> int:
     done: dict[str, str] = {}  # Commons file -> saved file name (reuse for variants of the same model)
     problems = []
 
-    todo = {k: v for k, v in sources.items() if not only or k in only}
+    todo = {k: v for k, v in sources.items() if (not only or k in only) and not v.get("skip")}
     articles = sorted({v["article"] for v in todo.values() if not v.get("file")})
     leads = lead_images(articles) if articles else {}
     file_for = {k: (v.get("file") or leads.get(v.get("article", ""))) for k, v in todo.items()}

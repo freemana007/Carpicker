@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CAR_BY_ID } from "@/data/cars";
 import { FINANCE_OFFERS, liveOffers, offerFor } from "@/data/financeOffers";
 import PHOTOS from "@/data/carPhotos.json";
+import SOURCES from "../../scripts/car-photo-sources.json";
 
 describe("0% finance offers", () => {
   it("only refers to cars that exist, with a source link and a check date", () => {
@@ -25,10 +26,17 @@ describe("0% finance offers", () => {
 });
 
 describe("car photos", () => {
-  it("every car has a credited, freely licensed photo", () => {
+  it("every car has a credited, freely licensed photo, unless deliberately skipped", () => {
     const photos = PHOTOS as Record<string, { file: string; author: string; license: string; source: string }>;
+    const skipped = new Set(
+      Object.entries(SOURCES as Record<string, { skip?: boolean }>).filter(([, v]) => v && v.skip).map(([k]) => k),
+    );
     for (const id of Object.keys(CAR_BY_ID)) {
       const p = photos[id];
+      if (skipped.has(id)) {
+        expect(p, `${id} is skipped but has a photo`).toBeUndefined();
+        continue;
+      }
       expect(p, id).toBeDefined();
       expect(p.license).toMatch(/^(CC BY|CC0|Public domain)/i);
       expect(p.author.length).toBeGreaterThan(0);

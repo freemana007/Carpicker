@@ -8,47 +8,10 @@
 
 import type { Car } from "@/lib/types";
 
-type CarInput = Omit<
-  Car,
-  | "gearbox"
-  | "featuresStd"
-  | "featuresOpt"
-  | "safetyStd"
-  | "safetyOpt"
-  | "awd"
-  | "groundClearance"
-  | "easyEntry"
-  | "tallFriendly"
-  | "goodVisibility"
-  | "soldNew"
-  | "reviewQuery"
-  | "towKg"
-> &
-  Partial<Car>;
+import { AUTO, MANUAL, car } from "./carFactory";
+import { MORE_CARS } from "./cars-more";
 
-function car(c: CarInput): Car {
-  return {
-    gearbox: ["manual", "auto"],
-    featuresStd: ["carplay", "touchscreen"],
-    featuresOpt: ["heatedSeats", "sunroof", "stereo"],
-    safetyStd: ["aeb"],
-    safetyOpt: ["blindSpot", "acc", "camera"],
-    awd: "no",
-    groundClearance: "normal",
-    easyEntry: false,
-    tallFriendly: true,
-    goodVisibility: true,
-    soldNew: true,
-    towKg: 1200,
-    reviewQuery: `${c.make} ${c.model}`,
-    ...c,
-  };
-}
-
-const AUTO: Car["gearbox"] = ["auto"];
-const MANUAL: Car["gearbox"] = ["manual"];
-
-export const CARS: Car[] = [
+const BASE_CARS: Car[] = [
   // ---------------- City cars & superminis ----------------
   car({
     id: "hyundai-i10", make: "Hyundai", model: "i10", variant: "1.0 petrol", body: "city",
@@ -63,7 +26,7 @@ export const CARS: Car[] = [
   car({
     id: "kia-picanto", make: "Kia", model: "Picanto", variant: "1.0 petrol", body: "city",
     seats: 4, bootL: 255, lengthMm: 3595, powertrain: "petrol", fuelL100: 5.0, co2: 116, nox: 20, powerHp: 63,
-    insuranceGroup: 3, refPriceEur: 18000, yearFrom: 2017, retention: "mid", serviceClass: "small",
+    insuranceGroup: 3, refPriceEur: 19950, priceChecked: "2026-11-09", yearFrom: 2017, retention: "mid", serviceClass: "small",
     reliability: 4, ncapStars: 3, ncapYear: 2017, comfort: 2, fun: 2, tech: 3, towKg: 0,
     styles: ["cute", "practical"], tallFriendly: false, featuresOpt: ["heatedSeats"], safetyOpt: ["camera"],
     expertScore: 3.5,
@@ -73,7 +36,7 @@ export const CARS: Car[] = [
   car({
     id: "toyota-yaris-hybrid", make: "Toyota", model: "Yaris", variant: "1.5 Hybrid", body: "supermini",
     seats: 5, bootL: 286, lengthMm: 3940, powertrain: "hybrid", gearbox: AUTO, fuelL100: 4.0, co2: 92, nox: 5, powerHp: 116,
-    insuranceGroup: 13, refPriceEur: 27500, yearFrom: 2020, retention: "high", serviceClass: "small",
+    insuranceGroup: 13, refPriceEur: 28400, priceChecked: "2026-11-09", yearFrom: 2020, retention: "high", serviceClass: "small",
     reliability: 5, ncapStars: 5, ncapYear: 2020, comfort: 3, fun: 3, tech: 3, towKg: 0,
     styles: ["eco", "practical", "cute"], safetyStd: ["aeb", "acc", "camera"], safetyOpt: ["blindSpot"],
     expertScore: 4,
@@ -83,7 +46,7 @@ export const CARS: Car[] = [
   car({
     id: "vw-polo", make: "Volkswagen", model: "Polo", variant: "1.0 TSI", body: "supermini",
     seats: 5, bootL: 351, lengthMm: 4074, powertrain: "petrol", fuelL100: 5.4, co2: 122, nox: 25, powerHp: 95,
-    insuranceGroup: 9, refPriceEur: 25000, yearFrom: 2018, retention: "mid", serviceClass: "small",
+    insuranceGroup: 9, refPriceEur: 25305, priceChecked: "2026-11-09", yearFrom: 2018, retention: "mid", serviceClass: "small",
     reliability: 3.5, ncapStars: 5, ncapYear: 2017, comfort: 4, fun: 3, tech: 4,
     styles: ["practical", "sleek"], expertScore: 4,
     pros: ["Feels grown-up and comfortable for a small car", "Big boot for its size"],
@@ -101,7 +64,7 @@ export const CARS: Car[] = [
   car({
     id: "dacia-sandero", make: "Dacia", model: "Sandero", variant: "1.0 TCe", body: "supermini",
     seats: 5, bootL: 328, lengthMm: 4088, powertrain: "petrol", fuelL100: 5.4, co2: 120, nox: 25, powerHp: 90,
-    insuranceGroup: 7, refPriceEur: 18500, yearFrom: 2021, retention: "high", serviceClass: "small",
+    insuranceGroup: 7, refPriceEur: 18890, priceChecked: "2026-11-09", yearFrom: 2021, retention: "high", serviceClass: "small",
     reliability: 4, ncapStars: 2, ncapYear: 2021, comfort: 3, fun: 2, tech: 2,
     styles: ["practical"], safetyOpt: ["camera", "blindSpot"], featuresStd: ["carplay"],
     featuresOpt: ["touchscreen"], expertScore: 3.5,
@@ -111,7 +74,7 @@ export const CARS: Car[] = [
   car({
     id: "renault-clio", make: "Renault", model: "Clio", variant: "1.0 TCe", body: "supermini",
     seats: 5, bootL: 391, lengthMm: 4050, powertrain: "petrol", fuelL100: 5.3, co2: 118, nox: 25, powerHp: 90,
-    insuranceGroup: 9, refPriceEur: 24500, yearFrom: 2019, retention: "low", serviceClass: "small",
+    insuranceGroup: 9, refPriceEur: 29495, priceChecked: "2026-11-09", yearFrom: 2019, retention: "low", serviceClass: "small",
     reliability: 3, ncapStars: 5, ncapYear: 2019, comfort: 3, fun: 3, tech: 4,
     styles: ["sleek", "practical"], expertScore: 3.5,
     pros: ["Smart, modern interior", "Big boot for a small car"],
@@ -168,7 +131,7 @@ export const CARS: Car[] = [
   car({
     id: "toyota-corolla-hybrid", make: "Toyota", model: "Corolla", variant: "1.8 Hybrid", body: "hatchback",
     seats: 5, bootL: 361, lengthMm: 4370, powertrain: "hybrid", gearbox: AUTO, fuelL100: 4.5, co2: 102, nox: 5, powerHp: 140,
-    insuranceGroup: 15, refPriceEur: 34000, yearFrom: 2019, retention: "high", serviceClass: "medium",
+    insuranceGroup: 15, refPriceEur: 33815, priceChecked: "2026-11-09", yearFrom: 2019, retention: "high", serviceClass: "medium",
     reliability: 5, ncapStars: 5, ncapYear: 2019, comfort: 4, fun: 3, tech: 3,
     styles: ["eco", "practical"], safetyStd: ["aeb", "acc", "camera"], safetyOpt: ["blindSpot"],
     expertScore: 4,
@@ -178,7 +141,7 @@ export const CARS: Car[] = [
   car({
     id: "vw-golf-tsi", make: "Volkswagen", model: "Golf", variant: "1.5 TSI", body: "hatchback",
     seats: 5, bootL: 380, lengthMm: 4284, powertrain: "petrol", fuelL100: 5.6, co2: 128, nox: 25, powerHp: 130,
-    insuranceGroup: 17, refPriceEur: 34000, yearFrom: 2020, retention: "mid", serviceClass: "medium",
+    insuranceGroup: 17, refPriceEur: 34630, priceChecked: "2026-11-09", yearFrom: 2020, retention: "mid", serviceClass: "medium",
     reliability: 3.5, ncapStars: 5, ncapYear: 2019, comfort: 4, fun: 3, tech: 4,
     styles: ["practical", "sleek"], safetyStd: ["aeb", "acc"], expertScore: 4,
     pros: ["Comfortable, quiet and grown-up", "Good all-rounder"],
@@ -233,7 +196,7 @@ export const CARS: Car[] = [
   car({
     id: "mercedes-a-class", make: "Mercedes-Benz", model: "A-Class", variant: "A180 petrol", body: "hatchback",
     seats: 5, bootL: 355, lengthMm: 4419, powertrain: "petrol", gearbox: AUTO, fuelL100: 6.0, co2: 136, nox: 25, powerHp: 136,
-    insuranceGroup: 20, refPriceEur: 41000, yearFrom: 2018, retention: "mid", serviceClass: "premium",
+    insuranceGroup: 20, refPriceEur: 43430, priceChecked: "2026-11-09", yearFrom: 2018, retention: "mid", serviceClass: "premium",
     reliability: 3, ncapStars: 5, ncapYear: 2018, comfort: 4, fun: 3, tech: 5,
     styles: ["luxurious", "techy", "sleek"], featuresStd: ["carplay", "touchscreen", "heatedSeats"],
     expertScore: 3.5,
@@ -286,7 +249,7 @@ export const CARS: Car[] = [
   car({
     id: "toyota-yaris-cross", make: "Toyota", model: "Yaris Cross", variant: "1.5 Hybrid", body: "crossover",
     seats: 5, bootL: 397, lengthMm: 4180, powertrain: "hybrid", gearbox: AUTO, fuelL100: 4.5, co2: 102, nox: 5, powerHp: 116,
-    insuranceGroup: 14, refPriceEur: 31500, yearFrom: 2021, awd: "optional", groundClearance: "high", retention: "high",
+    insuranceGroup: 14, refPriceEur: 33575, priceChecked: "2026-11-09", yearFrom: 2021, awd: "optional", groundClearance: "high", retention: "high",
     serviceClass: "small", reliability: 5, ncapStars: 4, ncapYear: 2021, comfort: 3, fun: 2, tech: 3, towKg: 750,
     styles: ["practical", "eco"], easyEntry: true, safetyStd: ["aeb", "acc", "camera"], expertScore: 4,
     pros: ["Hybrid economy with a higher driving position", "Excellent reliability"],
@@ -304,7 +267,7 @@ export const CARS: Car[] = [
   car({
     id: "toyota-chr", make: "Toyota", model: "C-HR", variant: "1.8 Hybrid", body: "crossover",
     seats: 5, bootL: 364, lengthMm: 4362, powertrain: "hybrid", gearbox: AUTO, fuelL100: 4.8, co2: 106, nox: 5, powerHp: 140,
-    insuranceGroup: 18, refPriceEur: 38000, yearFrom: 2017, groundClearance: "high", retention: "high", serviceClass: "medium",
+    insuranceGroup: 18, refPriceEur: 41065, priceChecked: "2026-11-09", yearFrom: 2017, groundClearance: "high", retention: "high", serviceClass: "medium",
     reliability: 5, ncapStars: 5, ncapYear: 2024, comfort: 4, fun: 3, tech: 4, towKg: 725,
     styles: ["sleek", "eco", "techy"], goodVisibility: false, safetyStd: ["aeb", "acc", "camera"], expertScore: 3.5,
     pros: ["Bold, stand-out styling", "Low running costs and great reliability"],
@@ -332,7 +295,7 @@ export const CARS: Car[] = [
   car({
     id: "kia-sportage-hybrid", make: "Kia", model: "Sportage", variant: "1.6 Hybrid", body: "suv",
     seats: 5, bootL: 587, lengthMm: 4515, powertrain: "hybrid", gearbox: AUTO, fuelL100: 5.6, co2: 127, nox: 10, powerHp: 230,
-    insuranceGroup: 22, refPriceEur: 43000, yearFrom: 2022, awd: "optional", groundClearance: "high", retention: "mid",
+    insuranceGroup: 22, refPriceEur: 48500, priceChecked: "2026-11-09", yearFrom: 2022, awd: "optional", groundClearance: "high", retention: "mid",
     serviceClass: "medium", reliability: 4, ncapStars: 5, ncapYear: 2022, comfort: 4, fun: 3, tech: 5, towKg: 1650,
     styles: ["techy", "practical", "sleek"], easyEntry: true, featuresStd: ["carplay", "touchscreen", "heatedSeats"],
     safetyStd: ["aeb", "acc", "camera"], expertScore: 4.5,
@@ -351,7 +314,7 @@ export const CARS: Car[] = [
   car({
     id: "dacia-duster", make: "Dacia", model: "Duster", variant: "1.2 mild hybrid 4x4", body: "suv",
     seats: 5, bootL: 445, lengthMm: 4343, powertrain: "petrol", gearbox: MANUAL, fuelL100: 6.0, co2: 136, nox: 25, powerHp: 130,
-    insuranceGroup: 14, refPriceEur: 28000, yearFrom: 2018, awd: "optional", groundClearance: "high", retention: "high",
+    insuranceGroup: 14, refPriceEur: 25990, priceChecked: "2026-11-09", yearFrom: 2018, awd: "optional", groundClearance: "high", retention: "high",
     serviceClass: "small", reliability: 3.5, ncapStars: 3, ncapYear: 2024, comfort: 3, fun: 2, tech: 2, towKg: 1500,
     styles: ["rugged", "practical"], easyEntry: true, safetyOpt: ["camera", "blindSpot"],
     featuresStd: ["carplay"], featuresOpt: ["touchscreen", "heatedSeats"], expertScore: 4,
@@ -411,7 +374,7 @@ export const CARS: Car[] = [
   car({
     id: "dacia-jogger", make: "Dacia", model: "Jogger", variant: "1.0 TCe 7-seat", body: "mpv",
     seats: 7, bootL: 160, lengthMm: 4547, powertrain: "petrol", gearbox: MANUAL, fuelL100: 6.0, co2: 130, nox: 25, powerHp: 110,
-    insuranceGroup: 13, refPriceEur: 27000, yearFrom: 2022, retention: "high", serviceClass: "small",
+    insuranceGroup: 13, refPriceEur: 26990, priceChecked: "2026-11-09", yearFrom: 2022, retention: "high", serviceClass: "small",
     reliability: 3.5, ncapStars: 1, ncapYear: 2021, comfort: 3, fun: 2, tech: 2, towKg: 1200,
     styles: ["practical"], easyEntry: true, safetyOpt: ["camera", "blindSpot"], featuresStd: ["carplay"],
     featuresOpt: ["touchscreen"], expertScore: 3.5,
@@ -448,7 +411,7 @@ export const CARS: Car[] = [
   car({
     id: "kia-sorento-phev", make: "Kia", model: "Sorento", variant: "1.6 Plug-in Hybrid AWD 7-seat", body: "suv",
     seats: 7, bootL: 175, lengthMm: 4810, powertrain: "phev", gearbox: AUTO, fuelL100: 7.0, kwh100: 21, rangeKm: 57, co2: 38, nox: 10, powerHp: 265,
-    insuranceGroup: 37, refPriceEur: 63000, yearFrom: 2021, awd: "standard", groundClearance: "high", retention: "mid",
+    insuranceGroup: 37, refPriceEur: 68500, priceChecked: "2026-11-09", yearFrom: 2021, awd: "standard", groundClearance: "high", retention: "mid",
     serviceClass: "large", reliability: 4, ncapStars: 5, ncapYear: 2020, comfort: 4, fun: 2, tech: 5, towKg: 1500,
     styles: ["practical", "luxurious", "techy"], easyEntry: true, featuresStd: ["carplay", "touchscreen", "heatedSeats"],
     safetyStd: ["aeb", "acc", "blindSpot", "camera"], safetyOpt: [], expertScore: 4.5,
@@ -470,7 +433,7 @@ export const CARS: Car[] = [
   car({
     id: "vw-id3", make: "Volkswagen", model: "ID.3", variant: "Pro 58 kWh", body: "hatchback",
     seats: 5, bootL: 385, lengthMm: 4261, powertrain: "ev", gearbox: AUTO, kwh100: 15.5, rangeKm: 420, co2: 0, nox: 0, powerHp: 204,
-    insuranceGroup: 26, refPriceEur: 38000, yearFrom: 2020, retention: "low", serviceClass: "ev",
+    insuranceGroup: 26, refPriceEur: 34220, priceChecked: "2026-11-09", yearFrom: 2020, retention: "low", serviceClass: "ev",
     reliability: 3, ncapStars: 5, ncapYear: 2020, comfort: 4, fun: 3, tech: 4, towKg: 0,
     styles: ["eco", "techy"], safetyStd: ["aeb", "acc"], expertScore: 3.5,
     pros: ["Roomy inside for its size", "Comfortable and quiet"],
@@ -516,7 +479,7 @@ export const CARS: Car[] = [
   car({
     id: "vw-id4", make: "Volkswagen", model: "ID.4", variant: "Pro 77 kWh", body: "suv",
     seats: 5, bootL: 543, lengthMm: 4584, powertrain: "ev", gearbox: AUTO, kwh100: 17, rangeKm: 520, co2: 0, nox: 0, powerHp: 286,
-    insuranceGroup: 27, refPriceEur: 46000, yearFrom: 2021, awd: "optional", groundClearance: "high", retention: "low",
+    insuranceGroup: 27, refPriceEur: 35898, priceChecked: "2026-11-09", yearFrom: 2021, awd: "optional", groundClearance: "high", retention: "low",
     serviceClass: "ev", reliability: 3, ncapStars: 5, ncapYear: 2021, comfort: 4, fun: 2, tech: 4, towKg: 1000,
     styles: ["eco", "practical", "techy"], easyEntry: true, expertScore: 4,
     pros: ["Spacious and comfortable", "Long range"],
@@ -555,6 +518,9 @@ export const CARS: Car[] = [
     cons: ["Only two seats and a tiny boot"],
   }),
 ];
+
+/** Every car: the original set plus the cars added in November 2026. */
+export const CARS: Car[] = [...BASE_CARS, ...MORE_CARS];
 
 export const CAR_BY_ID: Record<string, Car> = Object.fromEntries(CARS.map((c) => [c.id, c]));
 

@@ -17,6 +17,17 @@
 
 **Not yet checked** (the sites block automated access, so check by hand): NCT fee (ncts.ie), SEAI grants (seai.ie). Everything else in the config (exchange rate, fuel prices, loan APR, NI price factor, depreciation, servicing) and **all car data** are still estimates.
 
+## Car list: `src/data/cars.ts` + `src/data/cars-more.ts`
+
+**193 cars from 30 brands** (52 original + 141 added on 9 November 2026), plus 9 "coming soon" cars in `src/data/upcoming.ts`.
+
+- **Irish prices checked** on the brand's own Irish website (9 November 2026) for Toyota, Kia, Nissan, Renault, Dacia, Volkswagen, Skoda, Mercedes-Benz and the Mazda 6e (field `priceChecked`). The car page says whether a price was checked or is our estimate. EV prices on brand sites usually already include the SEAI grant and VRT relief.
+- **Estimated** (not checked): prices for Hyundai, MG, Ford, BMW, MINI, Suzuki, Honda, Land Rover, Lexus, Volvo, Polestar and the brands whose sites aren't on the network allow-list (Audi, BYD, Cupra, SEAT, Opel, Peugeot, Citroën, Fiat, Jeep, Subaru). All specs (CO₂, NOx, boot, power, range, insurance group) are estimates.
+- **Euro NCAP**: stars are only given where we're confident of the result; otherwise the car shows "not yet tested" (`ncapStars: null`), which scores as neutral.
+- Commercial vans and pickups (Hilux, Proace, Trafic, Ranger) are left out: they're taxed differently.
+- **Photos**: 188 of 193 cars have a checked, freely licensed photo. 5 show the illustration because no suitable free photo was found (MG3, Ford Capri, new Nissan Micra, VW ID.7 Tourer, Mercedes GLC Electric); they're marked `skip` in `scripts/car-photo-sources.json`. Every photo was looked at by eye; one automatic pick (for "MG3") was a machine gun, so always review new photos.
+- **Coming soon**: VW ID. Cross and ID. Tiguan, and the new Mercedes GLA and AMG GT SUV are confirmed on the brands' Irish sites. Renault Twingo E-Tech, Cupra Raval, Hyundai Ioniq 3, BMW iX3 (new) and Volvo EX60 are in production in Europe (per Wikipedia) but not confirmed for Ireland. Move a car into the main list once it has an Irish price.
+
 ## 0% finance offers: `src/data/financeOffers.ts`
 
 Checked on 9 November 2026 from each brand's own Irish website: **Volkswagen** (0% HP on Golf, ID.4, ID.7, Passat, T-Cross, T-Roc, Tiguan, Tayron; 0% PCP on most; orders until 20 November 2026), **Skoda** (0% PCP over 36 months on Kamiq, Kodiaq, Octavia, Scala; registered by 28 February 2027) and **Nissan** (0% HP over 60 months on the new Micra). MG's page still advertised 0% but its terms say it ended on 18 September 2026, so it's left out.

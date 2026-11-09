@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CostBar, ExpertsPanel, InsidePanel, SafetyPanel } from "@/components/car";
 import { NiAnswer, NiTimeline } from "@/components/ni";
-import { CompareToggle } from "@/components/results/cards";
+import { CompareToggle, NewModelTag } from "@/components/results/cards";
 import { FinanceBadge, FinanceOfferBox } from "@/components/finance";
 import { CarPhoto } from "@/components/ui/CarPhoto";
 import { WhereToBuy } from "@/components/car";
@@ -102,6 +102,7 @@ export default function CarPage() {
               <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />
               {fromNi && <span className="chip text-xs">Bought in Northern Ireland</span>}
               {!fromNi && <FinanceBadge car={s.car} />}
+              <NewModelTag s={s} />
             </div>
             <h1 className="text-3xl md:text-4xl">
               {name} <span className="font-normal text-muted">{s.car.variant}</span>
@@ -117,6 +118,11 @@ export default function CarPage() {
               <span>
                 <span className="text-2xl font-bold tabular-nums">≈ {formatEur(s.option.price)}</span>{" "}
                 <span className="text-sm text-muted">{fromNi ? "total on the road" : "typical price"}</span>
+                <span className="mt-0.5 block text-xs text-muted">
+                  {s.car.priceChecked
+                    ? `New price from €${s.car.refPriceEur.toLocaleString("en-IE")}, checked on ${s.car.make} Ireland's website (${new Date(s.car.priceChecked).toLocaleDateString("en-IE", { month: "long", year: "numeric" })})`
+                    : `New price about €${s.car.refPriceEur.toLocaleString("en-IE")} (our estimate, not yet checked)`}
+                </span>
               </span>
               <span>
                 <span className="text-lg font-semibold tabular-nums">≈ {formatEur(s.monthlyTotal)}</span>{" "}

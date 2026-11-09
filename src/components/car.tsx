@@ -128,11 +128,19 @@ export function SafetyPanel({ s, fromNi }: { s: Scored; fromNi: boolean }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <StarRating stars={car.ncapStars} label={`Euro NCAP ${car.ncapStars} out of 5 stars`} />
-        <span className="font-semibold">
-          <Term term="Euro NCAP" /> {car.ncapStars} / 5
-        </span>
-        <span className="text-sm text-muted">tested {car.ncapYear}</span>
+        {car.ncapStars === null ? (
+          <span className="font-semibold">
+            <Term term="Euro NCAP" />: not yet tested. New models are usually tested within a year of launch.
+          </span>
+        ) : (
+          <>
+            <StarRating stars={car.ncapStars} label={`Euro NCAP ${car.ncapStars} out of 5 stars`} />
+            <span className="font-semibold">
+              <Term term="Euro NCAP" /> {car.ncapStars} / 5
+            </span>
+            <span className="text-sm text-muted">tested {car.ncapYear}</span>
+          </>
+        )}
         <a className="link text-sm" href={euroNcapSearchUrl(car.reviewQuery)} target="_blank" rel="noreferrer">
           See the test
         </a>

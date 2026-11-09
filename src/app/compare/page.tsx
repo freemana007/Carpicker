@@ -58,7 +58,12 @@ const GROUPS: Group[] = [
   {
     title: "Safety & reviews",
     rows: [
-      { label: "Euro NCAP", value: (s) => s.car.ncapStars, show: (s) => `${s.car.ncapStars} / 5 (${s.car.ncapYear})`, better: "high" },
+      {
+        label: "Euro NCAP",
+        value: (s) => s.car.ncapStars,
+        show: (s) => (s.car.ncapStars === null ? "Not yet tested" : `${s.car.ncapStars} / 5 (${s.car.ncapYear})`),
+        better: "high",
+      },
       { label: "Reliability", value: (s) => s.car.reliability, show: (s) => `${s.car.reliability} / 5`, better: "high" },
       { label: "Review score", value: (s) => s.car.expertScore, show: (s) => `${s.car.expertScore.toFixed(1)} / 5`, better: "high" },
       { label: "Match for you", value: (s) => s.score, show: (s) => `${s.score}%`, better: "high" },

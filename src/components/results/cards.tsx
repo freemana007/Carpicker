@@ -31,6 +31,12 @@ function priceLine(s: Scored) {
   );
 }
 
+/** "New model" tag for recently launched cars. */
+export function NewModelTag({ s }: { s: Scored }) {
+  if (!s.car.isNewModel) return null;
+  return <span className="rounded-full bg-info-soft px-2.5 py-1 text-xs font-semibold text-info">New model</span>;
+}
+
 export function CompareToggle({ on, onToggle, disabled, name }: { on: boolean; onToggle: () => void; disabled?: boolean; name: string }) {
   return (
     <button
@@ -99,6 +105,7 @@ export function HeroCard({
               <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />
               {s.option.source === "ni" && <span className="chip text-xs">Bought in Northern Ireland</span>}
               {s.option.source !== "ni" && <FinanceBadge car={s.car} />}
+              <NewModelTag s={s} />
             </div>
             <h2 className="mt-2 text-3xl">
               {name} <span className="font-normal text-muted">{s.car.variant}</span>
@@ -176,6 +183,7 @@ export function CompactCard({
       <div className="flex flex-wrap items-center gap-2">
         <PlateBadge year={modelYear(s.option.age)} isNew={s.option.age === 0} />
         {s.option.source !== "ni" && <FinanceBadge car={s.car} />}
+        <NewModelTag s={s} />
       </div>
       <h3 className="mt-2 text-lg">
         <Link href={carUrl(s.car.id, answers)} className="hover:text-brand">

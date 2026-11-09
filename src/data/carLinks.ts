@@ -47,6 +47,17 @@ export const BRAND_SITES: Record<string, string> = {
   Toyota: "https://www.toyota.ie",
   Volkswagen: "https://www.volkswagen.ie",
   Volvo: "https://www.volvocars.com/ie/",
+  // Added November 2026, not yet checked by `npm run check-links` (these sites
+  // aren't on the network allow-list of the build environment):
+  Audi: "https://www.audi.ie",
+  BYD: "https://www.byd.com/ie",
+  Cupra: "https://www.cupraofficial.ie",
+  Jeep: "https://www.jeep.ie",
+  Lexus: "https://www.lexus.ie",
+  Opel: "https://www.opel.ie",
+  Polestar: "https://www.polestar.com/ie/",
+  SEAT: "https://www.seat.ie",
+  Subaru: "https://www.subaru.ie",
 };
 
 export interface ListingFilters {
@@ -83,7 +94,10 @@ const slug = (s: string) =>
 
 /** Model name as the sales sites use it (e.g. "Octavia Combi" is listed under "Octavia"). */
 export function listingModel(car: Car): string {
-  return car.model.replace(/ (Combi|Electric|EV|GTI)$/i, "").replace(/^MG4$/, "MG4 EV");
+  return car.model
+    .replace(/ \(new\)$/i, "")
+    .replace(/ (Combi|Electric|EV|GTI|Hybrid|Tourer|Saloon|E-Tech|DM-i|Passenger)$/i, "")
+    .replace(/^MG4$/, "MG4 EV");
 }
 
 const EUR_PER_GBP = COSTS.exchange.eurPerGbp;
@@ -145,6 +159,28 @@ export const LISTING_SITES: ListingSite[] = [
   },
 ];
 
+/** Carzone's own model names where they differ from ours (from Carzone's brand pages, 9 November 2026). */
+const CARZONE_MODEL: Record<string, string> = {
+  "toyota-corolla-touring-sports": "corolla",
+  "toyota-bz": "bz4x",
+  "toyota-bz-touring": "bz4x",
+  "toyota-land-cruiser": "landcruiser",
+  "mercedes-benz-cla": "cla-class",
+  "mercedes-benz-cla-electric": "cla-class",
+  "mercedes-benz-gla": "gla-class",
+  "mercedes-benz-glc": "glc-class",
+  "mercedes-benz-glc-electric": "glc-class",
+  "mg-s5": "mgs5",
+  "ford-puma-gen-e": "puma",
+  "audi-a6-e-tron": "a6-sportback-e-tron",
+  "mini-cooper-e": "cooper",
+  "mazda-3": "mazda3",
+  "mazda-6e": "mazda6e",
+  "lexus-ux": "ux-300h",
+  "lexus-nx": "nx-350h",
+  "lexus-rx": "rx-450h-plus",
+};
+
 export function brandSite(car: Car): string | undefined {
   return BRAND_SITES[car.make];
 }
@@ -164,7 +200,7 @@ export function listingLinks(car: Car, includeNi: boolean, f: ListingFilters = {
   return LISTING_SITES.filter((s) => includeNi || s.region === "Republic").map((s) => ({
     name: s.name,
     region: s.region,
-    url: s.search(car.make, model, filters),
+    url: s.search(car.make, s.name === "Carzone" ? CARZONE_MODEL[car.id] ?? model : model, filters),
     status: s.status,
     filtered: s.filters && !!(filters.maxPriceEur || filters.minYear),
   }));

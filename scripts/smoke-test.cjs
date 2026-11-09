@@ -105,7 +105,7 @@ async function main() {
     // Other pages, light + dark.
     for (const theme of ["light", "dark"]) {
       await page.evaluate((t) => localStorage.setItem("carpicker.theme", t), theme);
-      for (const p of ["/", "/northern-ireland/", "/glossary/", "/results/", "/finance-offers/", "/credits/"]) {
+      for (const p of ["/", "/northern-ireland/", "/glossary/", "/results/", "/finance-offers/", "/credits/", "/coming-soon/"]) {
         await page.goto(`${BASE}${p}`);
         await page.waitForTimeout(300);
         await axe(page, `${p} (${theme})`);

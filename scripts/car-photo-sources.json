@@ -160,5 +160,469 @@
   },
   "mazda-mx5": {
     "article": "Mazda MX-5 (ND)"
+  },
+  "toyota-aygo-x": {
+    "article": "Toyota Aygo X"
+  },
+  "toyota-corolla-touring-sports": {
+    "article": "Toyota Corolla (E210)",
+    "file": "File:2021 Toyota Corolla Touring Sports TREK Hybrid 1.8 Front.jpg"
+  },
+  "toyota-corolla-saloon": {
+    "article": "Toyota Corolla (E210)",
+    "file": "File:2019 Toyota Corolla Altis (front).jpg"
+  },
+  "toyota-corolla-cross": {
+    "article": "Toyota Corolla Cross"
+  },
+  "toyota-c-hr": {
+    "article": "Toyota C-HR+"
+  },
+  "toyota-bz": {
+    "article": "Toyota bZ4X"
+  },
+  "toyota-bz-touring": {
+    "article": "Toyota bZ Woodland",
+    "file": "File:2026 Toyota bZ Woodland au SIAM 2026.JPG"
+  },
+  "toyota-prius": {
+    "article": "Toyota Prius (XW60)"
+  },
+  "toyota-land-cruiser": {
+    "article": "Toyota Land Cruiser Prado (J250)"
+  },
+  "toyota-gr-yaris": {
+    "article": "Toyota GR Yaris"
+  },
+  "kia-stonic": {
+    "article": "Kia Stonic"
+  },
+  "kia-k4": {
+    "article": "Kia K4",
+    "file": "File:2025 Kia K4 GT-Line hatchback front.jpg"
+  },
+  "kia-ev2": {
+    "article": "Kia EV2"
+  },
+  "kia-ev3": {
+    "article": "Kia EV3"
+  },
+  "kia-ev4": {
+    "article": "Kia EV4"
+  },
+  "kia-ev5": {
+    "article": "Kia EV5"
+  },
+  "kia-ev6": {
+    "article": "Kia EV6"
+  },
+  "kia-seltos": {
+    "article": "Kia Seltos"
+  },
+  "kia-ev9": {
+    "article": "Kia EV9"
+  },
+  "kia-pv5-passenger": {
+    "article": "Kia PV5"
+  },
+  "nissan-juke": {
+    "article": "Nissan Juke"
+  },
+  "nissan-micra": {
+    "article": "Nissan Micra",
+    "skip": true,
+    "_why": "no suitable free photo found; app shows the illustration"
+  },
+  "nissan-leaf-new": {
+    "article": "Nissan Leaf"
+  },
+  "nissan-ariya": {
+    "article": "Nissan Ariya"
+  },
+  "nissan-x-trail": {
+    "article": "Nissan X-Trail (T33)",
+    "file": "File:Nissan X-Trail e-Power DSC 7092.jpg"
+  },
+  "renault-5": {
+    "article": "Renault 5 E-Tech"
+  },
+  "renault-4": {
+    "article": "Renault 4 E-Tech"
+  },
+  "renault-megane-e-tech": {
+    "article": "Renault Megane E-Tech Electric"
+  },
+  "renault-captur": {
+    "article": "Renault Captur"
+  },
+  "renault-symbioz": {
+    "article": "Renault Symbioz"
+  },
+  "renault-scenic-e-tech": {
+    "article": "Renault Scénic E-Tech",
+    "file": "File:Renault Scénic E-Tech IAA 2023 1X7A0344.jpg"
+  },
+  "renault-austral": {
+    "article": "Renault Austral"
+  },
+  "dacia-sandero-stepway": {
+    "article": "Dacia Sandero",
+    "file": "File:2023 Dacia Sandero Stepway 1.0 tCe Bi-Fuel Expression at Dacia Manchester 01.jpg"
+  },
+  "dacia-bigster": {
+    "article": "Dacia Bigster"
+  },
+  "volkswagen-t-cross": {
+    "article": "Volkswagen T-Cross"
+  },
+  "volkswagen-t-roc": {
+    "article": "Volkswagen T-Roc"
+  },
+  "volkswagen-passat": {
+    "article": "Volkswagen Passat (B9)"
+  },
+  "volkswagen-tayron": {
+    "article": "Volkswagen Tayron"
+  },
+  "volkswagen-id-7": {
+    "article": "Volkswagen ID.7"
+  },
+  "volkswagen-id-7-tourer": {
+    "article": "Volkswagen ID.7",
+    "skip": true,
+    "_why": "no suitable free photo found; app shows the illustration"
+  },
+  "volkswagen-id-polo": {
+    "article": "Volkswagen ID. Polo"
+  },
+  "volkswagen-id-buzz": {
+    "article": "Volkswagen ID. Buzz"
+  },
+  "skoda-kamiq": {
+    "article": "Škoda Kamiq"
+  },
+  "skoda-scala": {
+    "article": "Škoda Scala"
+  },
+  "skoda-karoq": {
+    "article": "Škoda Karoq"
+  },
+  "skoda-elroq": {
+    "article": "Škoda Elroq"
+  },
+  "skoda-epiq": {
+    "article": "Škoda Epiq"
+  },
+  "skoda-peaq": {
+    "article": "Škoda Peaq"
+  },
+  "mercedes-benz-cla": {
+    "article": "Mercedes-Benz CLA",
+    "file": "File:Mercedes-Benz CLA 250+ Coupé (C174, 2026) (55212233029).jpg"
+  },
+  "mercedes-benz-cla-electric": {
+    "article": "Mercedes-Benz CLA",
+    "file": "File:Mercedes-Benz CLA 250+ Coupé (C174, 2026) (55211085747).jpg"
+  },
+  "mercedes-benz-gla": {
+    "article": "Mercedes-Benz GLA"
+  },
+  "mercedes-benz-glb": {
+    "article": "Mercedes-Benz GLB"
+  },
+  "mercedes-benz-c-class": {
+    "article": "Mercedes-Benz C-Class (W206)"
+  },
+  "mercedes-benz-glc": {
+    "article": "Mercedes-Benz GLC (X254)"
+  },
+  "mercedes-benz-glc-electric": {
+    "article": "Mercedes-Benz GLC",
+    "skip": true,
+    "_why": "no suitable free photo found; app shows the illustration"
+  },
+  "mercedes-benz-e-class": {
+    "article": "Mercedes-Benz E-Class (W214)"
+  },
+  "hyundai-i20": {
+    "article": "Hyundai i20"
+  },
+  "hyundai-bayon": {
+    "article": "Hyundai Bayon"
+  },
+  "hyundai-kona-hybrid": {
+    "article": "Hyundai Kona"
+  },
+  "hyundai-inster": {
+    "article": "Hyundai Inster"
+  },
+  "hyundai-ioniq-6": {
+    "article": "Hyundai Ioniq 6"
+  },
+  "hyundai-santa-fe": {
+    "article": "Hyundai Santa Fe (MX5)",
+    "file": "File:2024 Hyundai Santa Fe (MX5) IMG 5295.jpg"
+  },
+  "hyundai-ioniq-9": {
+    "article": "Hyundai Ioniq 9"
+  },
+  "mg-mg3": {
+    "article": "MG3",
+    "skip": true,
+    "_why": "no suitable free photo found; app shows the illustration"
+  },
+  "mg-zs": {
+    "article": "MG ZS (SUV)",
+    "file": "File:2024 MG ZS Hybrid+ (France) front view.png"
+  },
+  "mg-hs": {
+    "article": "MG HS"
+  },
+  "mg-s5": {
+    "article": "MG S5 EV"
+  },
+  "mg-cyberster": {
+    "article": "MG Cyberster"
+  },
+  "ford-puma-gen-e": {
+    "article": "Ford Puma (crossover)",
+    "file": "File:Ford Puma Gen-E Autofrühling Ulm 2025 DSC 8720.jpg"
+  },
+  "ford-explorer": {
+    "article": "Ford Explorer EV"
+  },
+  "ford-capri": {
+    "article": "Ford Capri (2024)",
+    "skip": true,
+    "_why": "no suitable free photo found; app shows the illustration"
+  },
+  "ford-mustang-mach-e": {
+    "article": "Ford Mustang Mach-E"
+  },
+  "peugeot-2008": {
+    "article": "Peugeot 2008"
+  },
+  "peugeot-308": {
+    "article": "Peugeot 308"
+  },
+  "peugeot-3008": {
+    "article": "Peugeot 3008"
+  },
+  "peugeot-5008": {
+    "article": "Peugeot 5008"
+  },
+  "citroen-c3": {
+    "article": "Citroën C3"
+  },
+  "citroen-c3-aircross": {
+    "article": "Citroën C3 Aircross"
+  },
+  "citroen-c4": {
+    "article": "Citroën C4"
+  },
+  "citroen-c5-aircross": {
+    "article": "Citroën C5 Aircross"
+  },
+  "opel-corsa": {
+    "article": "Opel Corsa"
+  },
+  "opel-mokka": {
+    "article": "Opel Mokka"
+  },
+  "opel-astra": {
+    "article": "Opel Astra"
+  },
+  "opel-frontera": {
+    "article": "Opel Frontera (2024)"
+  },
+  "opel-grandland": {
+    "article": "Opel Grandland"
+  },
+  "fiat-grande-panda": {
+    "article": "Fiat Grande Panda"
+  },
+  "fiat-600": {
+    "article": "Fiat 600e"
+  },
+  "jeep-avenger": {
+    "article": "Jeep Avenger"
+  },
+  "cupra-born": {
+    "article": "Cupra Born"
+  },
+  "cupra-formentor": {
+    "article": "Cupra Formentor"
+  },
+  "cupra-tavascan": {
+    "article": "Cupra Tavascan"
+  },
+  "cupra-terramar": {
+    "article": "Cupra Terramar"
+  },
+  "cupra-leon": {
+    "article": "Cupra León"
+  },
+  "seat-ibiza": {
+    "article": "SEAT Ibiza"
+  },
+  "seat-arona": {
+    "article": "SEAT Arona"
+  },
+  "seat-leon": {
+    "article": "SEAT León"
+  },
+  "audi-a3": {
+    "article": "Audi A3"
+  },
+  "audi-q3": {
+    "article": "Audi Q3"
+  },
+  "audi-q4-e-tron": {
+    "article": "Audi Q4 e-tron"
+  },
+  "audi-a6-e-tron": {
+    "article": "Audi A6 e-tron"
+  },
+  "bmw-1-series": {
+    "article": "BMW 1 Series (F70)"
+  },
+  "bmw-x1": {
+    "article": "BMW X1 (U11)"
+  },
+  "bmw-ix1": {
+    "article": "BMW X1 (U11)"
+  },
+  "bmw-x3": {
+    "article": "BMW X3 (G45)"
+  },
+  "bmw-i4": {
+    "article": "BMW i4"
+  },
+  "mini-cooper-e": {
+    "article": "Mini Hatch"
+  },
+  "mini-countryman": {
+    "article": "Mini Countryman",
+    "file": "File:BMW MINI COUNTRYMAN C (U25) front.jpg"
+  },
+  "mini-aceman": {
+    "article": "Mini Aceman"
+  },
+  "volvo-ex30": {
+    "article": "Volvo EX30"
+  },
+  "volvo-xc40": {
+    "article": "Volvo XC40"
+  },
+  "volvo-xc90": {
+    "article": "Volvo XC90"
+  },
+  "volvo-ex90": {
+    "article": "Volvo EX90"
+  },
+  "polestar-2": {
+    "article": "Polestar 2"
+  },
+  "polestar-4": {
+    "article": "Polestar 4"
+  },
+  "byd-dolphin-surf": {
+    "article": "BYD Seagull"
+  },
+  "byd-dolphin": {
+    "article": "BYD Dolphin"
+  },
+  "byd-atto-2": {
+    "article": "BYD Yuan Up"
+  },
+  "byd-atto-3": {
+    "article": "BYD Atto 3"
+  },
+  "byd-seal": {
+    "article": "BYD Seal"
+  },
+  "byd-seal-u-dm-i": {
+    "article": "BYD Song Plus"
+  },
+  "byd-sealion-7": {
+    "article": "BYD Sealion 7"
+  },
+  "honda-hr-v": {
+    "article": "Honda HR-V"
+  },
+  "honda-zr-v": {
+    "article": "Honda ZR-V"
+  },
+  "honda-cr-v": {
+    "article": "Honda CR-V"
+  },
+  "suzuki-vitara": {
+    "article": "Suzuki Vitara"
+  },
+  "suzuki-s-cross": {
+    "article": "Suzuki SX4 S-Cross"
+  },
+  "suzuki-e-vitara": {
+    "article": "Suzuki e Vitara"
+  },
+  "subaru-forester": {
+    "article": "Subaru Forester"
+  },
+  "mazda-3": {
+    "article": "Mazda3"
+  },
+  "mazda-cx-30": {
+    "article": "Mazda CX-30"
+  },
+  "mazda-cx-5": {
+    "article": "Mazda CX-5"
+  },
+  "mazda-cx-60": {
+    "article": "Mazda CX-60"
+  },
+  "mazda-cx-80": {
+    "article": "Mazda CX-80"
+  },
+  "mazda-6e": {
+    "article": "Mazda 6e"
+  },
+  "lexus-lbx": {
+    "article": "Lexus LBX"
+  },
+  "lexus-ux": {
+    "article": "Lexus UX"
+  },
+  "lexus-nx": {
+    "article": "Lexus NX"
+  },
+  "lexus-rx": {
+    "article": "Lexus RX"
+  },
+  "land-rover-range-rover-evoque": {
+    "article": "Range Rover Evoque"
+  },
+  "land-rover-discovery-sport": {
+    "article": "Land Rover Discovery Sport"
+  },
+  "land-rover-range-rover-velar": {
+    "article": "Range Rover Velar"
+  },
+  "vw-id-cross": {
+    "article": "Volkswagen ID. Cross"
+  },
+  "renault-twingo": {
+    "article": "Renault Twingo E-Tech"
+  },
+  "cupra-raval": {
+    "article": "Cupra Raval"
+  },
+  "hyundai-ioniq-3": {
+    "article": "Hyundai Ioniq 3"
+  },
+  "bmw-ix3-new": {
+    "article": "BMW iX3"
+  },
+  "volvo-ex60": {
+    "article": "Volvo EX60"
   }
 }

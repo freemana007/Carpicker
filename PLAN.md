@@ -20,7 +20,8 @@ It covers cars bought in the **Republic of Ireland** and also cars bought in **N
 **Phase 1 (MVP) is built.** See `README.md` for how to run it.
 - Built: the full quiz (sections A–G, skip rules, quick mode), the rule-based engine, results cards, the Northern Ireland calculator, checklist and guide page, the "What the experts say" panel, the glossary, the beginner checklist, saving in the browser and share links. 52 unit tests and a browser smoke test.
 - Tax rates and the Northern Ireland steps were checked against revenue.ie and motortax.ie on 8 November 2026 (see `DATA.md`).
-- Not done yet: the car data (52 records), the NCT fee, SEAI grants and other cost assumptions are still **estimates**. They must be checked using `DATA.md` before launch. Phase 0 user testing with 3–5 people in Ireland has not happened yet.
+- November 2026: the car list grew to **193 cars from 30 brands**, plus a "Coming soon" page. Irish prices are checked for 9 brands; the rest, and all specs, are estimates (see `DATA.md`).
+- Not done yet: checking the estimated car data, the NCT fee, SEAI grants and other cost assumptions. They must be checked using `DATA.md` before launch. Phase 0 user testing with 3–5 people in Ireland has not happened yet.
 
 ---
 

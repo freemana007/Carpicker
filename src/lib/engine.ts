@@ -434,14 +434,16 @@ function techScore(car: Car, a: Answers): number {
 
 function safetyScore(car: Car, a: Answers): number {
   const wanted = (a.safety ?? []).filter((s) => s !== "any");
-  let s = car.ncapStars * 18;
+  // Not yet crash-tested: neutral score, neither rewarded nor punished.
+  const stars = car.ncapStars ?? 3.5;
+  let s = stars * 18;
   if (wanted.length > 0) {
     const got = wanted.reduce((sum, f) => {
       if (car.safetyStd.includes(f)) return sum + 1;
       if (car.safetyOpt.includes(f)) return sum + 0.5;
       return sum;
     }, 0);
-    s = car.ncapStars * 14 + (got / wanted.length) * 30;
+    s = stars * 14 + (got / wanted.length) * 30;
   }
   return clamp(s);
 }
@@ -559,6 +561,7 @@ function reasonFor(f: Factor, s: Scored, a: Answers, budget?: number): string | 
     case "reliability":
       return car.reliability >= 4.5 ? "Excellent reliability record." : "Good reliability record.";
     case "safety":
+      if (car.ncapStars === null) return null;
       return car.ncapStars >= 5
         ? `Top 5-star Euro NCAP safety rating (${car.ncapYear}).`
         : `${car.ncapStars}-star Euro NCAP safety rating.`;
@@ -686,7 +689,9 @@ export function recommend(a: Answers, cars: Car[] = CARS): Results {
   const spaceMatters =
     a.passengers === "family" || a.passengers === "big" || (a.childSeats ?? 0) > 0 ||
     (a.carry ?? []).some((c) => c !== "shopping");
-  const fits = (s: Scored) => !spaceMatters || s.factors.space >= 75;
+  // Long daily drives: tiny city cars aren't sensible alternatives, however cheap.
+  const longTrips = a.driving === "motorway" || a.driving === "rural" || a.dailyKm === "80-150" || a.dailyKm === "150+";
+  const fits = (s: Scored) => (!spaceMatters || s.factors.space >= 75) && !(longTrips && s.car.body === "city");
 
   if (best) {
     const strong = inBudget.filter((s) => free(s) && fits(s) && s.score >= best.score - 10);

@@ -6,7 +6,7 @@ export interface PhotoCredit {
   file: string;
   author: string;
   license: string;
-  licenseUrl?: string;
+  licenseUrl?: string | null;
   source: string;
   title?: string;
 }

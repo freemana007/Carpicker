@@ -64,8 +64,13 @@ export interface Car {
   serviceClass: ServiceClass;
   /** 1–5 */
   reliability: number;
-  ncapStars: number;
-  ncapYear: number;
+  /** Euro NCAP stars; null = not yet tested. */
+  ncapStars: number | null;
+  ncapYear: number | null;
+  /** Date (YYYY-MM-DD) the Irish price was read from the brand's own Irish website. Unset = our estimate. */
+  priceChecked?: string;
+  /** "new" = launched recently; shown with a "New model" tag. */
+  isNewModel?: boolean;
   awd: "no" | "optional" | "standard";
   groundClearance: "low" | "normal" | "high";
   towKg: number;

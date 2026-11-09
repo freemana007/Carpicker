@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CompactCard, HeroCard } from "@/components/results/cards";
 import { AboutYouPanel, CompareTray, FiltersPanel, FinishLine, ShortlistReveal, WhyNotSearch } from "@/components/results/panels";
+import { UpcomingCard } from "@/components/Upcoming";
+import { upcomingFor } from "@/data/upcoming";
 import { CONFIG, formatEur, paysMonthly } from "@/lib/costs";
 import { TOTAL_MODELS, recommend } from "@/lib/engine";
 import {
@@ -177,6 +179,20 @@ export default function ResultsPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 {results.stretch.map((s) => (
                   <CompactCard key={s.car.id} s={s} answers={answers} compare={compareProps(s.car.id)} budget={results.budget ? Math.round(results.budget * (1 + CONFIG.budgetStretch)) : undefined} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {upcomingFor(answers).length > 0 && (
+            <section aria-labelledby="soon">
+              <h2 id="soon" className="text-2xl">
+                Coming soon that might suit you
+              </h2>
+              <p className="mb-4 mt-1 text-muted">Not on sale in Ireland yet, so not in your shortlist. Worth knowing if you can wait.</p>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {upcomingFor(answers).map((u) => (
+                  <UpcomingCard key={u.id} u={u} compact />
                 ))}
               </div>
             </section>
