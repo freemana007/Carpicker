@@ -4,16 +4,21 @@
 // URL patterns are checked by `npm run check-links` (needs network access to
 // these sites).
 //
-// Last check, 8 November 2026:
+// Last check, 9 November 2026:
 // - Brand sites: BMW, Dacia, Ford, Hyundai, Kia, Land Rover, Mazda, Mercedes-Benz,
-//   Nissan, Renault, Skoda, Suzuki, Toyota and Volkswagen load. Citroën, Fiat,
-//   Honda, Peugeot, Tesla and Volvo block automated checks (HTTP 403), MINI was
-//   too slow to answer, and MG moved to www.mg.ie: check those by hand.
-// - Carzone: all 48 model searches open the right model's page (title checked).
-// - AutoTrader UK: all 48 searches load (results are built in the browser, so
-//   the model can't be confirmed by script).
-// - DoneDeal, CarsIreland.ie and UsedCarsNI block automated checks: check by hand.
+//   MG (mg.ie), Nissan, Renault, Skoda, Suzuki, Toyota and Volkswagen load. Citroën,
+//   Fiat, Honda, Peugeot, Tesla and Volvo block automated checks (HTTP 403) and
+//   MINI was too slow to answer: check those by hand.
+// - Carzone: all 48 model searches open the right model's page, and the
+//   maxPrice / minYear filters work (862 Octavias → 36 for €15–20k, 2020–2021).
+// - AutoTrader UK: searches load; results are built in the browser, so the
+//   price-to / year-from filters can't be confirmed by script.
+// - DoneDeal and CarsIreland.ie sit behind security checks, so their search
+//   addresses can't be confirmed. CarsIreland links go to its home page.
+// - UsedCarsNI's robots.txt asks AI tools not to access it: home page link only,
+//   and it's never fetched by our scripts.
 
+import COSTS from "@/config/ireland-costs.json";
 import type { Car } from "@/lib/types";
 
 export const LINKS_CHECKED = "2026-11-08";
@@ -44,12 +49,28 @@ export const BRAND_SITES: Record<string, string> = {
   Volvo: "https://www.volvocars.com/ie/",
 };
 
+export interface ListingFilters {
+  /** Most you'll pay, in euro (your budget). */
+  maxPriceEur?: number;
+  /** Oldest year to show (so you get the right generation of the car). */
+  minYear?: number;
+}
+
 export interface ListingSite {
   name: string;
   region: "Republic" | "Northern Ireland";
   home: string;
+  /**
+   * "checked": search and filters confirmed to work.
+   * "loads": search page loads, but its results couldn't be confirmed by script.
+   * "unconfirmed": the site blocks automated checks; link may need fixing.
+   * "home": links to the site's home page (search there).
+   */
+  status: "checked" | "loads" | "unconfirmed" | "home";
+  /** Applies the budget and year filters. */
+  filters: boolean;
   /** Builds a search URL for a make and model. */
-  search: (make: string, model: string) => string;
+  search: (make: string, model: string, f: ListingFilters) => string;
 }
 
 const slug = (s: string) =>
@@ -65,37 +86,62 @@ export function listingModel(car: Car): string {
   return car.model.replace(/ (Combi|Electric|EV|GTI)$/i, "").replace(/^MG4$/, "MG4 EV");
 }
 
+const EUR_PER_GBP = COSTS.exchange.eurPerGbp;
+const roundUp = (n: number, to: number) => Math.ceil(n / to) * to;
+
 export const LISTING_SITES: ListingSite[] = [
-  {
-    name: "DoneDeal",
-    region: "Republic",
-    home: "https://www.donedeal.ie/cars",
-    search: (make, model) => `https://www.donedeal.ie/cars/${encodeURIComponent(make.replace(/ /g, "-"))}/${encodeURIComponent(model.replace(/ /g, "-"))}`,
-  },
   {
     name: "Carzone",
     region: "Republic",
     home: "https://www.carzone.ie",
-    search: (make, model) => `https://www.carzone.ie/used-cars/${slug(make)}/${slug(model)}`,
+    status: "checked",
+    filters: true,
+    search: (make, model, f) => {
+      const q = new URLSearchParams();
+      if (f.maxPriceEur) q.set("maxPrice", String(roundUp(f.maxPriceEur, 500)));
+      if (f.minYear) q.set("minYear", String(f.minYear));
+      const qs = q.toString();
+      return `https://www.carzone.ie/used-cars/${slug(make)}/${slug(model)}${qs ? `?${qs}` : ""}`;
+    },
+  },
+  {
+    name: "DoneDeal",
+    region: "Republic",
+    home: "https://www.donedeal.ie/cars",
+    status: "unconfirmed",
+    filters: false,
+    search: (make, model) =>
+      `https://www.donedeal.ie/cars/${encodeURIComponent(make.replace(/ /g, "-"))}/${encodeURIComponent(model.replace(/ /g, "-"))}`,
   },
   {
     name: "CarsIreland.ie",
     region: "Republic",
     home: "https://www.carsireland.ie",
-    search: (make, model) => `https://www.carsireland.ie/used-cars/${slug(make)}/${slug(model)}`,
-  },
-  {
-    name: "UsedCarsNI",
-    region: "Northern Ireland",
-    home: "https://www.usedcarsni.com",
-    search: () => "https://www.usedcarsni.com",
+    status: "home",
+    filters: false,
+    search: () => "https://www.carsireland.ie",
   },
   {
     name: "AutoTrader UK (near Belfast)",
     region: "Northern Ireland",
     home: "https://www.autotrader.co.uk",
-    search: (make, model) =>
-      `https://www.autotrader.co.uk/car-search?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&postcode=BT1%201AA`,
+    status: "loads",
+    filters: true,
+    search: (make, model, f) => {
+      const q = new URLSearchParams({ make, model, postcode: "BT1 1AA" });
+      if (f.maxPriceEur) q.set("price-to", String(roundUp(f.maxPriceEur / EUR_PER_GBP, 500)));
+      if (f.minYear) q.set("year-from", String(f.minYear));
+      return `https://www.autotrader.co.uk/car-search?${q.toString()}`;
+    },
+  },
+  {
+    // UsedCarsNI's robots.txt asks AI tools not to access the site, so we only link to its home page.
+    name: "UsedCarsNI",
+    region: "Northern Ireland",
+    home: "https://www.usedcarsni.com",
+    status: "home",
+    filters: false,
+    search: () => "https://www.usedcarsni.com",
   },
 ];
 
@@ -103,11 +149,29 @@ export function brandSite(car: Car): string | undefined {
   return BRAND_SITES[car.make];
 }
 
-export function listingLinks(car: Car, includeNi: boolean) {
+export interface ListingLink {
+  name: string;
+  region: ListingSite["region"];
+  url: string;
+  status: ListingSite["status"];
+  filtered: boolean;
+}
+
+/** Search links for this car; filters to the budget and the car's generation where the site supports it. */
+export function listingLinks(car: Car, includeNi: boolean, f: ListingFilters = {}): ListingLink[] {
   const model = listingModel(car);
+  const filters: ListingFilters = { maxPriceEur: f.maxPriceEur, minYear: f.minYear ?? car.yearFrom };
   return LISTING_SITES.filter((s) => includeNi || s.region === "Republic").map((s) => ({
     name: s.name,
     region: s.region,
-    url: s.search(car.make, model),
+    url: s.search(car.make, model, filters),
+    status: s.status,
+    filtered: s.filters && !!(filters.maxPriceEur || filters.minYear),
   }));
+}
+
+/** The best single "Find one for sale" link for a card. */
+export function primaryListing(car: Car, fromNi: boolean, f: ListingFilters = {}): ListingLink {
+  const links = listingLinks(car, true, f);
+  return links.find((l) => l.name === (fromNi ? "AutoTrader UK (near Belfast)" : "Carzone"))!;
 }

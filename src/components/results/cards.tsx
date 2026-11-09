@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { AlertTriangle, ArrowRight, Check, MapPin, PiggyBank, Plus, Shuffle, Sparkles, Trophy, type LucideIcon } from "lucide-react";
+import { AlertTriangle, ArrowRight, Check, ExternalLink, MapPin, PiggyBank, Plus, ShoppingCart, Shuffle, Sparkles, Trophy, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { FinanceBadge } from "@/components/finance";
+import { primaryListing } from "@/data/carLinks";
 import { CarPhoto } from "@/components/ui/CarPhoto";
 export { carColour } from "@/components/ui/CarArt";
 import { MatchBar, PlateBadge } from "@/components/ui/bits";
@@ -49,14 +50,37 @@ export function CompareToggle({ on, onToggle, disabled, name }: { on: boolean; o
   );
 }
 
+/** "Find one for sale": a live search on Carzone (or AutoTrader near Belfast for NI deals), filtered to the budget. */
+export function FindForSale({ s, budget, variant = "button" }: { s: Scored; budget?: number; variant?: "button" | "link" }) {
+  const l = primaryListing(s.car, s.option.source === "ni", { maxPriceEur: budget });
+  const label = (
+    <>
+      <ShoppingCart className="h-4 w-4" aria-hidden="true" /> Find one for sale
+      <span className="sr-only"> on {l.name}{l.filtered ? ", filtered to your budget" : ""} (opens in a new tab)</span>
+      <ExternalLink className="h-3.5 w-3.5 opacity-70" aria-hidden="true" />
+    </>
+  );
+  return variant === "button" ? (
+    <a href={l.url} target="_blank" rel="noreferrer" className="btn-secondary" title={`Search ${l.name}`}>
+      {label}
+    </a>
+  ) : (
+    <a href={l.url} target="_blank" rel="noreferrer" className="link inline-flex min-h-11 items-center gap-1.5 text-sm" title={`Search ${l.name}`}>
+      {label}
+    </a>
+  );
+}
+
 export function HeroCard({
   s,
   answers,
   compare,
+  budget,
 }: {
   s: Scored;
   answers: Answers;
   compare: { on: boolean; toggle: () => void; full: boolean };
+  budget?: number;
 }) {
   const name = `${s.car.make} ${s.car.model}`;
   const Role = ROLE_META.best;
@@ -107,6 +131,7 @@ export function HeroCard({
             <Link href={carUrl(s.car.id, answers)} className="btn-primary">
               See why it fits <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </Link>
+            <FindForSale s={s} budget={budget} />
             <CompareToggle on={compare.on} onToggle={compare.toggle} disabled={compare.full} name={name} />
           </div>
         </div>
@@ -120,11 +145,13 @@ export function CompactCard({
   role,
   answers,
   compare,
+  budget,
 }: {
   s: Scored;
   role?: Role;
   answers: Answers;
   compare: { on: boolean; toggle: () => void; full: boolean };
+  budget?: number;
 }) {
   const name = `${s.car.make} ${s.car.model}`;
   const meta = role ? ROLE_META[role] : null;
@@ -166,7 +193,8 @@ export function CompactCard({
         {/* The NI saving is already shown above, so show the next reason instead. */}
         {niSaving !== null ? (s.reasons[1] ?? s.reasons[0]) : s.reasons[0]}
       </p>
-      <div className="mt-4 flex items-center justify-between gap-2">
+      <FindForSale s={s} budget={budget} variant="link" />
+      <div className="mt-1 flex items-center justify-between gap-2">
         <Link href={carUrl(s.car.id, answers)} className="link inline-flex min-h-12 items-center gap-1 text-sm">
           Details <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>

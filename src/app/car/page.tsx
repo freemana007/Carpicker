@@ -12,7 +12,7 @@ import { CarPhoto } from "@/components/ui/CarPhoto";
 import { WhereToBuy } from "@/components/car";
 import { MatchBar, PlateBadge } from "@/components/ui/bits";
 import { CAR_BY_ID } from "@/data/cars";
-import { formatEur, modelYear } from "@/lib/costs";
+import { budgetTotal, formatEur, modelYear } from "@/lib/costs";
 import { recommend, scoreOne, tagline } from "@/lib/engine";
 import { answersFromLocation, encodeAnswers, loadCompare, resultsUrl, saveCompare } from "@/lib/share";
 import type { Answers } from "@/lib/types";
@@ -195,7 +195,7 @@ export default function CarPage() {
         <InsidePanel s={s} />
       </Section>
       <Section id="buy" title="See one or find one for sale">
-        <WhereToBuy s={s} includeNi={answers.ni === "yes" || answers.ni === "big" || fromNi} />
+        <WhereToBuy s={s} includeNi={answers.ni === "yes" || answers.ni === "big" || fromNi} budget={budgetTotal(answers)} />
       </Section>
     </div>
   );

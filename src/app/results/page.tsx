@@ -148,7 +148,7 @@ export default function ResultsPage() {
             </div>
           ) : (
             <LayoutGroup>
-              <HeroCard s={hero} answers={answers} compare={compareProps(hero.car.id)} />
+              <HeroCard s={hero} answers={answers} compare={compareProps(hero.car.id)} budget={results.budget} />
               {rest.length > 0 && (
                 <section aria-labelledby="also">
                   <h2 id="also" className="mb-4 text-2xl">
@@ -157,7 +157,7 @@ export default function ResultsPage() {
                   <div className="grid gap-4 sm:grid-cols-2">
                     <AnimatePresence initial={false}>
                       {rest.map((p) => (
-                        <CompactCard key={p.car.id} s={p} role={p.role} answers={answers} compare={compareProps(p.car.id)} />
+                        <CompactCard key={p.car.id} s={p} role={p.role} answers={answers} compare={compareProps(p.car.id)} budget={results.budget} />
                       ))}
                     </AnimatePresence>
                   </div>
@@ -176,7 +176,7 @@ export default function ResultsPage() {
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 {results.stretch.map((s) => (
-                  <CompactCard key={s.car.id} s={s} answers={answers} compare={compareProps(s.car.id)} />
+                  <CompactCard key={s.car.id} s={s} answers={answers} compare={compareProps(s.car.id)} budget={results.budget ? Math.round(results.budget * (1 + CONFIG.budgetStretch)) : undefined} />
                 ))}
               </div>
             </section>

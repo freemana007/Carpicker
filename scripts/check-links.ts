@@ -35,7 +35,9 @@ async function main() {
     seen.add(key);
     for (const l of listingLinks(c, true)) links.push({ kind: l.name, label: key, url: l.url });
   }
-  const unique = [...new Map(links.map((l) => [l.url, l])).values()];
+  // UsedCarsNI's robots.txt asks AI tools and crawlers like ours not to access it: never fetch it.
+  const SKIP = ["usedcarsni.com"];
+  const unique = [...new Map(links.map((l) => [l.url, l])).values()].filter((l) => !SKIP.some((d) => l.url.includes(d)));
   let ok = 0;
   for (const l of unique) {
     const r = await check(l.url);

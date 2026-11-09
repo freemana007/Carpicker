@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase, ExternalLink, ThumbsDown, ThumbsUp } from "lucide-react";
+import { Briefcase, Check, ExternalLink, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Term } from "@/components/Term";
 import { StarRating } from "@/components/ui/bits";
 import { brandSite, listingLinks } from "@/data/carLinks";
@@ -214,42 +214,66 @@ export function InsidePanel({ s }: { s: Scored }) {
   );
 }
 
+const STATUS_NOTE: Record<string, string> = {
+  checked: "",
+  loads: "",
+  unconfirmed: "search for the model there if this opens the wrong page",
+  home: "search for the model on their site",
+};
+
 /** Links to the real websites: the brand's official Irish site and car-for-sale searches. */
-export function WhereToBuy({ s, includeNi }: { s: Scored; includeNi: boolean }) {
+export function WhereToBuy({ s, includeNi, budget }: { s: Scored; includeNi: boolean; budget?: number }) {
   const official = brandSite(s.car);
-  const listings = listingLinks(s.car, includeNi);
+  const listings = listingLinks(s.car, includeNi, { maxPriceEur: budget });
   const regions = Array.from(new Set(listings.map((l) => l.region)));
   return (
     <div className="space-y-6">
+      <p className="rounded-2xl bg-info-soft px-4 py-3 text-sm">
+        Where a site allows it, the searches below show only {s.car.make} {s.car.model}s from {s.car.yearFrom} or newer (this
+        version of the car)
+        {budget ? (
+          <>
+            {" "}
+            costing up to about <strong>{formatEur(budget)}</strong>, your budget
+          </>
+        ) : null}
+        . Sites may still show a few paid &quot;featured&quot; ads that don&apos;t match.
+      </p>
+      {regions.map((r) => (
+        <div key={r}>
+          <h3 className="label mb-2">
+            {s.car.make} {s.car.model} for sale {r === "Republic" ? "in the Republic" : "in Northern Ireland"}
+          </h3>
+          <ul className="space-y-2">
+            {listings
+              .filter((l) => l.region === r)
+              .map((l) => (
+                <li key={l.name} className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <a href={l.url} target="_blank" rel="noreferrer" className="chip min-h-11 px-4 font-medium hover:bg-line">
+                    {l.name} <ExternalLink className="h-3.5 w-3.5" aria-label="(opens in a new tab)" />
+                  </a>
+                  {l.filtered && (
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-good">
+                      <Check className="h-3.5 w-3.5" aria-hidden="true" /> {l.status === "checked" ? "Filtered to your budget and year" : "Budget and year filters applied"}
+                    </span>
+                  )}
+                  {STATUS_NOTE[l.status] && <span className="text-xs text-muted">{STATUS_NOTE[l.status]}</span>}
+                </li>
+              ))}
+          </ul>
+        </div>
+      ))}
       {official && (
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-surface-2/60 p-4">
           <div>
-            <p className="font-semibold">{s.car.make} Ireland: official website</p>
-            <p className="text-sm text-muted">New prices, versions, brochures and test drives at your nearest dealer.</p>
+            <p className="font-semibold">Buying new? {s.car.make} Ireland&apos;s official website</p>
+            <p className="text-sm text-muted">New prices, versions, offers and test drives at your nearest dealer.</p>
           </div>
           <a href={official} target="_blank" rel="noreferrer" className="btn-secondary">
             Visit {s.car.make} <ExternalLink className="h-4 w-4" aria-label="(opens in a new tab)" />
           </a>
         </div>
       )}
-      {regions.map((r) => (
-        <div key={r}>
-          <h3 className="label mb-2">
-            {s.car.make} {s.car.model} for sale {r === "Republic" ? "in the Republic" : "in Northern Ireland"}
-          </h3>
-          <ul className="flex flex-wrap gap-2">
-            {listings
-              .filter((l) => l.region === r)
-              .map((l) => (
-                <li key={l.name}>
-                  <a href={l.url} target="_blank" rel="noreferrer" className="chip min-h-11 px-4 hover:bg-line">
-                    {l.name} <ExternalLink className="h-3.5 w-3.5" aria-label="(opens in a new tab)" />
-                  </a>
-                </li>
-              ))}
-          </ul>
-        </div>
-      ))}
       <p className="text-xs text-muted">
         These are independent websites; we don&apos;t get paid for links. Always check the exact car: history check, NCT,
         service record and an independent inspection.
